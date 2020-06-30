@@ -4,6 +4,7 @@ services:
   db:
     image: mariadb:10.1
     container_name: seafile-mysql
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD  # Requested, set the root's password of MySQL service.
       - MYSQL_LOG_CONSOLE=true
@@ -15,6 +16,7 @@ services:
   memcached:
     image: memcached:1.5.6
     container_name: seafile-memcached
+    restart: always
     entrypoint: memcached -m 256
     networks:
       - backend
@@ -22,6 +24,7 @@ services:
   seafile:
     image: seafileltd/seafile-mc:latest
     container_name: seafile
+    restart: always
     volumes:
       - /opt/seafile-data:/shared   # Requested, specifies the path to Seafile data persistent store.
     environment:
