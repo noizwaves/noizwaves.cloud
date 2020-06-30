@@ -55,7 +55,7 @@ services:
       ## HTTP traffic
       - "traefik.http.routers.seafile.rule=Host(`seafile.noizwaves.cloud`)"
       - "traefik.http.routers.seafile.entrypoints=web"
-      - "traefik.http.routers.seafile.service=seafile"
+      - "traefik.http.routers.seafile.middlewares=redirect@file"
 
 networks:
   backend:
