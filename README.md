@@ -34,3 +34,6 @@ A self hosted cloud
 1.  `$ docker-compose up -d`
 1.  Log in and update `SERVICE_URL` & `FILE_SERVER_ROOT`
 1.  Edit the value of `FILE_SERVER_ROOT` in `/opt/seafile-data/seafile/conf/seahub_settings.py`
+1.  Edit the value of `enabled` in `/opt/seafile-data/seafile/conf/seafdav.conf`
+1.  Edit `/opt/seafile-data/seafile/conf/ccnet.conf`
+1.  If continue to get insecure warnings then `$ docker-compose restart memcached`
