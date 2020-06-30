@@ -19,3 +19,9 @@ A self hosted cloud
 ## Docker
 1.  `$ sudo apt install -y docker.io docker-compose`
 1.  `$ sudo usermod -aG docker adam`
+
+## Traefik
+1.  `$ cd traefik`
+1.  `$ cp .envrc.tmpl .envrc`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
