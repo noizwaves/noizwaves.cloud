@@ -38,6 +38,13 @@ A self hosted cloud
 1.  Edit `/opt/seafile-data/seafile/conf/ccnet.conf`
 1.  If continue to get insecure warnings then `$ docker-compose restart memcached`
 
+## Nextcloud
+1.  `$ cd nextcloud`
+1.  `$ cp .envrc.tmpl .envrc`
+1.  Input appropriate values
+1.  Update the value of `TRUSTED_PROXIES` in the `docker-compose.yml` file
+1.  `$ docker-compose up -d`
+
 ## Public proxy
 
 1.  Create instance
