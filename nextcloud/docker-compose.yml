@@ -40,25 +40,25 @@ services:
       - redis
       - db
     labels:
-      - "traefik.enable=true"
+      - traefik.enable=true
 
-      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+      - traefik.http.services.nextcloud.loadbalancer.server.port=80
 
-      - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.noizwaves.cloud`)"
-      - "traefik.http.routers.nextcloud.tls.certresolver=mytlschallenge"
-      - "traefik.http.routers.nextcloud.tls=true"
-      - "traefik.http.routers.nextcloud.service=nextcloud"
+      - traefik.http.routers.nextcloud.rule=Host(`nextcloud.noizwaves.cloud`)
+      - traefik.http.routers.nextcloud.tls.certresolver=mytlschallenge
+      - traefik.http.routers.nextcloud.tls=true
+      - traefik.http.routers.nextcloud.service=nextcloud
 
-      ## - "traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect"
+      ## - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
 
-      ## - "traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://mydomain.com"
-      ## - "traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' mydomain.com *.mydomain.net"
-      ## - "traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011"
-      ## - "traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true"
-      ## - "traefik.http.middlewares.nextcloud.headers.stsPreload=true"
+      ## - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://mydomain.com
+      ## - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' mydomain.com *.mydomain.net
+      ## - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
+      ## - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
+      ## - traefik.http.middlewares.nextcloud.headers.stsPreload=true
 
-      ## - "traefik.http.middlewares.nextcloud_redirect.redirectregex.regex=/.well-known/(card|cal)dav"
-      ## - "traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement=/remote.php/dav/"
+      ## - traefik.http.middlewares.nextcloud_redirect.redirectregex.regex=/.well-known/(card|cal)dav
+      ## - traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement=/remote.php/dav/
     environment:
       - MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
