@@ -1,6 +1,6 @@
 # Inspired from https://medium.com/faun/deploy-nextcloud-with-docker-compose-traefik-2-postgresql-and-redis-fd1ffc166173
 
-version: '3.3'
+version: '3.7'
 
 volumes:
   nextcloud-www:
@@ -12,8 +12,8 @@ volumes:
 
 services:
   db:
-    restart: always
     image: mariadb:10.5.4
+    restart: always
     networks:
       - backend
     environment:
@@ -30,7 +30,6 @@ services:
       - backend
     volumes:
       - redis:/var/lib/redis
-
   nextcloud:
     image: nextcloud:19.0.0
     restart: always
