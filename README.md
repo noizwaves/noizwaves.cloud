@@ -75,3 +75,10 @@ A self hosted cloud
         }
     }
     ```
+
+## Maintenance
+
+### Upgrading to newer images
+
+1.  Update tags to desired newer value
+1.  Recreate containers via `$ docker-compose up --force-recreate --build -d`

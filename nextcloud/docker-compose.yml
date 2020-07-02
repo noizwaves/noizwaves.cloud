@@ -13,7 +13,7 @@ volumes:
 services:
   db:
     restart: always
-    image: mariadb
+    image: mariadb:10.5.4
     networks:
       - backend
     environment:
@@ -24,7 +24,7 @@ services:
     volumes:
       - nextcloud-db:/var/lib/postgresql/data
   redis:
-    image: redis:latest
+    image: redis:6.0.5
     restart: always
     networks:
       - backend
@@ -32,7 +32,7 @@ services:
       - redis:/var/lib/redis
 
   nextcloud:
-    image: nextcloud:latest
+    image: nextcloud:19.0.0
     restart: always
     networks:
       - web
