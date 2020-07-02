@@ -66,7 +66,7 @@ A self hosted cloud
         ssl_client_certificate /etc/ssl/certs/origin-pull-ca.pem;
         ssl_verify_client on;
 
-        server_name seafile.noizwaves.cloud;
+        server_name seafile.noizwaves.cloud nextcloud.noizwaves.cloud;
 
         location / {
                 proxy_set_header X-Forwarded-For $remote_addr;
