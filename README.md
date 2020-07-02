@@ -23,13 +23,13 @@ A self hosted cloud
 
 ## Traefik
 1.  `$ cd traefik`
-1.  `$ cp .envrc.tmpl .envrc`
+1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
 
 ## Seafile
 1.  `$ cd seafile`
-1.  `$ cp .envrc.tmpl .envrc`
+1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
 1.  Log in and update `SERVICE_URL` & `FILE_SERVER_ROOT`
@@ -40,7 +40,7 @@ A self hosted cloud
 
 ## Nextcloud
 1.  `$ cd nextcloud`
-1.  `$ cp .envrc.tmpl .envrc`
+1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  Update the value of `TRUSTED_PROXIES` in the `docker-compose.yml` file
 1.  `$ docker-compose up -d`
