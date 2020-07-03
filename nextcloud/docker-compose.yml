@@ -3,7 +3,7 @@
 version: '3.7'
 
 services:
-  db:
+  mariadb:
     image: mariadb:10.5.4
     restart: always
     networks:
@@ -14,7 +14,7 @@ services:
     env_file:
       - .env
     volumes:
-      - nextcloud-db:/var/lib/postgresql/data
+      - mariadb:/var/lib/mysql
 
   redis:
     image: redis:6.0.5
@@ -24,7 +24,7 @@ services:
     volumes:
       - redis:/var/lib/redis
 
-  nextcloud:
+  app:
     image: nextcloud:19.0.0
     restart: always
     networks:
@@ -32,7 +32,7 @@ services:
       - backend
     depends_on:
       - redis
-      - db
+      - mariadb
     labels:
       - traefik.enable=true
 
@@ -62,7 +62,7 @@ services:
       ## - traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement=/remote.php/dav/
     environment:
       - MYSQL_DATABASE=nextcloud
-      - MYSQL_HOST=db
+      - MYSQL_HOST=mariadb
       - REDIS_HOST=redis
 
       # As we are running behind a proxy... from `$ docker network inspect web`
@@ -71,13 +71,13 @@ services:
     env_file:
       - .env
     volumes:
-      - nextcloud-www:/var/www/html
+      - data:/var/www/html
 
 volumes:
-  nextcloud-www:
+  data:
     driver: local
 
-  nextcloud-db:
+  mariadb:
     driver: local
 
   redis:
@@ -86,6 +86,7 @@ volumes:
 networks:
   backend:
     external: false
+    internal: true
 
   web:
     external: true

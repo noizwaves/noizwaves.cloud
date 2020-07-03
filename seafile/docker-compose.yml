@@ -1,42 +1,39 @@
 version: '3.7'
 
 services:
-  db:
+  mariadb:
     image: mariadb:10.5.4
-    container_name: seafile-mysql
     restart: always
     environment:
       - MYSQL_LOG_CONSOLE=true
     env_file:
       - .env
     volumes:
-      - /opt/seafile-mysql/db:/var/lib/mysql  # Requested, specifies the path to MySQL data persistent store.
+      - mariadb:/var/lib/mysql  # Requested, specifies the path to MySQL data persistent store.
     networks:
       - backend
 
   memcached:
     image: memcached:1.5.6
-    container_name: seafile-memcached
     restart: always
     entrypoint: memcached -m 256
     networks:
       - backend
 
-  seafile:
+  app:
     image: seafileltd/seafile-mc:7.1.4
-    container_name: seafile
     restart: always
     volumes:
-      - /opt/seafile-data:/shared   # Requested, specifies the path to Seafile data persistent store.
+      - data:/shared   # Requested, specifies the path to Seafile data persistent store.
     environment:
-      - DB_HOST=db
+      - DB_HOST=mariadb
       - TIME_ZONE=Etc/UTC  # Optional, default is UTC. Should be uncomment and set to your local time zone.
       - SEAFILE_SERVER_LETSENCRYPT=false   # Whether to use https or not.
       - SEAFILE_SERVER_HOSTNAME=seafile.noizwaves.cloud # Specifies your host name if https is enabled.
     env_file:
       - .env
     depends_on:
-      - db
+      - mariadb
       - memcached
     networks:
       - web
@@ -60,9 +57,17 @@ services:
       - traefik.http.routers.seafile.entrypoints=web
       - traefik.http.routers.seafile.middlewares=redirect@file
 
+volumes:
+  data:
+    driver: local
+
+  mariadb:
+    driver: local
+
 networks:
   backend:
     external: false
+    internal: true
 
   web:
     external: true
