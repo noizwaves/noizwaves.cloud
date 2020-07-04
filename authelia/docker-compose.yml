@@ -8,6 +8,7 @@ services:
       - ./config:/config
     networks:
       - web
+      - backend
     environment:
       - AUTHELIA_JWT_SECRET_FILE=/run/secrets/jwt
       - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session
@@ -26,6 +27,18 @@ services:
       - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
     restart: unless-stopped
 
+  redis:
+    image: redis:6.0.5
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
+    driver: local
+
 secrets:
   jwt:
     file: .secrets/jwt.txt
@@ -36,3 +49,7 @@ secrets:
 networks:
   web:
     external: true
+
+  backend:
+    external: false
+    internal: true

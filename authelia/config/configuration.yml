@@ -36,11 +36,11 @@ session:
   inactivity: 300 # 5 minutes
   domain: noizwaves.cloud # Should match whatever your root protected domain is
 
-#  redis:
-#    host: redis
-#    port: 6379
-#    # This secret can also be set using the env variables AUTHELIA_SESSION_REDIS_PASSWORD_FILE
-#    # password: authelia
+  redis:
+    host: redis
+    port: 6379
+    # This secret can also be set using the env variables AUTHELIA_SESSION_REDIS_PASSWORD_FILE
+    # password: authelia
 
 regulation:
   max_retries: 3
