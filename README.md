@@ -27,6 +27,16 @@ A self hosted cloud
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
 
+## Authelia
+1.  `$ cd authelia`
+1.  Create a user database
+    1.  `$ cp config/users_database.yml.tmpl config/users_database.yml`
+    1.  Follow steps in comments to create users
+1.  Create secrets
+    1.  `$ openssl rand -base64 32 > .secrets/jwt.txt`
+    1.  `$ openssl rand -base64 32 > .secrets/session.txt`
+1.  `$ docker-compose up -d`
+
 ## Seafile
 1.  `$ cd seafile`
 1.  `$ cp .env.tmpl .env`
@@ -67,7 +77,7 @@ A self hosted cloud
         ssl_client_certificate /etc/ssl/certs/origin-pull-ca.pem;
         ssl_verify_client on;
 
-        server_name seafile.noizwaves.cloud nextcloud.noizwaves.cloud;
+        server_name authelia.noizwaves.cloud seafile.noizwaves.cloud nextcloud.noizwaves.cloud;
 
         location / {
                 proxy_set_header X-Forwarded-For $remote_addr;

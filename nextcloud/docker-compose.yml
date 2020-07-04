@@ -44,6 +44,7 @@ services:
       - traefik.http.routers.nextcloud-secure.entrypoints=web-secured
       - traefik.http.routers.nextcloud-secure.tls=true
       - traefik.http.routers.nextcloud-secure.service=nextcloud
+      - traefik.http.routers.nextcloud-secure.middlewares=authelia@docker
 
       # HTTP
       - traefik.http.routers.nextcloud.rule=Host(`nextcloud.noizwaves.cloud`)

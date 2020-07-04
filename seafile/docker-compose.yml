@@ -51,6 +51,7 @@ services:
       - traefik.http.routers.seafile-secure.service=seafile
       - traefik.http.routers.seafile-secure.tls=true
       - traefik.http.routers.seafile-secure.tls.certresolver=mytlschallenge
+      - traefik.http.routers.seafile-secure.middlewares=authelia@docker
 
       ## HTTP traffic
       - traefik.http.routers.seafile.rule=Host(`seafile.noizwaves.cloud`)

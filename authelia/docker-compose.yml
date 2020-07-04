@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  authelia:
+    image: authelia/authelia
+    container_name: authelia
+    volumes:
+      - ./config:/config
+    networks:
+      - web
+    environment:
+      - AUTHELIA_JWT_SECRET_FILE=/run/secrets/jwt
+      - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session
+    secrets:
+      - jwt
+      - session
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.authelia.rule=Host(`authelia.noizwaves.cloud`)'
+      - 'traefik.http.routers.authelia.entrypoints=web-secured'
+      - 'traefik.http.routers.authelia.tls=true'
+      - 'traefik.http.routers.authelia.tls.certresolver=mytlschallenge'
+
+      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://authelia.noizwaves.cloud/'
+      - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
+      - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
+    restart: unless-stopped
+
+secrets:
+  jwt:
+    file: .secrets/jwt.txt
+
+  session:
+    file: .secrets/session.txt
+
+networks:
+  web:
+    external: true
