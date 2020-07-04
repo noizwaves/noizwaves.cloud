@@ -22,7 +22,7 @@ services:
     networks:
       - backend
     volumes:
-      - redis:/var/lib/redis
+      - redis:/data
 
   app:
     image: nextcloud:19.0.0
