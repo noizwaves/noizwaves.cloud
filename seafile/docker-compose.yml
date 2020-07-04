@@ -45,18 +45,13 @@ services:
       - traefik.http.services.seafile.loadbalancer.server.port=80
       - traefik.http.services.seafile.loadbalancer.passhostheader=true
 
-      ## HTTPS routing
-      - traefik.http.routers.seafile-secure.rule=Host(`seafile.noizwaves.cloud`)
-      - traefik.http.routers.seafile-secure.entrypoints=web-secured
-      - traefik.http.routers.seafile-secure.service=seafile
-      - traefik.http.routers.seafile-secure.tls=true
-      - traefik.http.routers.seafile-secure.tls.certresolver=mytlschallenge
-      - traefik.http.routers.seafile-secure.middlewares=authelia@docker
-
-      ## HTTP traffic
+      ## HTTPS
       - traefik.http.routers.seafile.rule=Host(`seafile.noizwaves.cloud`)
-      - traefik.http.routers.seafile.entrypoints=web
-      - traefik.http.routers.seafile.middlewares=redirect@file
+      - traefik.http.routers.seafile.entrypoints=web-secured
+      - traefik.http.routers.seafile.service=seafile
+      - traefik.http.routers.seafile.tls=true
+      - traefik.http.routers.seafile.tls.certresolver=mytlschallenge
+      - traefik.http.routers.seafile.middlewares=authelia@docker
 
 volumes:
   data:
