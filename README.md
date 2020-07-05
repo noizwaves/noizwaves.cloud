@@ -36,6 +36,7 @@ A self hosted cloud
 1.  Create secrets
     1.  `$ openssl rand -base64 32 > .secrets/jwt.txt`
     1.  `$ openssl rand -base64 32 > .secrets/session.txt`
+    1.  `$ openssl rand -base64 32 > .secrets/mysql_password.txt`
 1.  `$ docker-compose up -d`
 
 ## Seafile

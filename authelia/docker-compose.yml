@@ -12,9 +12,11 @@ services:
     environment:
       - AUTHELIA_JWT_SECRET_FILE=/run/secrets/jwt
       - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session
+      - AUTHELIA_STORAGE_MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
     secrets:
       - jwt
       - session
+      - mysql_password
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.authelia.rule=Host(`authelia.noizwaves.cloud`)'
@@ -26,6 +28,9 @@ services:
       - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
       - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
     restart: unless-stopped
+    depends_on:
+      - redis
+      - mariadb
 
   redis:
     image: redis:6.0.5
@@ -35,8 +40,26 @@ services:
     volumes:
       - redis:/data
 
+  mariadb:
+    image: mariadb:10.5.4
+    restart: unless-stopped
+    networks:
+      - backend
+    secrets:
+      - mysql_password
+    environment:
+      - MYSQL_USER=authelia
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+      - MYSQL_DATABASE=authelia
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    volumes:
+      - mariadb:/var/lib/mysql
+
 volumes:
   redis:
+    driver: local
+
+  mariadb:
     driver: local
 
 secrets:
@@ -45,6 +68,9 @@ secrets:
 
   session:
     file: .secrets/session.txt
+
+  mysql_password:
+    file: .secrets/mysql_password.txt
 
 networks:
   web:
