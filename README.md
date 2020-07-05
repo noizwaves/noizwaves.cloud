@@ -39,6 +39,16 @@ A self hosted cloud
     1.  `$ openssl rand -base64 32 > .secrets/mysql_password.txt`
 1.  `$ docker-compose up -d`
 
+## Bitwarden
+1.  `$ cd bitwarden_rs`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  Change value of `SIGNUPS_ALLOWED` to `'true'`
+1.  `$ docker-compose up -d`
+1.  Create user
+1.  Change value of `SIGNUPS_ALLOWED` to `'false'`
+1.  `$ docker-compose up -d`
+
 ## Seafile
 1.  `$ cd seafile`
 1.  `$ cp .env.tmpl .env`
