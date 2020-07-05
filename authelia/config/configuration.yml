@@ -23,10 +23,6 @@ access_control:
   default_policy: deny
   rules:
     # Rules applied to everyone
-    - domain: nextcloud.noizwaves.cloud
-      policy: two_factor
-    - domain: seafile.noizwaves.cloud
-      policy: two_factor
     - domain: monitor.noizwaves.cloud
       policy: two_factor
 

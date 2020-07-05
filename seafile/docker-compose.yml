@@ -51,7 +51,9 @@ services:
       - traefik.http.routers.seafile.service=seafile
       - traefik.http.routers.seafile.tls=true
       - traefik.http.routers.seafile.tls.certresolver=mytlschallenge
-      - traefik.http.routers.seafile.middlewares=authelia@docker
+
+      # Authelia protection disabled
+      ## - traefik.http.routers.nextcloud.middlewares=authelia@docker
 
 volumes:
   data:

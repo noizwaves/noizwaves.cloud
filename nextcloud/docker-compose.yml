@@ -44,7 +44,9 @@ services:
       - traefik.http.routers.nextcloud.entrypoints=web-secured
       - traefik.http.routers.nextcloud.tls=true
       - traefik.http.routers.nextcloud.service=nextcloud
-      - traefik.http.routers.nextcloud.middlewares=authelia@docker
+
+      # Authelia protection disabled
+      ## - traefik.http.routers.nextcloud.middlewares=authelia@docker
 
       ## - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
 
