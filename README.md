@@ -6,6 +6,7 @@ A self hosted cloud
 1.  Create a new Ubuntu 20.04 VM
     1.  Username `adam`
     1.  SSH Server installed
+    1.  NTP `$ sudo apt install ntp`
 1.  Install SSH key for `adam`
 1.  Take VM snapshot
 
