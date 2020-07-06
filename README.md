@@ -68,35 +68,37 @@ A self hosted cloud
 1.  Update the value of `TRUSTED_PROXIES` in the `docker-compose.yml` file
 1.  `$ docker-compose up -d`
 
-## Public proxy
+## Private SSH-based proxy
+
+### Server
 
 1.  Create instance
-1.  `ufw` enable 22 and 443 only
-1.  Create and install custom Origin CA certificate from Cloudflare (following [1](https://autoize.com/why-cloudflares-flexible-ssl-setting-is-unsafe/), [2](https://support.cloudflare.com/hc/en-us/articles/115000479507#h_30e5cf09-6e98-48e1-a9f1-427486829feb), and [3](https://www.digicert.com/kb/csr-ssl-installation/nginx-openssl.htm#ssl_certificate_install))
-1.  Install [Origin Pull CA](https://support.cloudflare.com/hc/en-us/articles/204899617-Authenticated-Origin-Pulls)
-1.  Configure Cloudflare for
-    1.  SSL/TLS encryption mode to `Full (strict)`
-    1.  Always Use HTTPS to `On`
-    1.  Automatic HTTPS Rewrites to `On`
-    1.  Authenticated Origin Pulls to `On`
-1.  Configure NGINX with `noizwaves-cloud-proxy.conf`:
+1.  `ufw` enable 22
+1.  Configure NGINX with `noizwaves-cloud-private-proxy.conf`:
     ```
-    server {
-        listen 443;
-        ssl_certificate /etc/nginx/cf_origin_noizwaves.cloud.crt;
-        ssl_certificate_key /etc/nginx/cf_origin_noizwaves.cloud.key;
+    stream {
+        upstream web_server {
+            server 192.168.196.57:443;
+        }
 
-        ssl_client_certificate /etc/ssl/certs/origin-pull-ca.pem;
-        ssl_verify_client on;
-
-        server_name authelia.noizwaves.cloud seafile.noizwaves.cloud nextcloud.noizwaves.cloud;
-
-        location / {
-                proxy_set_header X-Forwarded-For $remote_addr;
-                proxy_set_header Host $host;
-                proxy_pass https://10.242.64.186:443;
+        server {
+            listen 8443;
+            proxy_pass web_server;
         }
     }
+    ```
+
+### Client
+
+1.  `$ cd proxy_client`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values for the server
+1.  `$ docker network create noizwaves_cloud_proxy`
+1.  `$ docker-compose up -d`
+1.  Find proxy container's IP address (`$IP_ADDRESS`) in `$ docker-compose logs -f`
+1.  Add entry to `/etc/hosts` that resolve to `$IP_ADDRESS`, ie:
+    ```
+    $IP_ADDRESS    bitwarden.noizwaves.cloud nextcloud.noizwaves.cloud seafile.noizwaves.cloud authelia.noizwaves.cloud monitor.noizwaves.cloud
     ```
 
 ## Maintenance

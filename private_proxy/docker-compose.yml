@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: noizwaves_cloud_proxy_client
+    networks:
+      - proxy
+    volumes:
+      - ./entrypoint.sh:/entrypoint.sh
+      - ~/.ssh/id_rsa:/root/.ssh/private_key:ro
+    environment: []
+    env_file:
+      - .env
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+    name: noizwaves_cloud_proxy
