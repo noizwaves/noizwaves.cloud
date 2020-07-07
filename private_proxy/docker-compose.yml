@@ -11,7 +11,6 @@ services:
     volumes:
       - ./entrypoint.sh:/entrypoint.sh
       - ~/.ssh/id_rsa:/root/.ssh/private_key:ro
-    environment: []
     env_file:
       - .env
     restart: unless-stopped
