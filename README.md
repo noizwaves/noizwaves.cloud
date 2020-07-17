@@ -20,6 +20,7 @@ A self hosted cloud
 ## Docker
 1.  `$ sudo apt install -y docker.io docker-compose`
 1.  `$ sudo usermod -aG docker adam`
+1.  `$ sudo systemctl enable docker`
 1.  `$ docker network create web`
 
 ## Traefik
