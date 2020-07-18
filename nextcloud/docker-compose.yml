@@ -5,6 +5,7 @@ version: '3.7'
 services:
   mariadb:
     image: mariadb:10.5.4
+    container_name: nextcloud_mariadb
     restart: always
     networks:
       - backend
@@ -16,27 +17,21 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
 
-  redis:
-    image: redis:6.0.5
-    restart: always
-    networks:
-      - backend
-    volumes:
-      - redis:/data
-
   app:
-    image: nextcloud:19.0.0
+    image: linuxserver/nextcloud
+    container_name: nextcloud
     restart: always
     networks:
       - web
       - backend
     depends_on:
-      - redis
       - mariadb
     labels:
       - traefik.enable=true
 
-      - traefik.http.services.nextcloud.loadbalancer.server.port=80
+      # Use Nextcloud's self signed SSL
+      - traefik.http.services.nextcloud.loadbalancer.server.port=443
+      - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
 
       # HTTPS
       - traefik.http.routers.nextcloud.rule=Host(`nextcloud.noizwaves.cloud`)
@@ -44,41 +39,30 @@ services:
       - traefik.http.routers.nextcloud.entrypoints=web-secured
       - traefik.http.routers.nextcloud.tls=true
       - traefik.http.routers.nextcloud.service=nextcloud
+      - traefik.http.routers.nextcloud.middlewares=nextcloud_hsts
+
+      # HSTS
+      - traefik.http.middlewares.nextcloud_hsts.headers.stsSeconds=15552000
+      - traefik.http.middlewares.nextcloud_hsts.headers.stsPreload=true
+      - traefik.http.middlewares.nextcloud_hsts.headers.stsIncludeSubdomains=true
 
       # Authelia protection disabled
       ## - traefik.http.routers.nextcloud.middlewares=authelia@docker
-
-      ## - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
-
-      ## - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://mydomain.com
-      ## - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' mydomain.com *.mydomain.net
-      ## - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
-      ## - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
-      ## - traefik.http.middlewares.nextcloud.headers.stsPreload=true
-
-      ## - traefik.http.middlewares.nextcloud_redirect.redirectregex.regex=/.well-known/(card|cal)dav
-      ## - traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement=/remote.php/dav/
     environment:
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_HOST=mariadb
-      - REDIS_HOST=redis
-
-      # As we are running behind a proxy... from `$ docker network inspect web`
-      - TRUSTED_PROXIES=172.20.0.0/16
-      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.noizwaves.cloud
-    env_file:
-      - .env
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - data:/var/www/html
+      - data:/data
+      - config:/config
 
 volumes:
   data:
     driver: local
 
-  mariadb:
+  config:
     driver: local
 
-  redis:
+  mariadb:
     driver: local
 
 networks:

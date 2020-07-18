@@ -30,6 +30,8 @@ services:
       - --certificatesresolvers.mytlschallenge.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.mytlschallenge.acme.email=letsencrypt@noizwaves.com # <== Setting email for certs
       - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json # <== Defining acme file to store cert information
+      ## Accept any self-signed certificates presented by containers
+      - --serverstransport.insecureskipverify=true
     env_file:
       - .env
     volumes:
