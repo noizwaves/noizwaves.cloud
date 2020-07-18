@@ -9,7 +9,6 @@ services:
       - web
     volumes:
       - data:/data
-
     environment:
       DOMAIN: 'https://bitwarden.noizwaves.cloud'
       LOG_FILE: '/data/bitwarden.log'

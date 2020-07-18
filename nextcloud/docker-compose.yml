@@ -18,7 +18,7 @@ services:
       - mariadb:/var/lib/mysql
 
   app:
-    image: linuxserver/nextcloud
+    image: linuxserver/nextcloud:19.0.1-ls91
     container_name: nextcloud
     restart: always
     networks:
