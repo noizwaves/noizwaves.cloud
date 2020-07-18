@@ -25,6 +25,8 @@ access_control:
     # Rules applied to everyone
     - domain: monitor.noizwaves.cloud
       policy: two_factor
+    - domain: duplicati.noizwaves.cloud
+      policy: two_factor
 
 session:
   name: authelia_session

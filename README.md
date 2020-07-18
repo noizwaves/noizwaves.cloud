@@ -77,6 +77,14 @@ A self hosted cloud
 1.  Edit `/config/www/nextcloud/config/config.php`
     1.  Add `trusted_proxies` array that includes `web` network CIDR (`$ docker network inspect web`)
 
+## Duplicati
+1.  `$ cd duplicati`
+1.  `$ docker-compose up -d`
+1.  Configure [Duplicati](https://duplicati.noizwaves.cloud/ngax/index.html#/settings) appropriately
+    1.  Add web password
+    1.  Restrict access to `duplicati.noizwaves.cloud`
+1.  Configure backups appropriately
+
 ## Private SSH-based proxy
 
 ### Server
