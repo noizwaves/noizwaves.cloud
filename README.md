@@ -77,6 +77,14 @@ A self hosted cloud
 1.  Edit `/config/www/nextcloud/config/config.php`
     1.  Add `trusted_proxies` array that includes `web` network CIDR (`$ docker network inspect web`)
 
+## FreshRSS
+1.  `$ cd freshrss`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+1.  Open [FreshRSS](https://freshrss.noizwaves.cloud)
+1.  Configure application
+
 ## Duplicati
 1.  `$ cd duplicati`
 1.  `$ docker-compose up -d`
