@@ -1,0 +1,106 @@
+{
+  "CreatedByVersion": "2.0.5.1",
+  "Schedule": {
+    "ID": 1,
+    "Tags": [
+      "ID=3"
+    ],
+    "Time": "2020-07-19T19:00:00Z",
+    "Repeat": "1D",
+    "LastRun": "2020-07-18T19:00:00Z",
+    "Rule": "AllowedWeekDays=Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",
+    "AllowedDays": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri",
+      "sat",
+      "sun"
+    ]
+  },
+  "Backup": {
+    "ID": "3",
+    "Name": "backup",
+    "Description": "Backup of all data",
+    "Tags": [],
+    "TargetURL": "s3://duplicati.noizwaves.cloud?s3-server-name=us-east-1.linodeobjects.com&s3-client=aws",
+    "DBPath": "/config/ZQOKFJPLQJ.sqlite",
+    "Sources": [
+      "/source/nextcloud/"
+    ],
+    "Settings": [
+      {
+        "Filter": "",
+        "Name": "encryption-module",
+        "Value": "aes",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "compression-module",
+        "Value": "zip",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "dblock-size",
+        "Value": "50mb",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "retention-policy",
+        "Value": "1W:1D,4W:1W,12M:1M",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "--run-script-before",
+        "Value": "/scripts/stop.sh",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "--run-script-after",
+        "Value": "/scripts/start.sh",
+        "Argument": null
+      }
+    ],
+    "Filters": [
+      {
+        "Order": 0,
+        "Include": false,
+        "Expression": "/source/nextcloud/config/log/php/error.log"
+      },
+      {
+        "Order": 1,
+        "Include": false,
+        "Expression": "/source/nextcloud/config/keys/cert.key"
+      }
+    ],
+    "Metadata": {
+      "LastBackupDate": "20200719T051349Z",
+      "BackupListCount": "2",
+      "TotalQuotaSpace": "0",
+      "FreeQuotaSpace": "0",
+      "AssignedQuotaSpace": "-1",
+      "TargetFilesSize": "111031564",
+      "TargetFilesCount": "12",
+      "TargetSizeString": "105.89 MB",
+      "SourceFilesSize": "491484610",
+      "SourceFilesCount": "16392",
+      "SourceSizeString": "468.72 MB",
+      "LastBackupStarted": "20200719T051344Z",
+      "LastBackupFinished": "20200719T051418Z",
+      "LastBackupDuration": "00:00:33.2988570",
+      "LastCompactDuration": "00:00:00.0389430",
+      "LastCompactStarted": "20200719T051417Z",
+      "LastCompactFinished": "20200719T051417Z"
+    },
+    "IsTemporary": false
+  },
+  "DisplayNames": {
+    "/source/nextcloud/": "nextcloud"
+  }
+}

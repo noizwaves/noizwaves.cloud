@@ -10,13 +10,20 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Denver
+      # Allow the `abc` user to execute docker CLI
+      - DOCKER_MODS=linuxserver/mods:code-server-docker
     volumes:
       - config:/config
       - backups:/backups
       - source:/source
 
+      - ./scripts:/scripts
+      # Allow container to manage the hosts Docker context
+      - /var/run/docker.sock:/var/run/docker.sock
+
       - nextcloud_data:/source/nextcloud/data:ro
       - nextcloud_config:/source/nextcloud/config:ro
+      - nextcloud_mariadb:/source/nextcloud/mariadb:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -46,6 +53,8 @@ volumes:
   nextcloud_data:
     external: true
   nextcloud_config:
+    external: true
+  nextcloud_mariadb:
     external: true
 
 networks:

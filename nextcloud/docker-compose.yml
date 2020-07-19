@@ -4,18 +4,19 @@ version: '3.7'
 
 services:
   mariadb:
-    image: mariadb:10.5.4
+    image: linuxserver/mariadb:110.4.13mariabionic-ls73
     container_name: nextcloud_mariadb
     restart: always
     networks:
       - backend
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - PUID=1000
+      - PGID=1000
       - MYSQL_DATABASE=nextcloud
     env_file:
       - .env
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadb:/config
 
   app:
     image: linuxserver/nextcloud:19.0.1-ls91

@@ -91,7 +91,9 @@ A self hosted cloud
 1.  Configure [Duplicati](https://duplicati.noizwaves.cloud/ngax/index.html#/settings) appropriately
     1.  Add web password
     1.  Restrict access to `duplicati.noizwaves.cloud`
-1.  Configure backups appropriately
+1.  Configure backups appropriately or import `backup-duplicati-config.json`
+    1.  Add a `run-script-before` advanced option of `/scripts/stop.sh`
+    1.  Add a `run-script-after` advanced option of `/scripts/start.sh`
 
 ## Private SSH-based proxy
 
