@@ -24,6 +24,9 @@ services:
       - nextcloud_data:/source/nextcloud/data:ro
       - nextcloud_config:/source/nextcloud/config:ro
       - nextcloud_mariadb:/source/nextcloud/mariadb:ro
+
+      - resilio-sync_data:/source/resilio-sync/data:ro
+      - resilio-sync_config:/source/resilio-sync/config:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -55,6 +58,12 @@ volumes:
   nextcloud_config:
     external: true
   nextcloud_mariadb:
+    external: true
+
+  # Resilio Sycn source data to back up
+  resilio-sync_data:
+    external: true
+  resilio-sync_config:
     external: true
 
 networks:

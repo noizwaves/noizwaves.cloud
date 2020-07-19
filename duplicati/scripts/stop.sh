@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stop nextcloud nextcloud_mariadb
+docker stop nextcloud nextcloud_mariadb resilio-sync

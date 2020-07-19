@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  resilio-sync:
+    image: linuxserver/resilio-sync:2.7.1.1370-ls59
+    container_name: resilio-sync
+    networks:
+      - web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+    volumes:
+      - config:/config
+      - data:/sync
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.resilio.loadbalancer.server.port=8888
+
+      # HTTPS
+      - traefik.http.routers.resilio.rule=Host(`resilio.noizwaves.cloud`)
+      - traefik.http.routers.resilio.tls.certresolver=mytlschallenge
+      - traefik.http.routers.resilio.entrypoints=web-secured
+      - traefik.http.routers.resilio.tls=true
+      - traefik.http.routers.resilio.service=resilio
+
+      # protect with Authelia
+#      - traefik.http.routers.resilio.middlewares=authelia@docker
+
+volumes:
+  config:
+    driver: local
+
+  data:
+    driver: local
+
+networks:
+  web:
+    external: true
