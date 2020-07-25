@@ -28,7 +28,8 @@
     "DBPath": "/config/ZQOKFJPLQJ.sqlite",
     "Sources": [
       "/source/nextcloud/",
-      "/source/bitwarden_rs/"
+      "/source/bitwarden_rs/",
+      "/source/resilio-sync/"
     ],
     "Settings": [
       {
@@ -108,6 +109,7 @@
   },
   "DisplayNames": {
     "/source/nextcloud/": "nextcloud",
-    "/source/bitwarden_rs/": "bitwarden_rs"
+    "/source/bitwarden_rs/": "bitwarden_rs",
+    "/source/resilio-sync/": "resilio-sync"
   }
 }
