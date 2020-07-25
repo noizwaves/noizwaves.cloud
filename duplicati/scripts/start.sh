@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker start nextcloud nextcloud_mariadb resilio-sync
+docker start nextcloud nextcloud_mariadb resilio-sync bitwarden_rs
