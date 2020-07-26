@@ -18,7 +18,11 @@ services:
       - source:/source
 
       # Mount host media to container
-      - /media/:/backups/media
+      - type: bind
+        source: /media/
+        target: /backups/media
+        bind:
+          propagation: shared
 
       - ./scripts:/scripts
       # Allow container to manage the hosts Docker context
