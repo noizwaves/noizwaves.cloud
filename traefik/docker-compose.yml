@@ -16,7 +16,8 @@ services:
       - --api.dashboard=true # <== Enabling the dashboard to view services, middlewares, routers, etc...
       - --api.debug=true # <== Enabling additional endpoints for debugging and profiling
       ## Log Settings (options: ERROR, DEBUG, PANIC, FATAL, WARN, INFO) - https://docs.traefik.io/observability/logs/ ##
-      - --log.level=DEBUG # <== Setting the level of the logs from traefik
+#      - --log.level=DEBUG # <== Setting the level of the logs from traefik
+      - --log.level=ERROR # <== Setting the level of the logs from traefik
       ## Provider Settings - https://docs.traefik.io/providers/docker/#provider-configuration ##
       - --providers.docker=true # <== Enabling docker as the provider for traefik
       - --providers.docker.exposedbydefault=false # <== Don't expose every container to traefik, only expose enabled ones
