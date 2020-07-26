@@ -27,9 +27,6 @@ services:
       - traefik.http.routers.freshrss.tls=true
       - traefik.http.routers.freshrss.service=freshrss
 
-      # protect with Authelia
-      ##- traefik.http.routers.freshrss.middlewares=authelia@docker
-
   mariadb:
     image: linuxserver/mariadb:110.4.13mariabionic-ls73
     container_name: freshrss_mariadb
@@ -38,6 +35,8 @@ services:
       - backend
     environment:
       - MYSQL_DATABASE=freshrss
+      - PUID=1000
+      - PGID=1000
     env_file:
       - .env
     volumes:

@@ -29,6 +29,9 @@ services:
       - resilio-sync_config:/source/resilio-sync/config:ro
 
       - bitwarden_rs_data:/source/bitwarden_rs/data:ro
+
+      - freshrss_config:/source/freshrss/config:ro
+      - freshrss_mariadb:/source/freshrss/mariadb:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -70,6 +73,12 @@ volumes:
 
   # Bitwarden source data to back up
   bitwarden_rs_data:
+    external: true
+
+  # FreshRSS source data to back up
+  freshrss_config:
+    external: true
+  freshrss_mariadb:
     external: true
 
 networks:
