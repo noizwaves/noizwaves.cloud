@@ -160,3 +160,4 @@ A self hosted cloud
 1.  Mount drive via `$ pmount /dev/sdb1 backup_test`
 1.  Log into [Duplicati](https://duplicati.noizwaves.cloud)
 1.  Run a cold backup
+1.  Unmount drive via `$ pumount /dev/sdb1`
