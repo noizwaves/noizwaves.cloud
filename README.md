@@ -97,6 +97,16 @@ A self hosted cloud
 1.  Open [FreshRSS](https://freshrss.noizwaves.cloud)
 1.  Configure application
 
+## Standard Notes
+1.  `$ cd standardnotes`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+1.  Open [Standard Notes web](https://notes-web.noizwaves.cloud)
+1.  Create account
+1.  Install extensions (via `Extensions > Import Extension > url > Enter > Install`):
+    - https://notes-markdown-pro.noizwaves.cloud/extension.json
+
 ## Duplicati
 1.  `$ cd duplicati`
 1.  `$ docker-compose up -d`
