@@ -7,6 +7,7 @@ A self hosted cloud
     1.  Username `adam`
     1.  SSH Server installed
     1.  NTP `$ sudo apt install ntp`
+    1.  USB automount `$ sudo apt install pmount`
 1.  Install SSH key for `adam`
 1.  Disable local DNS resolver
     1.  `$ sudo systemctl disable systemd-resolved`
@@ -145,3 +146,17 @@ A self hosted cloud
 
 1.  Update tags to desired newer value
 1.  Recreate containers via `$ docker-compose up --force-recreate --build -d`
+
+## Disaster Recovery
+
+### Hot backups
+
+1.  Run automatically in Duplicati
+
+### Cold backups
+
+1.  Log into VM
+1.  Connect cold backup USB drive to VM
+1.  Mount drive via `$ pmount /dev/sdb1 backup_test`
+1.  Log into [Duplicati](https://duplicati.noizwaves.cloud)
+1.  Run a cold backup

@@ -17,6 +17,9 @@ services:
       - backups:/backups
       - source:/source
 
+      # Mount host media to container
+      - /media/:/backups/media
+
       - ./scripts:/scripts
       # Allow container to manage the hosts Docker context
       - /var/run/docker.sock:/var/run/docker.sock

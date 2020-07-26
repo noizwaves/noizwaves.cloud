@@ -5,7 +5,7 @@
     "Tags": [
       "ID=3"
     ],
-    "Time": "2020-07-26T19:00:00Z",
+    "Time": "2020-07-26T09:00:00Z",
     "Repeat": "1D",
     "LastRun": "2020-07-25T20:53:13Z",
     "Rule": "AllowedWeekDays=Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",
@@ -21,15 +21,16 @@
   },
   "Backup": {
     "ID": "3",
-    "Name": "backup",
-    "Description": "Backup of all data",
+    "Name": "Hot Backup",
+    "Description": "Hot backup of all data on Linode",
     "Tags": [],
     "TargetURL": "s3://duplicati.noizwaves.cloud?s3-server-name=us-east-1.linodeobjects.com&s3-client=aws&auth-username=F8JJ0ARD4RCLXN9S288W",
     "DBPath": "/config/ZQOKFJPLQJ.sqlite",
     "Sources": [
-      "/source/nextcloud/",
       "/source/bitwarden_rs/",
-      "/source/resilio-sync/"
+      "/source/resilio-sync/",
+      "/source/freshrss/",
+      "/source/nextcloud/"
     ],
     "Settings": [
       {
@@ -73,16 +74,6 @@
       {
         "Order": 0,
         "Include": false,
-        "Expression": "/source/nextcloud/config/log/php/error.log"
-      },
-      {
-        "Order": 1,
-        "Include": false,
-        "Expression": "/source/nextcloud/config/keys/cert.key"
-      },
-      {
-        "Order": 2,
-        "Include": false,
         "Expression": "/source/bitwarden_rs/data/rsa_key.*"
       }
     ],
@@ -103,13 +94,16 @@
       "LastBackupDuration": "00:02:22.6983340",
       "LastCompactDuration": "00:00:00.1118450",
       "LastCompactStarted": "20200725T212717Z",
-      "LastCompactFinished": "20200725T212717Z"
+      "LastCompactFinished": "20200725T212717Z",
+      "LastErrorDate": "20200725T221724Z",
+      "LastErrorMessage": "Could not find file \"/tmp/dup-1d1cff2b-8a34-48f4-8b8c-01c81f6c816a\""
     },
     "IsTemporary": false
   },
   "DisplayNames": {
-    "/source/nextcloud/": "nextcloud",
     "/source/bitwarden_rs/": "bitwarden_rs",
-    "/source/resilio-sync/": "resilio-sync"
+    "/source/resilio-sync/": "resilio-sync",
+    "/source/freshrss/": "freshrss",
+    "/source/nextcloud/": "nextcloud"
   }
 }

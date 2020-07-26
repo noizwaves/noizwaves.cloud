@@ -1,0 +1,93 @@
+{
+  "CreatedByVersion": "2.0.5.1",
+  "Schedule": null,
+  "Backup": {
+    "ID": "4",
+    "Name": "Cold Backup (Test)",
+    "Description": "cold backup test to a local usb",
+    "Tags": [],
+    "TargetURL": "file:///backups/media/backup_test/",
+    "DBPath": "/config/XOEMJWDXNQ.sqlite",
+    "Sources": [
+      "/source/"
+    ],
+    "Settings": [
+      {
+        "Filter": "",
+        "Name": "encryption-module",
+        "Value": "aes",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "compression-module",
+        "Value": "zip",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "dblock-size",
+        "Value": "500MB",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "retention-policy",
+        "Value": "1W:1D,4W:1W,12M:1M",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "--run-script-before",
+        "Value": "/scripts/stop.sh",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "--run-script-after",
+        "Value": "/scripts/start.sh",
+        "Argument": null
+      }
+    ],
+    "Filters": [
+      {
+        "Order": 0,
+        "Include": false,
+        "Expression": "/source/nextcloud/config/log/php/error.log"
+      },
+      {
+        "Order": 1,
+        "Include": false,
+        "Expression": "/source/nextcloud/config/keys/cert.key"
+      },
+      {
+        "Order": 2,
+        "Include": false,
+        "Expression": "/source/bitwarden_rs/data/rsa_key.*"
+      }
+    ],
+    "Metadata": {
+      "LastBackupDate": "20200726T031253Z",
+      "BackupListCount": "2",
+      "TotalQuotaSpace": "250992685056",
+      "FreeQuotaSpace": "230325551104",
+      "AssignedQuotaSpace": "-1",
+      "TargetFilesSize": "7783013946",
+      "TargetFilesCount": "34",
+      "TargetSizeString": "7.25 GB",
+      "SourceFilesSize": "13639642206",
+      "SourceFilesCount": "26026",
+      "SourceSizeString": "12.70 GB",
+      "LastBackupStarted": "20200726T031242Z",
+      "LastBackupFinished": "20200726T031320Z",
+      "LastBackupDuration": "00:00:37.7828670",
+      "LastCompactDuration": "00:00:00.1335840",
+      "LastCompactStarted": "20200726T031318Z",
+      "LastCompactFinished": "20200726T031318Z"
+    },
+    "IsTemporary": false
+  },
+  "DisplayNames": {
+    "/source/": "source"
+  }
+}
