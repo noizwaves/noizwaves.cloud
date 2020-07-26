@@ -8,23 +8,34 @@ A self hosted cloud
     1.  SSH Server installed
     1.  NTP `$ sudo apt install ntp`
 1.  Install SSH key for `adam`
+1.  Disable local DNS resolver
+    1.  `$ sudo systemctl disable systemd-resolved`
+    1.  `$ sudo systemctl stop systemd-resolved`
+    1.  `$ echo 'nameserver 127.0.0.1' sudo tee -a /etc/resolv.conf`
+    1.  `$ echo 'nameserver 9.9.9.9' sudo tee -a /etc/resolv.conf`
+1.  Configure ufw
+    1.  `$ sudo ufw enable`
+    1.  `$ sudo ufw allow 22/tcp`
+    1.  `$ sudo ufw allow 53/tcp`
+    1.  `$ sudo ufw allow 53/udp`
+    1.  `$ sudo ufw allow 80/tcp`
+    1.  `$ sudo ufw allow 443/tcp`
+    1.  `$ sudo ufw reload`
+1.  Set up Docker
+    1.  `$ sudo apt install -y docker.io docker-compose`
+    1.  `$ sudo usermod -aG docker adam`
+    1.  `$ sudo systemctl enable docker`
+    1.  `$ docker network create web`
 1.  Take VM snapshot
-
-## Firewall
-1.  `$ sudo ufw enable`
-1.  `$ sudo ufw allow 22/tcp`
-1.  `$ sudo ufw allow 80/tcp`
-1.  `$ sudo ufw allow 443/tcp`
-1.  `$ sudo ufw reload`
-
-## Docker
-1.  `$ sudo apt install -y docker.io docker-compose`
-1.  `$ sudo usermod -aG docker adam`
-1.  `$ sudo systemctl enable docker`
-1.  `$ docker network create web`
 
 ## Traefik
 1.  `$ cd traefik`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+
+## Pi-hole
+1.  `$ cd pihole`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`

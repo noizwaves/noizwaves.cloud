@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  resilio-sync:
+    image: pihole/pihole:latest
+    container_name: pihole
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - web
+    environment:
+      - TZ=America/Denver
+      - DNS1=9.9.9.9
+      - DNS2=1.1.1.1
+    env_file:
+      - .env
+    volumes:
+      - config:/etc/pihole
+      - dnsmasq:/etc/dnsmasq.d
+    dns:
+      - 127.0.0.1
+      - 9.9.9.9
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.pihole-web.loadbalancer.server.port=80
+
+      # HTTPS
+      - traefik.http.routers.pihole-web.rule=Host(`pihole.noizwaves.cloud`)
+      - traefik.http.routers.pihole-web.tls.certresolver=mytlschallenge
+      - traefik.http.routers.pihole-web.entrypoints=web-secured
+      - traefik.http.routers.pihole-web.tls=true
+      - traefik.http.routers.pihole-web.service=pihole-web
+
+      # DNS (TCP)
+      - traefik.tcp.routers.pihole-tcp.entrypoints=dns-tcp
+      - traefik.tcp.routers.pihole-tcp.rule=HostSNI(`*`)
+      - traefik.tcp.services.pihole-tcp.loadbalancer.server.port=53
+
+      # DNS (UDP)
+      - traefik.udp.routers.pihole-udp.entrypoints=dns-udp
+      - traefik.udp.services.pihole-udp.loadbalancer.server.port=53
+
+volumes:
+  config:
+    driver: local
+
+  dnsmasq:
+    driver: local
+
+networks:
+  web:
+    external: true

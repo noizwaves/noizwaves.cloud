@@ -8,6 +8,8 @@ services:
     ports:
       - 80:80 # <== http
       - 443:443 # <== https
+      - '53:53/udp'
+      - '53:53/tcp'
     command:
       #### These are the CLI commands that will configure Traefik and tell it how to work! ####
       ## API Settings - https://docs.traefik.io/operations/api/, endpoints - https://docs.traefik.io/operations/api/#endpoints ##
@@ -26,6 +28,11 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web-secured=true # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
+      ## DNS entrypoints
+      - --entrypoints.dns-udp=true
+      - --entrypoints.dns-udp.address=:53/udp
+      - --entrypoints.dns-tcp=true
+      - --entrypoints.dns-tcp.address=:53/tcp
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
       - --certificatesresolvers.mytlschallenge.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.mytlschallenge.acme.email=letsencrypt@noizwaves.com # <== Setting email for certs
