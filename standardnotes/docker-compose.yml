@@ -103,6 +103,30 @@ services:
       - traefik.http.routers.notes-markdown-pro.tls=true
       - traefik.http.routers.notes-markdown-pro.tls.certresolver=mytlschallenge
 
+  folders:
+    build:
+      context: ./folders/
+      dockerfile: Dockerfile
+      args:
+        - VERSION=1.3.3
+    container_name: standardnotes_folders
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.notes-folders.loadbalancer.server.port=80
+      - traefik.http.services.notes-folders.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.notes-folders.rule=Host(`notes-folders.noizwaves.cloud`)
+      - traefik.http.routers.notes-folders.entrypoints=web-secured
+      - traefik.http.routers.notes-folders.service=notes-folders
+      - traefik.http.routers.notes-folders.tls=true
+      - traefik.http.routers.notes-folders.tls.certresolver=mytlschallenge
+
 
 volumes:
   mariadb:

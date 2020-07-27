@@ -106,6 +106,7 @@ A self hosted cloud
 1.  Create account
 1.  Install extensions (via `Extensions > Import Extension > url > Enter > Install`):
     - https://notes-markdown-pro.noizwaves.cloud/extension.json
+    - https://notes-folders.noizwaves.cloud/extension.json
 
 ## Duplicati
 1.  `$ cd duplicati`
