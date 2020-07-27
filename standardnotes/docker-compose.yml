@@ -13,7 +13,7 @@ services:
       - MYSQL_DATABASE=standard_notes
       - MYSQL_USER=standard_notes
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadb:/config
     networks:
       - backend
 
