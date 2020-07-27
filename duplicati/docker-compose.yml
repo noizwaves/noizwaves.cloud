@@ -15,7 +15,6 @@ services:
     volumes:
       - config:/config
       - backups:/backups
-      - source:/source
 
       # Mount host media to container
       - type: bind
@@ -59,9 +58,6 @@ volumes:
     driver: local
 
   backups:
-    driver: local
-
-  source:
     driver: local
 
   # Nextcloud source data to back up
