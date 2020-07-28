@@ -50,6 +50,9 @@ A self hosted cloud
 1.  Create a user database
     1.  `$ cp config/users_database.yml.tmpl config/users_database.yml`
     1.  Follow steps in comments to create users
+1.  Create configuration
+    1.  `$ cp config/configuration.yml.tmpl config/configuration.yml`
+    1.  Replace all `${CLOUD_DOMAIN}` with desired value
 1.  Create secrets
     1.  `$ openssl rand -base64 32 > .secrets/jwt.txt`
     1.  `$ openssl rand -base64 32 > .secrets/session.txt`

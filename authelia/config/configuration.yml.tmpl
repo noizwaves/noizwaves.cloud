@@ -5,9 +5,9 @@
 host: 0.0.0.0
 port: 9091
 log_level: debug
-default_redirection_url: https://authelia.noizwaves.cloud
+default_redirection_url: https://authelia.${CLOUD_DOMAIN}
 totp:
-  issuer: noizwaves.cloud
+  issuer: ${CLOUD_DOMAIN}
 
 #duo_api:
 #  hostname: api-123456789.example.com
@@ -23,16 +23,16 @@ access_control:
   default_policy: deny
   rules:
     # Rules applied to everyone
-    - domain: monitor.noizwaves.cloud
+    - domain: monitor.${CLOUD_DOMAIN}
       policy: two_factor
-    - domain: duplicati.noizwaves.cloud
+    - domain: duplicati.${CLOUD_DOMAIN}
       policy: two_factor
 
 session:
   name: authelia_session
   expiration: 3600 # 1 hour
   inactivity: 300 # 5 minutes
-  domain: noizwaves.cloud # Should match whatever your root protected domain is
+  domain: ${CLOUD_DOMAIN} # Should match whatever your root protected domain is
 
   redis:
     host: redis

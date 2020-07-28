@@ -2,3 +2,4 @@
 .secrets/
 
 authelia/config/users_database.yml
+authelia/config/configuration.yml
