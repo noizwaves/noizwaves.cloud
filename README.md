@@ -8,6 +8,7 @@ A self hosted cloud
     1.  SSH Server installed
     1.  NTP `$ sudo apt install ntp`
     1.  USB automount `$ sudo apt install pmount`
+    1.  Direnv `$ sudo apt install direnv` and [setup Bash hook](https://direnv.net/docs/hook.html#bash)
 1.  Install SSH key for `adam`
 1.  Disable local DNS resolver
     1.  `$ sudo systemctl disable systemd-resolved`
@@ -27,7 +28,10 @@ A self hosted cloud
     1.  `$ sudo usermod -aG docker adam`
     1.  `$ sudo systemctl enable docker`
     1.  `$ docker network create web`
-1.  Take VM snapshot
+1.  Copy configuration to VM via `$ rsync -avzhe ssh ~/workspace/noizwaves.cloud/ noizwaves.cloud:/home/adam/noizwaves.cloud/ --exclude=".git" --exclude=".idea"`
+1.  `$ cd noizwaves.cloud`
+1.  `$ cp .envrc.tmpl .envrc` and change values as appropriate
+1.  `$ direnv allow`
 
 ## Traefik
 1.  `$ cd traefik`

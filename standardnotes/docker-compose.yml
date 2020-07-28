@@ -45,7 +45,7 @@ services:
       - traefik.http.services.notes-sync.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.notes-sync.rule=Host(`notes-sync.noizwaves.cloud`)
+      - traefik.http.routers.notes-sync.rule=Host(`notes-sync.${CLOUD_DOMAIN}`)
       - traefik.http.routers.notes-sync.entrypoints=web-secured
       - traefik.http.routers.notes-sync.service=notes-sync
       - traefik.http.routers.notes-sync.tls=true
@@ -61,8 +61,8 @@ services:
       - EXPOSED_PORT=3000
       - RAILS_ENV=production
       - RAILS_SERVE_STATIC_FILES=true
-      - APP_HOST=https://notes.noizwaves.cloud
-      - SF_DEFAULT_SERVER=https://notes-sync.noizwaves.cloud
+      - APP_HOST=https://notes.${CLOUD_DOMAIN}
+      - SF_DEFAULT_SERVER=https://notes-sync.${CLOUD_DOMAIN}
     networks:
       - web
     labels:
@@ -73,7 +73,7 @@ services:
       - traefik.http.services.notes-web.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.notes-web.rule=Host(`notes.noizwaves.cloud`)
+      - traefik.http.routers.notes-web.rule=Host(`notes.${CLOUD_DOMAIN}`)
       - traefik.http.routers.notes-web.entrypoints=web-secured
       - traefik.http.routers.notes-web.service=notes-web
       - traefik.http.routers.notes-web.tls=true
@@ -97,7 +97,7 @@ services:
       - traefik.http.services.notes-markdown-pro.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.notes-markdown-pro.rule=Host(`notes-markdown-pro.noizwaves.cloud`)
+      - traefik.http.routers.notes-markdown-pro.rule=Host(`notes-markdown-pro.${CLOUD_DOMAIN}`)
       - traefik.http.routers.notes-markdown-pro.entrypoints=web-secured
       - traefik.http.routers.notes-markdown-pro.service=notes-markdown-pro
       - traefik.http.routers.notes-markdown-pro.tls=true
@@ -121,7 +121,7 @@ services:
       - traefik.http.services.notes-folders.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.notes-folders.rule=Host(`notes-folders.noizwaves.cloud`)
+      - traefik.http.routers.notes-folders.rule=Host(`notes-folders.${CLOUD_DOMAIN}`)
       - traefik.http.routers.notes-folders.entrypoints=web-secured
       - traefik.http.routers.notes-folders.service=notes-folders
       - traefik.http.routers.notes-folders.tls=true

@@ -10,7 +10,7 @@ services:
     volumes:
       - data:/data
     environment:
-      DOMAIN: 'https://bitwarden.noizwaves.cloud'
+      DOMAIN: "https://bitwarden.${CLOUD_DOMAIN}"
       LOG_FILE: '/data/bitwarden.log'
       SIGNUPS_ALLOWED: 'false'
       WEBSOCKET_ENABLED: 'true'
@@ -25,13 +25,13 @@ services:
       - traefik.http.services.bitwarden-websocket.loadbalancer.passhostheader=true
       - traefik.http.services.bitwarden-websocket.loadbalancer.server.port=3012
 
-      - traefik.http.routers.bitwarden.rule=Host(`bitwarden.noizwaves.cloud`)
+      - traefik.http.routers.bitwarden.rule=Host(`bitwarden.${CLOUD_DOMAIN}`)
       - traefik.http.routers.bitwarden.service=bitwarden
       - traefik.http.routers.bitwarden.entrypoints=web-secured
       - traefik.http.routers.bitwarden.tls=true
       - traefik.http.routers.bitwarden.tls.certresolver=mytlschallenge
 
-      - traefik.http.routers.bitwarden-websocket.rule=Host(`bitwarden.noizwaves.cloud`) && Path(`/notifications/hub`)
+      - traefik.http.routers.bitwarden-websocket.rule=Host(`bitwarden.${CLOUD_DOMAIN}`) && Path(`/notifications/hub`)
       - traefik.http.routers.bitwarden-websocket.service=bitwarden-websocket
       - traefik.http.routers.bitwarden-websocket.entrypoints=web-secured
       - traefik.http.routers.bitwarden-websocket.tls=true

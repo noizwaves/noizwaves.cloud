@@ -29,7 +29,7 @@ services:
       - DB_HOST=mariadb
       - TIME_ZONE=Etc/UTC  # Optional, default is UTC. Should be uncomment and set to your local time zone.
       - SEAFILE_SERVER_LETSENCRYPT=false   # Whether to use https or not.
-      - SEAFILE_SERVER_HOSTNAME=seafile.noizwaves.cloud # Specifies your host name if https is enabled.
+      - SEAFILE_SERVER_HOSTNAME=seafile.${CLOUD_DOMAIN}
     env_file:
       - .env
     depends_on:
@@ -46,7 +46,7 @@ services:
       - traefik.http.services.seafile.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.seafile.rule=Host(`seafile.noizwaves.cloud`)
+      - traefik.http.routers.seafile.rule=Host(`seafile.${CLOUD_DOMAIN}`)
       - traefik.http.routers.seafile.entrypoints=web-secured
       - traefik.http.routers.seafile.service=seafile
       - traefik.http.routers.seafile.tls=true

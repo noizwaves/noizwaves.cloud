@@ -19,12 +19,12 @@ services:
       - mysql_password
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.authelia.rule=Host(`authelia.noizwaves.cloud`)'
+      - traefik.http.routers.authelia.rule=Host(`authelia.${CLOUD_DOMAIN}`)
       - 'traefik.http.routers.authelia.entrypoints=web-secured'
       - 'traefik.http.routers.authelia.tls=true'
       - 'traefik.http.routers.authelia.tls.certresolver=mytlschallenge'
 
-      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://authelia.noizwaves.cloud/'
+      - "traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://authelia.${CLOUD_DOMAIN}/"
       - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
       - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
     restart: unless-stopped

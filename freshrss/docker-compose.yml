@@ -21,7 +21,7 @@ services:
       - traefik.http.services.freshrss.loadbalancer.server.port=80
 
       # HTTPS
-      - traefik.http.routers.freshrss.rule=Host(`freshrss.noizwaves.cloud`)
+      - traefik.http.routers.freshrss.rule=Host(`freshrss.${CLOUD_DOMAIN}`)
       - traefik.http.routers.freshrss.tls.certresolver=mytlschallenge
       - traefik.http.routers.freshrss.entrypoints=web-secured
       - traefik.http.routers.freshrss.tls=true

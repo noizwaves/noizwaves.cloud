@@ -35,7 +35,7 @@ services:
       - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
 
       # HTTPS
-      - traefik.http.routers.nextcloud.rule=Host(`nextcloud.noizwaves.cloud`)
+      - traefik.http.routers.nextcloud.rule=Host(`nextcloud.${CLOUD_DOMAIN}`)
       - traefik.http.routers.nextcloud.tls.certresolver=mytlschallenge
       - traefik.http.routers.nextcloud.entrypoints=web-secured
       - traefik.http.routers.nextcloud.tls=true

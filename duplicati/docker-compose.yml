@@ -46,7 +46,7 @@ services:
       - traefik.http.services.duplicati.loadbalancer.server.port=8200
 
       # HTTPS
-      - traefik.http.routers.duplicati.rule=Host(`duplicati.noizwaves.cloud`)
+      - traefik.http.routers.duplicati.rule=Host(`duplicati.${CLOUD_DOMAIN}`)
       - traefik.http.routers.duplicati.tls.certresolver=mytlschallenge
       - traefik.http.routers.duplicati.entrypoints=web-secured
       - traefik.http.routers.duplicati.tls=true
