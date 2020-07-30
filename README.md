@@ -4,31 +4,42 @@ A self hosted cloud
 
 ## Setup
 1.  Create a new Ubuntu 20.04 VM
-    1.  Username `adam`
+    1.  Username `cloud`
+    1.  Disable password requirement for sudoing by adding `cloud    ALL=(ALL) NOPASSWD:ALL` to `$ sudo visudo`
     1.  SSH Server installed
+        1.  Add public key to `~/.ssh/authorized_keys`
+        1.  Lock down SSHD config `/etc/ssh/sshd_config`
+            1.  `PasswordAuthentication no` to disable password-based logins
+            1.  `PermitRootLogin no` to disable root login
     1.  NTP `$ sudo apt install ntp`
     1.  USB automount `$ sudo apt install pmount`
-    1.  Direnv `$ sudo apt install direnv` and [setup Bash hook](https://direnv.net/docs/hook.html#bash)
-1.  Install SSH key for `adam`
+    1.  Direnv `$ sudo apt install direnv` and [setup Bash hook](https://direnv.net/docs/hook.html#bash) (`eval "$(direnv hook bash)"`)
 1.  Disable local DNS resolver
+    1.  `$ echo 'nameserver 1.1.1.1' | sudo tee /etc/resolv.conf`
+    1.  `$ echo 'nameserver 9.9.9.9' | sudo tee -a /etc/resolv.conf`
     1.  `$ sudo systemctl disable systemd-resolved`
     1.  `$ sudo systemctl stop systemd-resolved`
-    1.  `$ echo 'nameserver 127.0.0.1' sudo tee -a /etc/resolv.conf`
-    1.  `$ echo 'nameserver 9.9.9.9' sudo tee -a /etc/resolv.conf`
 1.  Configure ufw
-    1.  `$ sudo ufw enable`
     1.  `$ sudo ufw allow 22/tcp`
     1.  `$ sudo ufw allow 53/tcp`
     1.  `$ sudo ufw allow 53/udp`
     1.  `$ sudo ufw allow 80/tcp`
     1.  `$ sudo ufw allow 443/tcp`
+    1.  `$ sudo ufw enable`
     1.  `$ sudo ufw reload`
 1.  Set up Docker
     1.  `$ sudo apt install -y docker.io docker-compose`
-    1.  `$ sudo usermod -aG docker adam`
+    1.  `$ sudo usermod -aG docker cloud`
     1.  `$ sudo systemctl enable docker`
     1.  `$ docker network create web`
-1.  Copy configuration to VM via `$ rsync -avzhe ssh ~/workspace/noizwaves.cloud/ noizwaves.cloud:/home/adam/noizwaves.cloud/ --exclude=".git" --exclude=".idea"`
+1.  Install ZeroTier One
+    1.  ```
+        curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
+        if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
+        ```
+    1.  `sudo cat /var/lib/zerotier-one/authtoken.secret >> ~/.zeroTierOneAuthToken`
+    1.  `chmod 0600 ~/.zeroTierOneAuthToken`
+1.  Copy configuration to VM via `$ rsync -avzhe ssh ~/workspace/noizwaves.cloud/ noizwaves.cloud:/home/cloud/config/ --exclude=".git" --exclude=".idea"`
 1.  `$ cd noizwaves.cloud`
 1.  `$ cp .envrc.tmpl .envrc` and change values as appropriate
 1.  `$ direnv allow`
@@ -120,7 +131,7 @@ A self hosted cloud
 1.  `$ docker-compose up -d`
 1.  Configure [Duplicati](https://duplicati.noizwaves.cloud/ngax/index.html#/settings) appropriately
     1.  Add web password
-    1.  Restrict access to `duplicati.noizwaves.cloud`
+    1.  Restrict access to `duplicati.${CLOUD_DOMAIN}`
 1.  Configure backups appropriately or import `backup-duplicati-config.json`
     1.  Add a `run-script-before` advanced option of `/scripts/stop.sh`
     1.  Add a `run-script-after` advanced option of `/scripts/start.sh`

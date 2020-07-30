@@ -27,9 +27,9 @@ services:
       # Allow container to manage the hosts Docker context
       - /var/run/docker.sock:/var/run/docker.sock
 
-      - nextcloud_data:/source/nextcloud/data:ro
-      - nextcloud_config:/source/nextcloud/config:ro
-      - nextcloud_mariadb:/source/nextcloud/mariadb:ro
+#      - nextcloud_data:/source/nextcloud/data:ro
+#      - nextcloud_config:/source/nextcloud/config:ro
+#      - nextcloud_mariadb:/source/nextcloud/mariadb:ro
 
       - resilio-sync_data:/source/resilio-sync/data:ro
       - resilio-sync_config:/source/resilio-sync/config:ro
@@ -53,7 +53,7 @@ services:
       - traefik.http.routers.duplicati.service=duplicati
 
       # protect with Authelia
-      - traefik.http.routers.duplicati.middlewares=authelia@docker
+#      - traefik.http.routers.duplicati.middlewares=authelia@docker
 
 volumes:
   config:
@@ -63,14 +63,14 @@ volumes:
     driver: local
 
   # Nextcloud source data to back up
-  nextcloud_data:
-    external: true
-  nextcloud_config:
-    external: true
-  nextcloud_mariadb:
-    external: true
+#  nextcloud_data:
+#    external: true
+#  nextcloud_config:
+#    external: true
+#  nextcloud_mariadb:
+#    external: true
 
-  # Resilio Sycn source data to back up
+  # Resilio Sync source data to back up
   resilio-sync_data:
     external: true
   resilio-sync_config:
