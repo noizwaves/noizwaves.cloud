@@ -14,7 +14,6 @@ services:
       - DOCKER_MODS=linuxserver/mods:code-server-docker
     volumes:
       - config:/config
-      - backups:/backups
 
       # Mount host media to container
       - type: bind
@@ -23,23 +22,13 @@ services:
         bind:
           propagation: shared
 
+      # Source data
+      - ../../cloud-data:/source
+
       - ./scripts:/scripts
       # Allow container to manage the hosts Docker context
       - /var/run/docker.sock:/var/run/docker.sock
 
-#      - nextcloud_data:/source/nextcloud/data:ro
-#      - nextcloud_config:/source/nextcloud/config:ro
-#      - nextcloud_mariadb:/source/nextcloud/mariadb:ro
-
-      - resilio-sync_data:/source/resilio-sync/data:ro
-      - resilio-sync_config:/source/resilio-sync/config:ro
-
-      - bitwarden_rs_data:/source/bitwarden_rs/data:ro
-
-      - freshrss_config:/source/freshrss/config:ro
-      - freshrss_mariadb:/source/freshrss/mariadb:ro
-
-      - standardnotes_mariadb:/source/standardnotes/mariadb:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -58,37 +47,6 @@ services:
 volumes:
   config:
     driver: local
-
-  backups:
-    driver: local
-
-  # Nextcloud source data to back up
-#  nextcloud_data:
-#    external: true
-#  nextcloud_config:
-#    external: true
-#  nextcloud_mariadb:
-#    external: true
-
-  # Resilio Sync source data to back up
-  resilio-sync_data:
-    external: true
-  resilio-sync_config:
-    external: true
-
-  # Bitwarden source data to back up
-  bitwarden_rs_data:
-    external: true
-
-  # FreshRSS source data to back up
-  freshrss_config:
-    external: true
-  freshrss_mariadb:
-    external: true
-
-  # Standard Notes source data to back up
-  standardnotes_mariadb:
-    external: true
 
 networks:
   web:

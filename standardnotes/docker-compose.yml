@@ -13,7 +13,7 @@ services:
       - MYSQL_DATABASE=standard_notes
       - MYSQL_USER=standard_notes
     volumes:
-      - mariadb:/config
+      - ../../cloud-data/standardnotes/mariadb:/config
     networks:
       - backend
 
@@ -126,11 +126,6 @@ services:
       - traefik.http.routers.notes-folders.service=notes-folders
       - traefik.http.routers.notes-folders.tls=true
       - traefik.http.routers.notes-folders.tls.certresolver=mytlschallenge
-
-
-volumes:
-  mariadb:
-    driver: local
 
 networks:
   backend:
