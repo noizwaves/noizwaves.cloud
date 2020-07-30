@@ -190,3 +190,23 @@ A self hosted cloud
 1.  Log into [Duplicati](https://duplicati.noizwaves.cloud)
 1.  Run a cold backup
 1.  Unmount drive via `$ pumount /dev/sdb1`
+
+## Misc
+
+### Useful diagnostic tools
+
+### iotop
+1.  `sudo apt install iotop`
+1.  `iotop`
+
+### iozone
+1.  `sudo apt install iozone3`
+1.  `sudo iozone -e -I -a -s 100M -r 4k -r 16k -r 512k -r 1024k -r 16384k -i 0 -i 1 -i 2`
+
+### hdparm
+1.  `sudo apt install hdparm`
+1.  `sudo hdparm -t /dev/nvme0n1`
+
+### inxi
+1.  `sudo apt install inxi`
+1.  `inxi -Dxxx`
