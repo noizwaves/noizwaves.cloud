@@ -109,6 +109,12 @@ A self hosted cloud
 1.  Edit `/config/www/nextcloud/config/config.php`
     1.  Add `trusted_proxies` array that includes `web` network CIDR (`$ docker network inspect web`)
 
+## Resilio Sync
+1.  `$ cd resilio-sync`
+1.  `$ docker-compose up -d`
+1.  Open [Resilio Sync](https://resilio.noizwaves.cloud)
+1.  Configure application
+
 ## FreshRSS
 1.  `$ cd freshrss`
 1.  `$ cp .env.tmpl .env`
