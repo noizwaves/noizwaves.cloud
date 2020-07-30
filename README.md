@@ -39,8 +39,8 @@ A self hosted cloud
         ```
     1.  `sudo cat /var/lib/zerotier-one/authtoken.secret >> ~/.zeroTierOneAuthToken`
     1.  `chmod 0600 ~/.zeroTierOneAuthToken`
-1.  Copy configuration to VM via `$ rsync -avzhe ssh ~/workspace/noizwaves.cloud/ noizwaves.cloud:/home/cloud/config/ --exclude=".git" --exclude=".idea"`
-1.  `$ cd noizwaves.cloud`
+1.  Copy configuration to VM via `$ rsync -avzhe ssh ~/workspace/noizwaves.cloud/ $HOSTNAME:/home/cloud/cloud-config/ --exclude=".git" --exclude=".idea"`
+1.  `$ cd ~/cloud`
 1.  `$ cp .envrc.tmpl .envrc` and change values as appropriate
 1.  `$ direnv allow`
 
@@ -49,6 +49,7 @@ A self hosted cloud
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
+1.  Open Traefik dashboard at `https://monitor.${CLOUD_DOMAIN}`
 
 ## Pi-hole
 1.  `$ cd pihole`
