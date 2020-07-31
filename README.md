@@ -32,6 +32,12 @@ A self hosted cloud
     1.  `$ sudo usermod -aG docker cloud`
     1.  `$ sudo systemctl enable docker`
     1.  `$ docker network create web`
+    1.  Update Docker config at `~/.docker/config.json` with
+        ```json
+        {
+            "psFormat": "table {{.Names}}\t{{.Status}}\t{{.Image}}"
+        }
+        ```
 1.  Install ZeroTier One
     1.  ```
         curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
@@ -124,7 +130,7 @@ A self hosted cloud
 1.  Configure application
 
 ## Standard Notes
-1.  `$ mkdir ~/cloud-data/standardnotes`
+1.  `$ mkdir -p ~/cloud-data/standardnotes/mariadb`
 1.  `$ cd ~/cloud-config/standardnotes`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
