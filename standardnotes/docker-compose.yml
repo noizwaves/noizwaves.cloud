@@ -79,13 +79,11 @@ services:
       - traefik.http.routers.notes-web.tls=true
       - traefik.http.routers.notes-web.tls.certresolver=mytlschallenge
 
-  markdown-pro:
+  extensions:
     build:
-      context: ./markdown-pro/
+      context: ./extensions/
       dockerfile: Dockerfile
-      args:
-        - VERSION=1.3.8
-    container_name: standardnotes_markdown_pro
+    container_name: standardnotes_extensions
     restart: unless-stopped
     networks:
       - web
@@ -93,39 +91,15 @@ services:
       - traefik.enable=true
 
       ## Service settings
-      - traefik.http.services.notes-markdown-pro.loadbalancer.server.port=80
-      - traefik.http.services.notes-markdown-pro.loadbalancer.passhostheader=true
+      - traefik.http.services.notes-extensions.loadbalancer.server.port=80
+      - traefik.http.services.notes-extensions.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.notes-markdown-pro.rule=Host(`notes-markdown-pro.${CLOUD_DOMAIN}`)
-      - traefik.http.routers.notes-markdown-pro.entrypoints=web-secured
-      - traefik.http.routers.notes-markdown-pro.service=notes-markdown-pro
-      - traefik.http.routers.notes-markdown-pro.tls=true
-      - traefik.http.routers.notes-markdown-pro.tls.certresolver=mytlschallenge
-
-  folders:
-    build:
-      context: ./folders/
-      dockerfile: Dockerfile
-      args:
-        - VERSION=1.3.3
-    container_name: standardnotes_folders
-    restart: unless-stopped
-    networks:
-      - web
-    labels:
-      - traefik.enable=true
-
-      ## Service settings
-      - traefik.http.services.notes-folders.loadbalancer.server.port=80
-      - traefik.http.services.notes-folders.loadbalancer.passhostheader=true
-
-      ## HTTPS
-      - traefik.http.routers.notes-folders.rule=Host(`notes-folders.${CLOUD_DOMAIN}`)
-      - traefik.http.routers.notes-folders.entrypoints=web-secured
-      - traefik.http.routers.notes-folders.service=notes-folders
-      - traefik.http.routers.notes-folders.tls=true
-      - traefik.http.routers.notes-folders.tls.certresolver=mytlschallenge
+      - "traefik.http.routers.notes-extensions.rule=Host(`notes.${CLOUD_DOMAIN}`) && PathPrefix(`/extensions/`)"
+      - traefik.http.routers.notes-extensions.entrypoints=web-secured
+      - traefik.http.routers.notes-extensions.service=notes-extensions
+      - traefik.http.routers.notes-extensions.tls=true
+      - traefik.http.routers.notes-extensions.tls.certresolver=mytlschallenge
 
 networks:
   backend:
