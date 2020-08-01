@@ -14,7 +14,7 @@ services:
       - PGID=1000
       - TZ=America/Denver
     volumes:
-      - config:/config
+      - ../../cloud-data/freshrss/config:/config
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -40,14 +40,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mariadb:/config
-
-volumes:
-  config:
-    driver: local
-
-  mariadb:
-    driver: local
+      - ../../cloud-data/freshrss/config:/config
 
 networks:
   web:
