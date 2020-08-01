@@ -56,7 +56,7 @@ A self hosted cloud
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
-1.  Open Traefik dashboard at `https://monitor.${CLOUD_DOMAIN}`
+1.  Open Traefik dashboard at `https://traefik.${CLOUD_DOMAIN}`
 
 ## Pi-hole
 1.  `$ cd pihole`
@@ -181,7 +181,7 @@ A self hosted cloud
 1.  Find proxy container's IP address (`$IP_ADDRESS`) in `$ docker-compose logs -f`
 1.  Add entry to `/etc/hosts` that resolve to `$IP_ADDRESS`, ie:
     ```
-    $IP_ADDRESS    bitwarden.noizwaves.cloud nextcloud.noizwaves.cloud seafile.noizwaves.cloud authelia.noizwaves.cloud monitor.noizwaves.cloud
+    $IP_ADDRESS    bitwarden.noizwaves.cloud nextcloud.noizwaves.cloud seafile.noizwaves.cloud authelia.noizwaves.cloud traefik.noizwaves.cloud
     ```
 
 ## Maintenance
