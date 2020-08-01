@@ -11,8 +11,8 @@ services:
       - PGID=1000
       - TZ=America/Denver
     volumes:
-      - config:/config
-      - data:/sync
+      - ../../cloud-data/resilio-sync/config:/config
+      - ../../cloud-data/resilio-sync/data:/sync
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -27,13 +27,6 @@ services:
 
       # protect with Authelia
 #      - traefik.http.routers.resilio.middlewares=authelia@docker
-
-volumes:
-  config:
-    driver: local
-
-  data:
-    driver: local
 
 networks:
   web:
