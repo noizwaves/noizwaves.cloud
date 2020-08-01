@@ -131,8 +131,8 @@ A self hosted cloud
 1.  Configure application
 
 ## Standard Notes
-1.  `$ mkdir -p ~/cloud-data/standardnotes/mariadb`
 1.  `$ cd ~/cloud-config/standardnotes`
+1.  `$ mkdir -p ~/cloud-data/standardnotes/mariadb`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
