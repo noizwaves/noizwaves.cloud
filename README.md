@@ -205,14 +205,22 @@ A self hosted cloud
 
 1.  Run automatically in Duplicati
 
-### Cold backups
+### Cold backup
 
-1.  Log into VM
-1.  Connect cold backup USB drive to VM
-1.  Mount drive via `$ pmount /dev/sdb1 backup_test`
-1.  Log into [Duplicati](https://duplicati.noizwaves.cloud)
-1.  Run a cold backup
-1.  Unmount drive via `$ pumount /dev/sdb1`
+1.  SSH into `noizwaves.cloud`
+1.  Connect cold backup USB drive to host
+1.  Mount drive via `$ pmount /dev/sda backup`
+1.  Run a restore via `$ ~/cloud-config/cold_backup.sh`
+1.  Unmount drive via `$ pumount backup`
+
+### Cold restore
+
+1.  SSH into `noizwaves.cloud`
+1.  Connect cold backup USB drive to host
+1.  Mount drive via `$ pmount /dev/sda backup`
+1.  Edit `~/cloud-config/cold_restore.sh` to set desired restore point
+1.  Run a restore via `$ ~/cloud-config/cold_restore.sh`
+1.  Unmount drive via `$ pumount backup`
 
 ## Misc
 
