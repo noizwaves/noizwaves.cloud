@@ -8,7 +8,7 @@ services:
     networks:
       - web
     volumes:
-      - data:/data
+      - ../../cloud-data/bitwarden/data:/data
     environment:
       DOMAIN: "https://bitwarden.${CLOUD_DOMAIN}"
       LOG_FILE: '/data/bitwarden.log'
@@ -36,10 +36,6 @@ services:
       - traefik.http.routers.bitwarden-websocket.entrypoints=web-secured
       - traefik.http.routers.bitwarden-websocket.tls=true
       - traefik.http.routers.bitwarden-websocket.tls.certresolver=mytlschallenge
-
-volumes:
-  data:
-    driver: local
 
 networks:
   web:
