@@ -79,7 +79,7 @@ A self hosted cloud
 1.  `$ docker-compose up -d`
 
 ## Bitwarden
-1.  `$ cd bitwarden_rs`
+1.  `$ cd bitwarden`
 1.  `$ mkdir -p ~/cloud-data/bitwarden/data`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values

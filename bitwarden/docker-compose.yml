@@ -3,7 +3,7 @@ version: '3.7'
 services:
   bitwarden:
     image: bitwardenrs/server:1.15.1
-    container_name: bitwarden_rs
+    container_name: bitwarden
     restart: always
     networks:
       - web
