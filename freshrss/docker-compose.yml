@@ -40,7 +40,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ../../cloud-data/freshrss/config:/config
+      - ../../cloud-data/freshrss/mariadb:/config
 
 networks:
   web:
