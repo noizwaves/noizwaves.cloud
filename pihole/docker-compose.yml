@@ -15,8 +15,8 @@ services:
     env_file:
       - .env
     volumes:
-      - config:/etc/pihole
-      - dnsmasq:/etc/dnsmasq.d
+      - ../../cloud-data/pihole/config:/etc/pihole
+      - ../../cloud-data/pihole/dnsmasq:/etc/dnsmasq.d
     dns:
       - 127.0.0.1
       - 9.9.9.9
@@ -40,13 +40,6 @@ services:
       # DNS (UDP)
       - traefik.udp.routers.pihole-udp.entrypoints=dns-udp
       - traefik.udp.services.pihole-udp.loadbalancer.server.port=53
-
-volumes:
-  config:
-    driver: local
-
-  dnsmasq:
-    driver: local
 
 networks:
   web:
