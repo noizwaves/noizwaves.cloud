@@ -43,7 +43,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./letsencrypt:/letsencrypt # <== Volume for certs (TLS)
+      - ../../cloud-data/traefik/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock # <== Volume for docker admin
     networks:
       - web # <== Placing traefik on the network named web, to access containers on this network
