@@ -3,7 +3,7 @@
 SOURCE_DIR=/home/cloud/
 BACKUP_DIR=/media/backup/
 
-CONTAINERS="resilio-sync standardnotes_sync standardnotes_mariadb freshrss freshrss_mariadb"
+CONTAINERS="resilio-sync standardnotes_sync standardnotes_mariadb freshrss freshrss_mariadb bitwarden"
 
 docker stop $CONTAINERS
 
