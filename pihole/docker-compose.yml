@@ -18,7 +18,7 @@ services:
       - ../../cloud-data/pihole/config:/etc/pihole
       - ../../cloud-data/pihole/dnsmasq:/etc/dnsmasq.d
     dns:
-      - 127.0.0.1
+      - 1.1.1.1
       - 9.9.9.9
     restart: unless-stopped
     labels:
