@@ -203,9 +203,12 @@ A self hosted cloud
 
 ## Disaster Recovery
 
-### Hot backups
+### Hot backup
 
-1.  Run automatically in Duplicati
+1.  SSH into `noizwaves.cloud`
+1.  `cd cloud-config`
+1.  (if not set up) `cp hot.env.tmpl hot.env` and fill in appropriate values
+1.  `./hot_backup.sh`
 
 ### Cold backup
 
