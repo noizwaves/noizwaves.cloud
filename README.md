@@ -105,9 +105,9 @@ A self hosted cloud
 
 ## Nextcloud
 1.  `$ cd nextcloud`
+1.  `$ mkdir -p ~/cloud-data/nextcloud/data ~/cloud-data/nextcloud/config ~/cloud-data/nextcloud/mariadb`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
-1.  Update the value of `TRUSTED_PROXIES` in the `docker-compose.yml` file
 1.  `$ docker-compose up -d`
 1.  Open [Nextcloud](https://nextcloud.noizwaves.cloud)
 1.  Configure application to use MySQL with the following settings:

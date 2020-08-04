@@ -16,7 +16,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mariadb:/config
+      - ../../cloud-data/nextcloud/mariadb:/config
 
   app:
     image: linuxserver/nextcloud:19.0.1-ls91
@@ -53,18 +53,8 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - data:/data
-      - config:/config
-
-volumes:
-  data:
-    driver: local
-
-  config:
-    driver: local
-
-  mariadb:
-    driver: local
+      - ../../cloud-data/nextcloud/data:/data
+      - ../../cloud-data/nextcloud/config:/config
 
 networks:
   backend:
