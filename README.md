@@ -51,6 +51,18 @@ A self hosted cloud
 1.  `$ cp .envrc.tmpl .envrc` and change values as appropriate
 1.  `$ direnv allow`
 
+### Backups
+
+1.  `$ crontab -e`
+1.  Enable automated daily 1am hot backups with this cron config:
+```
+SHELL=/bin/bash
+MAILTO=""
+HOME=/home/cloud
+
+0 1 * * * cd cloud-config && ./hot_backup.sh >> hot_backup.log
+```
+
 ## Traefik
 1.  `$ cd traefik`
 1.  `$ mkdir -p ~/cloud-data/traefik/letsencrypt`
