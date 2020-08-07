@@ -14,6 +14,9 @@ A self hosted cloud
     1.  NTP `$ sudo apt install ntp`
     1.  USB automount `$ sudo apt install pmount`
     1.  Direnv `$ sudo apt install direnv` and [setup Bash hook](https://direnv.net/docs/hook.html#bash) (`eval "$(direnv hook bash)"`)
+    1.  Configure timezone
+        1.  `$ echo "US/Denver" | sudo tee /etc/timezone`
+        1.  `$ sudo dpkg-reconfigure --frontend noninteractive tzdata`
 1.  Disable local DNS resolver
     1.  `$ echo 'nameserver 1.1.1.1' | sudo tee /etc/resolv.conf`
     1.  `$ echo 'nameserver 9.9.9.9' | sudo tee -a /etc/resolv.conf`
@@ -60,7 +63,7 @@ SHELL=/bin/bash
 MAILTO=""
 HOME=/home/cloud
 
-0 1 * * * cd cloud-config && ./hot_backup.sh >> hot_backup.log
+0 1 * * * ./cloud-config/hot_backup.sh >> cloud-config/hot_backup.log
 ```
 
 ## Traefik

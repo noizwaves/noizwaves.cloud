@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-source hot.env
+source ~/cloud-config/hot.env
 
 DEST="s3://us-east-1.linodeobjects.com/$BUCKET_NAME/"
 CONTAINERS="resilio-sync standardnotes_sync standardnotes_mariadb freshrss freshrss_mariadb bitwarden"
 
-LAST_FULL_BACKUP_FILE=last-full-backup.txt
+LAST_FULL_BACKUP_FILE=~/cloud-config/last-full-backup.txt
 LAST_FULL_BACKUP=0
 if [[ -f $LAST_FULL_BACKUP_FILE ]]; then
   LAST_FULL_BACKUP="$(cat $LAST_FULL_BACKUP_FILE)"
