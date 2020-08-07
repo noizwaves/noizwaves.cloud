@@ -37,6 +37,10 @@ docker run --rm \
   wernight/duplicity \
   duplicity $COMMAND \
   --progress \
+  --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
+  --exclude '/data/cloud-data/resilio-sync/data/pictures-data/' \
+  --exclude '/data/cloud-data/nextcloud/' \
+  --exclude '/data/cloud-data/traefik/letsencrypt/acme.json' \
   --include '/data/' \
   --exclude '**' \
   /data/ ${DEST}
