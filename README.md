@@ -90,6 +90,7 @@ HOME=/home/cloud
     1.  `$ cp config/configuration.yml.tmpl config/configuration.yml`
     1.  Replace all `${CLOUD_DOMAIN}` with desired value
 1.  Create secrets
+    1.  `$ mkdir -p .secrets`
     1.  `$ openssl rand -base64 32 > .secrets/jwt.txt`
     1.  `$ openssl rand -base64 32 > .secrets/session.txt`
     1.  `$ openssl rand -base64 32 > .secrets/mysql_password.txt`

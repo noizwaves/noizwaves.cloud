@@ -43,7 +43,7 @@ services:
       - traefik.http.routers.fotos-nginx.service=fotos-nginx
 
       # protect with Authelia
-#      - traefik.http.routers.resilio.middlewares=authelia@docker
+      - traefik.http.routers.fotos-nginx.middlewares=authelia@docker
 
 networks:
   backend:
