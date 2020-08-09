@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 
-BACKUP_DIR=/media/backup
-
-# For testing a restore
-RESTORE_DIR=/home/cloud/restored/
-# and for an actual restore
-# RESTORE_DIR=/home/cloud/
+source ~/cloud-config/backup.env
+source ~/cloud-config/cold.env
 
 mkdir -p "$RESTORE_DIR"
 

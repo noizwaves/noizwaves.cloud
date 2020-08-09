@@ -219,14 +219,31 @@ HOME=/home/cloud
 
 ## Disaster Recovery
 
-### Hot backup
+1.  `$ cd cloud-config`
+1.  `$ cp backup.env.tmpl backup.env`
+1.  Set appropriate values
 
-1.  SSH into `noizwaves.cloud`
-1.  `cd cloud-config`
-1.  (if not set up) `cp hot.env.tmpl hot.env` and fill in appropriate values
-1.  `./hot_backup.sh`
+### Hot
 
-### Cold backup
+1.  `$ cd cloud-config`
+1.  `$ cp hot.env.tmpl hot.env`
+1.  Set appropriate values
+
+#### Backup
+
+1.  Install crontab as mentioned above
+
+#### Restore
+
+1.  TODO
+
+### Cold (raw)
+
+1.  `$ cd cloud-config`
+1.  `$ cp cold.env.tmpl cold.env`
+1.  Set appropriate values
+
+#### Backup
 
 1.  SSH into `noizwaves.cloud`
 1.  Connect cold backup USB drive to host
@@ -234,13 +251,38 @@ HOME=/home/cloud
 1.  Run a restore via `$ ~/cloud-config/cold_backup.sh`
 1.  Unmount drive via `$ pumount backup`
 
-### Cold restore
+#### Restore
 
 1.  SSH into `noizwaves.cloud`
 1.  Connect cold backup USB drive to host
 1.  Mount drive via `$ pmount /dev/sda backup`
-1.  Edit `~/cloud-config/cold_restore.sh` to set desired restore point
+1.  Edit `~/cloud-config/cold.env` to set desired restore point
+1.  Ensure restore point does *not* exist
 1.  Run a restore via `$ ~/cloud-config/cold_restore.sh`
+1.  Unmount drive via `$ pumount backup`
+
+### Cold (duplicity)
+
+1.  `$ cd cloud-config`
+1.  `$ cp cold2.env.tmpl cold2.env`
+1.  Set appropriate values
+
+#### Backup
+
+1.  SSH into `noizwaves.cloud`
+1.  Connect cold backup USB drive to host
+1.  Mount drive via `$ pmount /dev/sda backup`
+1.  Run a restore via `$ ~/cloud-config/cold2_backup.sh`
+1.  Unmount drive via `$ pumount backup`
+
+#### Restore
+
+1.  SSH into `noizwaves.cloud`
+1.  Connect cold backup USB drive to host
+1.  Mount drive via `$ pmount /dev/sda backup`
+1.  Edit `~/cloud-config/cold2.env` to set desired restore point
+1.  Ensure restore point does *not* exist
+1.  Run a restore via `$ ~/cloud-config/cold2_restore.sh`
 1.  Unmount drive via `$ pumount backup`
 
 ## Misc

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-SOURCE_DIR=/home/cloud/
-BACKUP_DIR=/media/backup/
+source ~/cloud-config/backup.env
+source ~/cloud-config/cold.env
 
-CONTAINERS="resilio-sync standardnotes_sync standardnotes_mariadb freshrss freshrss_mariadb bitwarden"
+SOURCE_DIR=/home/cloud/
 
 docker stop $CONTAINERS
 
