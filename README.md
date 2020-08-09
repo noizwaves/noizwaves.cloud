@@ -167,16 +167,6 @@ HOME=/home/cloud
     - https://notes.noizwaves.cloud/extensions/markdown-pro/extension.json
     - https://notes.noizwaves.cloud/extensions/folders/extension.json
 
-## Duplicati
-1.  `$ cd duplicati`
-1.  `$ docker-compose up -d`
-1.  Configure [Duplicati](https://duplicati.noizwaves.cloud/ngax/index.html#/settings) appropriately
-    1.  Add web password
-    1.  Restrict access to `duplicati.${CLOUD_DOMAIN}`
-1.  Configure backups appropriately or import `backup-duplicati-config.json`
-    1.  Add a `run-script-before` advanced option of `/scripts/stop.sh`
-    1.  Add a `run-script-after` advanced option of `/scripts/start.sh`
-
 ## Fotos
 1.  `$ cd fotos`
 1.  `$ mkdir -p ~/cloud-data/fotos/thumbnails`
