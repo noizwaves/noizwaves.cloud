@@ -177,6 +177,12 @@ HOME=/home/cloud
     1.  Add a `run-script-before` advanced option of `/scripts/stop.sh`
     1.  Add a `run-script-after` advanced option of `/scripts/start.sh`
 
+## Fotos
+1.  `$ cd fotos`
+1.  `$ mkdir -p ~/cloud-data/fotos/thumbnails`
+1.  (optional) rsync existing thumbnails from host using `$ rsync -avzhe ssh ~/workspace/fotos/thumbnails/ noizwaves.cloud:/home/cloud/cloud-data/fotos/thumbnails/`
+1.  `$ docker-compose up -d`
+
 ## Private SSH-based proxy
 
 ### Server

@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  fotos:
+    image: noizwaves/fotos:latest
+    container_name: fotos
+    hostname: fotos
+    user: "1000:1000"
+    networks:
+      - backend
+    environment:
+      - TZ=America/Denver
+      - PORT=3000
+    volumes:
+      - ../../cloud-data/fotos/thumbnails:/thumbnails
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/photos:ro
+
+  nginx:
+    image: nginx:1.19.1
+    container_name: fotos_nginx
+    hostname: fotos_nginx
+    depends_on:
+      - fotos
+    networks:
+      - web
+      - backend
+    environment:
+      - TZ=America/Denver
+    volumes:
+      - ../../cloud-data/fotos/thumbnails:/usr/share/nginx/html/thumbnails:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/usr/share/nginx/html/photos:ro
+      - ./fotos.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.fotos-nginx.loadbalancer.server.port=80
+
+      # HTTPS
+      - traefik.http.routers.fotos-nginx.rule=Host(`fotos.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.fotos-nginx.tls.certresolver=mytlschallenge
+      - traefik.http.routers.fotos-nginx.entrypoints=web-secured
+      - traefik.http.routers.fotos-nginx.tls=true
+      - traefik.http.routers.fotos-nginx.service=fotos-nginx
+
+      # protect with Authelia
+#      - traefik.http.routers.resilio.middlewares=authelia@docker
+
+networks:
+  backend:
+
+  web:
+    external: true
