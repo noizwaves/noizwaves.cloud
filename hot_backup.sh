@@ -16,7 +16,7 @@ NOW=$(date +"%s")
 SECS_SINCE_FULL="$(($NOW-$LAST_FULL_BACKUP))"
 
 # first full backup in just under 7 days
-if [[ SECS_SINCE_FULL -ge "$((60 * 60 * 24 * 7 - 600))" ]]; then
+if [[ SECS_SINCE_FULL -ge "$((60 * 60 * 24 * 14 - 600))" ]]; then
   COMMAND=full
   # TODO: update $LAST_FULL_BACKUP_FILE only upon successful backup
   echo "$NOW" > $LAST_FULL_BACKUP_FILE
