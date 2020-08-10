@@ -34,6 +34,7 @@ services:
 
   redis:
     image: redis:6.0.5
+    container_name: authelia_redis
     restart: unless-stopped
     networks:
       - backend
@@ -42,6 +43,7 @@ services:
 
   mariadb:
     image: mariadb:10.5.4
+    container_name: authelia_mariadb
     restart: unless-stopped
     networks:
       - backend
