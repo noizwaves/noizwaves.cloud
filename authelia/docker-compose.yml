@@ -38,7 +38,7 @@ services:
     networks:
       - backend
     volumes:
-      - redis:/data
+      - ../../cloud-data/authelia/redis:/data
 
   mariadb:
     image: mariadb:10.5.4
@@ -53,7 +53,7 @@ services:
       - MYSQL_DATABASE=authelia
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     volumes:
-      - mariadb:/var/lib/mysql
+      - ../../cloud-data/authelia/mariadb:/var/lib/mysql
 
 volumes:
   redis:

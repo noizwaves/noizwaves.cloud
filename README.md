@@ -83,6 +83,7 @@ HOME=/home/cloud
 
 ## Authelia
 1.  `$ cd authelia`
+1.  `$ mkdir -p ~/cloud-data/authelia/mariadb ~/cloud-data/authelia/redis`
 1.  Create a user database
     1.  `$ cp config/users_database.yml.tmpl config/users_database.yml`
     1.  Follow steps in comments to create users
