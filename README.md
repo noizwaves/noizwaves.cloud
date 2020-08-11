@@ -142,6 +142,13 @@ HOME=/home/cloud
 1.  Open [Resilio Sync](https://resilio.noizwaves.cloud)
 1.  Configure application
 
+## Droppy
+1.  Ensure Resilio Sync is deployed with the encrypted share sync
+1.  `$ cd droppy`
+1.  `$ docker-compose up -d`
+1.  Open [Droppy](https://droppy.noizwaves.cloud)
+1.  Configure application
+
 ## FreshRSS
 1.  `$ cd freshrss`
 1.  `$ mkdir -p ~/cloud-data/freshrss/config ~/cloud-data/freshrss/mariadb`

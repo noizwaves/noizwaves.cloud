@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  droppy:
+    image: silverwind/droppy
+    container_name: droppy
+    hostname: droppy
+    environment:
+      - UID=1000
+      - GID=1000
+    networks:
+      - web
+    volumes:
+      - ./config:/config
+      - ../../cloud-data/resilio-sync/data/encrypted-data/:/files:rw
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.droppy.loadbalancer.server.port=8989
+
+      # HTTPS
+      - traefik.http.routers.droppy.rule=Host(`droppy.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.droppy.tls.certresolver=mytlschallenge
+      - traefik.http.routers.droppy.entrypoints=web-secured
+      - traefik.http.routers.droppy.tls=true
+      - traefik.http.routers.droppy.service=droppy
+
+      # protect with Authelia
+      - traefik.http.routers.droppy.middlewares=authelia@docker
+
+networks:
+  web:
+    external: true
