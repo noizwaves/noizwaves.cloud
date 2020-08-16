@@ -15,6 +15,7 @@ services:
     volumes:
       - ../../cloud-data/fotos/thumbnails:/thumbnails
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/photos:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Albums:/albums:ro
 
   nginx:
     image: nginx:1.19.1
