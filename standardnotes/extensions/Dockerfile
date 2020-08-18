@@ -25,7 +25,8 @@ RUN curl -Ls -o /tmp/markdown-pro.tgz https://github.com/standardnotes/markdown-
 
 # Simple Task Editor extension
 FROM base as simple-task-editor
-ENV SIMPLE_TASK_EDITOR_VERSION 1.3.5
+#ENV SIMPLE_TASK_EDITOR_VERSION 1.3.5
+ENV SIMPLE_TASK_EDITOR_VERSION master
 RUN curl -Ls -o /tmp/simple-task-editor.tgz https://github.com/sn-extensions/simple-task-editor/archive/$SIMPLE_TASK_EDITOR_VERSION.tar.gz && \
     mkdir /usr/share/nginx/html/extensions/simple-task-editor && \
     tar -zxf /tmp/simple-task-editor.tgz --strip-components 2 --directory /usr/share/nginx/html/extensions/simple-task-editor/ simple-task-editor-$SIMPLE_TASK_EDITOR_VERSION/dist/ && \
