@@ -95,6 +95,8 @@ HOME=/home/cloud
     1.  `$ openssl rand -base64 32 > .secrets/jwt.txt`
     1.  `$ openssl rand -base64 32 > .secrets/session.txt`
     1.  `$ openssl rand -base64 32 > .secrets/mysql_password.txt`
+    1.  `$ cp .env.tmpl .env`
+    1.  Fill in appropriate values
 1.  `$ docker-compose up -d`
 
 ## Bitwarden

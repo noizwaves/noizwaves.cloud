@@ -4,6 +4,7 @@ services:
   authelia:
     image: authelia/authelia:4.21.0
     container_name: authelia
+    user: "1000:1000"
     volumes:
       - ./config:/config
     networks:
@@ -42,20 +43,21 @@ services:
       - ../../cloud-data/authelia/redis:/data
 
   mariadb:
-    image: mariadb:10.5.4
+    image: linuxserver/mariadb:110.4.13mariabionic-ls73
     container_name: authelia_mariadb
     restart: unless-stopped
     networks:
       - backend
-    secrets:
-      - mysql_password
+    env_file:
+      - .env
     environment:
+      - PUID=1000
+      - PGID=1000
       - MYSQL_USER=authelia
-      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
       - MYSQL_DATABASE=authelia
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     volumes:
-      - ../../cloud-data/authelia/mariadb:/var/lib/mysql
+      - ../../cloud-data/authelia/mariadb:/config
 
 secrets:
   jwt:
