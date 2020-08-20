@@ -4,14 +4,17 @@ services:
   pihole:
     image: pihole/pihole:latest
     container_name: pihole
-    cap_add:
-      - NET_ADMIN
+    hostname: pihole
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
     networks:
       - web
     environment:
       - TZ=America/Denver
       - DNS1=9.9.9.9
       - DNS2=1.1.1.1
+      - VIRTUAL_HOST=pihole.${CLOUD_DOMAIN}
     env_file:
       - .env
     volumes:
@@ -31,15 +34,6 @@ services:
       - traefik.http.routers.pihole-web.entrypoints=web-secured
       - traefik.http.routers.pihole-web.tls=true
       - traefik.http.routers.pihole-web.service=pihole-web
-
-      # DNS (TCP)
-      - traefik.tcp.routers.pihole-tcp.entrypoints=dns-tcp
-      - traefik.tcp.routers.pihole-tcp.rule=HostSNI(`*`)
-      - traefik.tcp.services.pihole-tcp.loadbalancer.server.port=53
-
-      # DNS (UDP)
-      - traefik.udp.routers.pihole-udp.entrypoints=dns-udp
-      - traefik.udp.services.pihole-udp.loadbalancer.server.port=53
 
 networks:
   web:

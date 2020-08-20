@@ -6,17 +6,15 @@ services:
     restart: always
     container_name: traefik
     ports:
-      - 80:80 # <== http
-      - 443:443 # <== https
-      - '53:53/udp'
-      - '53:53/tcp'
+      - '80:80'
+      - '443:443'
     command:
       #### These are the CLI commands that will configure Traefik and tell it how to work! ####
       ## API Settings - https://docs.traefik.io/operations/api/, endpoints - https://docs.traefik.io/operations/api/#endpoints ##
       - --api.dashboard=true # <== Enabling the dashboard to view services, middlewares, routers, etc...
       - --api.debug=true # <== Enabling additional endpoints for debugging and profiling
       ## Log Settings (options: ERROR, DEBUG, PANIC, FATAL, WARN, INFO) - https://docs.traefik.io/observability/logs/ ##
-#      - --log.level=DEBUG # <== Setting the level of the logs from traefik
+      # - --log.level=DEBUG # <== Setting the level of the logs from traefik
       - --log.level=ERROR # <== Setting the level of the logs from traefik
       ## Provider Settings - https://docs.traefik.io/providers/docker/#provider-configuration ##
       - --providers.docker=true # <== Enabling docker as the provider for traefik
@@ -29,11 +27,6 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web-secured=true # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
-      ## DNS entrypoints
-      - --entrypoints.dns-udp=true
-      - --entrypoints.dns-udp.address=:53/udp
-      - --entrypoints.dns-tcp=true
-      - --entrypoints.dns-tcp.address=:53/tcp
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
       - --certificatesresolvers.mytlschallenge.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.mytlschallenge.acme.email=letsencrypt@noizwaves.com # <== Setting email for certs
