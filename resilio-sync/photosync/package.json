@@ -1,0 +1,19 @@
+{
+  "name": "photosync",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start-dev": "nodemon index.js"
+  },
+  "author": "Adam Neumann",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^3.4.2",
+    "exif": "^0.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
