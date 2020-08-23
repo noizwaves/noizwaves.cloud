@@ -2,6 +2,10 @@ FROM node:10.22-alpine
 
 ENV NODE_ENV production
 
+RUN apk add \
+    exiftool \
+    git
+
 ADD package.json package-lock.json ./
 RUN npm install
 

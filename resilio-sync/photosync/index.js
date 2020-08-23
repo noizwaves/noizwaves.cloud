@@ -1,8 +1,8 @@
 const chokidar = require('chokidar')
 const path = require('path')
-const ExifReader = require('exifreader');
+const exif = require('exiftool');
 const {mkdir} = require('fs').promises
-const {copyFileSync, readFileSync} = require('fs')
+const {copyFileSync} = require('fs')
 
 const sourceRootPath = process.env.SOURCE_ROOT_PATH
 const destinationRootPath = process.env.DESTINATION_ROOT_PATH
@@ -12,19 +12,25 @@ console.log(`> From source: ${sourceRootPath}`)
 console.log(`> To Destination: ${destinationRootPath}`)
 console.log('')
 
-// Returns [year, month, day] parts
-const extractJpgDate = (sourcePath) => {
-    const buffer = readFileSync(sourcePath)
-    let tags = ExifReader.load(buffer);
-    return tags['DateTime'].value[0].substr(0, 10).split(':')
+const extractExitDateFunc = (fieldName) => {
+    return (sourcePath) => {
+        return new Promise(((resolve, reject) => {
+            exif.metadata(sourcePath, (err, metadata) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    const rawDate = metadata[fieldName]
+                    resolve(rawDate.substr(0, 10).split(':'))
+                }
+            });
+        }))
+    }
 }
 
-// Returns [year, month, day] parts
-const extractPngDate = (sourcePath) => {
-    const buffer = readFileSync(sourcePath)
-    let tags = ExifReader.load(buffer);
-    return tags['DateCreated'].value.substr(0, 10).split('-')
-}
+
+const extractJpgDate = extractExitDateFunc('createDate')
+const extractPngDate = extractExitDateFunc('dateCreated')
+const extractMovDate = extractExitDateFunc('createDate')
 
 chokidar
     .watch(sourceRootPath, { ignoreInitial: true, usePolling: false, interval: 5000 })
@@ -36,10 +42,13 @@ chokidar
         switch (path.extname(sourcePath).toLowerCase()) {
             case '.jpg':
             case '.jpeg':
-                date = extractJpgDate(sourcePath)
+                date = await extractJpgDate(sourcePath)
                 break;
             case '.png':
-                date = extractPngDate(sourcePath)
+                date = await extractPngDate(sourcePath)
+                break;
+            case '.mov':
+                date = await extractMovDate(sourcePath)
                 break;
         }
 
@@ -56,4 +65,4 @@ chokidar
         copyFileSync(sourcePath, destinationPath)
 
         console.log(`> Copied to ${destinationPath}`)
-    });
+    })
