@@ -184,6 +184,14 @@ HOME=/home/cloud
 1.  (optional) rsync existing thumbnails from host using `$ rsync -avzhe ssh ~/workspace/fotos/thumbnails/ noizwaves.cloud:/home/cloud/cloud-data/fotos/thumbnails/`
 1.  `$ docker-compose up -d`
 
+## Firefly III
+1.  `$ cd firefly-iii`
+1.  `$ mkdir -p ~/cloud-data/firefly-iii/export ~/cloud-data/firefly-iii/upload ~/cloud-data/firefly-iii/mariadb`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+1.  Open [Firefly III](https://firefly.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server

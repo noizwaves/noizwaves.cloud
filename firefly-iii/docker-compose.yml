@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  app:
+    image: jc5x/firefly-iii:latest
+    container_name: firefly-iii
+    hostname: fireflyiii
+    restart: unless-stopped
+#    user: "1000:1000"
+    networks:
+      - web
+      - backend
+    volumes:
+      - ../../cloud-data/firefly-iii/export:/var/www/firefly-iii/storage/export
+      - ../../cloud-data/firefly-iii/upload:/var/www/firefly-iii/storage/upload
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.fireflyiii.loadbalancer.server.port=8080
+
+      # HTTPS
+      - traefik.http.routers.fireflyiii.rule=Host(`fireflyiii.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.fireflyiii.tls.certresolver=mytlschallenge
+      - traefik.http.routers.fireflyiii.entrypoints=web-secured
+      - traefik.http.routers.fireflyiii.tls=true
+      - traefik.http.routers.fireflyiii.service=fireflyiii
+
+  mariadb:
+    image: linuxserver/mariadb:110.4.13mariabionic-ls73
+    container_name: firefly-iii_mariadb
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+    env_file:
+      - .env
+    volumes:
+      - ../../cloud-data/firefly-iii/mariadb:/config
+
+networks:
+  backend:
+    external: false
+    internal: true
+
+  web:
+    external: true
