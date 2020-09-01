@@ -39,7 +39,6 @@ docker run --rm \
   duplicity $COMMAND \
   --progress \
   --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
-  --exclude '/data/cloud-data/resilio-sync/data/pictures-data/' \
   --exclude '/data/cloud-data/nextcloud/' \
   --exclude '/data/cloud-data/firefly-iii/' \
   --exclude '/data/cloud-data/traefik/' \
