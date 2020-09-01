@@ -27,6 +27,30 @@ services:
       - traefik.http.routers.fireflyiii.entrypoints=web-secured
       - traefik.http.routers.fireflyiii.tls=true
       - traefik.http.routers.fireflyiii.service=fireflyiii
+  csv:
+    image: fireflyiii/csv-importer:latest
+    container_name: firefly-iii_csv
+    restart: unless-stopped
+    networks:
+      - web
+    env_file:
+      - .env
+    environment:
+      - TRUSTED_PROXIES=**
+      - FIREFLY_III_URI=http://app:8080
+    depends_on:
+      - app
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.fireflyiii-csv.loadbalancer.server.port=80
+
+      # HTTPS
+      - traefik.http.routers.fireflyiii-csv.rule=Host(`fireflyiii-csv.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.fireflyiii-csv.tls.certresolver=mytlschallenge
+      - traefik.http.routers.fireflyiii-csv.entrypoints=web-secured
+      - traefik.http.routers.fireflyiii-csv.tls=true
+      - traefik.http.routers.fireflyiii-csv.service=fireflyiii-csv
+
 
   mariadb:
     image: linuxserver/mariadb:110.4.13mariabionic-ls73
