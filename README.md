@@ -276,6 +276,15 @@ HOME=/home/cloud
 1.  Run a restore via `$ ~/cloud-config/cold_restore.sh`
 1.  Unmount drive via `$ pumount backup`
 
+### Recover from disaster
+
+How to recover from total hardware failure/destruction
+
+1.  Retrieve restore credentials from alternate source
+1.  Extract credentials
+1.  Prepare destination
+1.  Perform either a cold or hot restore
+
 ## Misc
 
 ### Useful diagnostic tools
