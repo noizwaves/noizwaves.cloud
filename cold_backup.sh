@@ -3,6 +3,8 @@
 source ~/cloud-config/backup.env
 source ~/cloud-config/cold.env
 
+DEST="file:///backup"
+
 docker stop $CONTAINERS
 
 docker run \
@@ -16,6 +18,7 @@ docker run \
   wernight/duplicity \
   duplicity \
   --progress \
+  --full-if-older-than 6M \
   --no-encryption \
   --no-compression \
   --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
@@ -25,6 +28,6 @@ docker run \
   --exclude '/data/cloud-data/fotos/' \
   --include '/data/' \
   --exclude '**' \
-  /data file:///backup
+  /data "${DEST}"
 
 docker start $CONTAINERS
