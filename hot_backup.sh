@@ -4,7 +4,6 @@ source ~/cloud-config/backup.env
 source ~/cloud-config/hot.env
 
 DEST="s3://us-east-1.linodeobjects.com/$BUCKET_NAME/"
-CONTAINERS="resilio-sync standardnotes_sync standardnotes_mariadb freshrss freshrss_mariadb bitwarden"
 
 docker stop $CONTAINERS
 
