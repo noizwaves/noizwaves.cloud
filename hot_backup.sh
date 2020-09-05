@@ -31,3 +31,16 @@ docker run --rm \
   /data/ ${DEST}
 
 docker start $CONTAINERS
+
+docker run --rm \
+  --hostname duplicity \
+  --user 1000:1000 \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v ~/cloud-data:/data/cloud-data:ro \
+  -v ~/cloud-config:/data/cloud-config:ro \
+  -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+  -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+  -e PASSPHRASE="${PASSPHRASE}" \
+  wernight/duplicity \
+  duplicity remove-all-but-n-full 3 \
+  ${DEST}
