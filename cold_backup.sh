@@ -42,4 +42,5 @@ docker run \
   -v "${BACKUP_DIR}":/backup:rw \
   wernight/duplicity \
   duplicity remove-all-but-n-full 3 \
-  ${DEST}
+  ${DEST} \
+  --force

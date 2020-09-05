@@ -43,4 +43,5 @@ docker run --rm \
   -e PASSPHRASE="${PASSPHRASE}" \
   wernight/duplicity \
   duplicity remove-all-but-n-full 3 \
-  ${DEST}
+  ${DEST} \
+  --force
