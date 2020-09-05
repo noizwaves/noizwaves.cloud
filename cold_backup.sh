@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source ~/cloud-config/backup.env
-source ~/cloud-config/cold2.env
+source ~/cloud-config/cold.env
 
 docker stop $CONTAINERS
 

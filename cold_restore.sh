@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
 source ~/cloud-config/backup.env
-source ~/cloud-config/cold2.env
+source ~/cloud-config/cold.env
+
+mkdir -p "${RESTORE_DIR}"
 
 docker run \
   --hostname duplicity-cold \
   --user 1000:1000 \
   --rm \
-  -v "${BACKUP_DIR}":/backup:ro \
   -v /etc/localtime:/etc/localtime:ro \
+  -v "${BACKUP_DIR}":/backup:ro \
+  -v "${RESTORE_DIR}":/restore:rw \
   wernight/duplicity \
-  duplicity collection-status \
+  duplicity restore \
+  --progress \
   --no-encryption \
-  --no-compression \
-  file:///backup
+  file:///backup /restore
