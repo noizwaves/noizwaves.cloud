@@ -31,3 +31,15 @@ docker run \
   /data "${DEST}"
 
 docker start $CONTAINERS
+
+docker run \
+  --hostname duplicity-cold \
+  --user 1000:1000 \
+  --rm \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v ~/cloud-data:/data/cloud-data:ro \
+  -v ~/cloud-config:/data/cloud-config:ro \
+  -v "${BACKUP_DIR}":/backup:rw \
+  wernight/duplicity \
+  duplicity remove-all-but-n-full 3 \
+  ${DEST}
