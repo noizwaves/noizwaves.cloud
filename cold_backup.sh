@@ -5,7 +5,7 @@ source ~/cloud-config/cold.env
 
 DEST="file:///backup"
 
-docker stop $CONTAINERS
+docker stop -t 60 $CONTAINERS
 
 docker run \
   --hostname duplicity-cold \

@@ -5,7 +5,7 @@ source ~/cloud-config/hot.env
 
 DEST="s3://us-east-1.linodeobjects.com/$BUCKET_NAME/"
 
-docker stop $CONTAINERS
+docker stop -t 60 $CONTAINERS
 
 docker run --rm \
   --hostname duplicity \
