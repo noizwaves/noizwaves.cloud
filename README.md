@@ -192,6 +192,12 @@ HOME=/home/cloud
 1.  `$ docker-compose up -d`
 1.  Open [Firefly III](https://firefly.noizwaves.cloud)
 
+## PhotoStructure
+1.  `$ cd photostructure`
+1.  `$ mkdir -p ~/cloud-data/photostructure/library ~/cloud-data/photostructure/tmp ~/cloud-data/photostructure/config ~/cloud-data/photostructure/logs`
+1.  `$ docker-compose up -d`
+1.  Open [Photostructure](https://photostructure.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server

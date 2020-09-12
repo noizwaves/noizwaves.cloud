@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  photostructure:
+    image: photostructure/server
+    container_name: photostructure
+    restart: unless-stopped
+    user: 1000:1000
+    networks:
+      - web
+    volumes:
+      # This is where your PhotoStructure Library will be stored.
+      # It must be readable, writable, and have sufficient free space.
+      # If it is a remote volume, uncomment the PS_FORCE_LOCAL_DB_REPLICA
+      # environment line below.
+      - ../../cloud-data/photostructure/library:/ps/library:rw
+      - ../../cloud-data/photostructure/tmp:/ps/tmp:rw
+      - ../../cloud-data/photostructure/config:/ps/config:rw
+      - ../../cloud-data/photostructure/logs:/ps/logs:rw
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/var/photos:ro
+    environment:
+      # Note that this exposes your library to your LAN.
+      # You may want to hide this port behind an authenticating reverse proxy.
+      - "PS_EXPOSE_NETWORK_WITHOUT_AUTH=true"
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.photostructure.loadbalancer.server.port=1787
+
+      # HTTPS
+      - traefik.http.routers.photostructure.rule=Host(`photostructure.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.photostructure.tls.certresolver=mytlschallenge
+      - traefik.http.routers.photostructure.entrypoints=web-secured
+      - traefik.http.routers.photostructure.tls=true
+      - traefik.http.routers.photostructure.service=photostructure
+
+      # protect with Authelia
+      - traefik.http.routers.photostructure.middlewares=authelia@docker
+
+networks:
+  web:
+    external: true
