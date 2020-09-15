@@ -22,6 +22,7 @@ docker run \
   --no-encryption \
   --no-compression \
   --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
+  --exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
   --exclude '/data/cloud-data/nextcloud/' \
   --exclude '/data/cloud-data/traefik/' \
   --exclude '/data/cloud-data/pihole/' \
