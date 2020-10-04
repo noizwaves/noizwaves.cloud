@@ -42,7 +42,7 @@ services:
       - app
     labels:
       - traefik.enable=true
-      - traefik.http.services.fireflyiii-csv.loadbalancer.server.port=80
+      - traefik.http.services.fireflyiii-csv.loadbalancer.server.port=8080
 
       # HTTPS
       - traefik.http.routers.fireflyiii-csv.rule=Host(`fireflyiii-csv.${CLOUD_DOMAIN}`)
