@@ -41,6 +41,10 @@ A self hosted cloud
             "psFormat": "table {{.Names}}\t{{.Status}}\t{{.Image}}"
         }
         ```
+1.  Install Samba
+    1.  `$ sudo apt install -y samba`
+    1.  `$ sudo ufw allow samba`
+    1.  Add shares following [this guide](https://ubuntu.com/tutorials/install-and-configure-samba#3-setting-up-samba)
 1.  Install ZeroTier One
     1.  ```
         curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
