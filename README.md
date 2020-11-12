@@ -78,6 +78,12 @@ HOME=/home/cloud
 1.  `$ docker-compose up -d`
 1.  Open Traefik dashboard at `https://traefik.${CLOUD_DOMAIN}`
 
+## Watchtower
+1.  `$ cd watchtower`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+
 ## Pi-hole
 1.  `$ cd pihole`
 1.  `$ mkdir -p ~/cloud-data/pihole/config ~/cloud-data/pihole/dnsmasq`

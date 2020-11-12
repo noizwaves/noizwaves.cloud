@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    container_name: watchtower
+    env_file:
+      - .env
+    environment:
+      - TZ=America/Denver
+      - WATCHTOWER_MONITOR_ONLY=true
+      - WATCHTOWER_SCHEDULE=0 0 2 ? * SAT
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_NOTIFICATIONS=email
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

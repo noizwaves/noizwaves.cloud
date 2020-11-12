@@ -48,6 +48,8 @@ services:
       # protect with Authelia
       - traefik.http.routers.fotos-nginx.middlewares=authelia@docker
 
+      - com.centurylinklabs.watchtower.enable="false"
+
 networks:
   backend:
 

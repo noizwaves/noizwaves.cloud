@@ -101,6 +101,8 @@ services:
       - traefik.http.routers.notes-extensions.tls=true
       - traefik.http.routers.notes-extensions.tls.certresolver=mytlschallenge
 
+      - com.centurylinklabs.watchtower.enable="false"
+
 networks:
   backend:
     external: false
