@@ -41,7 +41,7 @@ services:
       - ../../cloud-data/resilio-sync/data/adams-phone-photos-backup:/source:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/destination:rw
     labels:
-      - com.centurylinklabs.watchtower.enable="false"
+      - com.centurylinklabs.watchtower.enable=false
 
 
 networks:

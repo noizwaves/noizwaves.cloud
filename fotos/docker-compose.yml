@@ -17,6 +17,8 @@ services:
       - ../../cloud-data/fotos/thumbnails:/thumbnails
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/photos:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Albums:/albums:ro
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
 
   nginx:
     image: nginx:1.19.1
@@ -47,8 +49,6 @@ services:
 
       # protect with Authelia
       - traefik.http.routers.fotos-nginx.middlewares=authelia@docker
-
-      - com.centurylinklabs.watchtower.enable="false"
 
 networks:
   backend:
