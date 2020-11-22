@@ -28,6 +28,7 @@ A self hosted cloud
     1.  `$ sudo ufw allow 53/udp`
     1.  `$ sudo ufw allow 80/tcp`
     1.  `$ sudo ufw allow 443/tcp`
+    1.  `$ sudo ufw allow 2049/tcp`
     1.  `$ sudo ufw enable`
     1.  `$ sudo ufw reload`
 1.  Set up Docker
@@ -45,6 +46,9 @@ A self hosted cloud
     1.  `$ sudo apt install -y samba`
     1.  `$ sudo ufw allow samba`
     1.  Add shares following [this guide](https://ubuntu.com/tutorials/install-and-configure-samba#3-setting-up-samba)
+1.  Install NFS Server
+    1.  `$ sudo apt install -y nfs-kernel-server`
+    1.  `$ sudo vim /etc/exports` to add shares following [this guide](https://ubuntu.com/server/docs/service-nfs)
 1.  Install ZeroTier One
     1.  ```
         curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
