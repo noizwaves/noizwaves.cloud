@@ -56,6 +56,11 @@ A self hosted cloud
         ```
     1.  `sudo cat /var/lib/zerotier-one/authtoken.secret >> ~/.zeroTierOneAuthToken`
     1.  `chmod 0600 ~/.zeroTierOneAuthToken`
+1.  Install minikube
+    1.  `$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb`
+    1.  `$ sudo dpkg -i minikube_latest_amd64.deb`
+    1.  `$ minikube config set driver docker`
+    1.  `$ minikube start`
 1.  `$ mkdir ~/cloud-config ~/cloud-data`
 1.  Copy configuration to VM via `$ rsync -avzhe ssh ~/workspace/noizwaves.cloud/ $HOSTNAME:/home/cloud/cloud-config/ --exclude=".git" --exclude=".idea"`
 1.  `$ cd ~/cloud-config`
