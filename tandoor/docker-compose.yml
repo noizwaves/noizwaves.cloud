@@ -32,8 +32,8 @@ services:
       - ./.env
     volumes:
       - nginx_config:/etc/nginx/conf.d:ro
-      - ../../cloud-data/tandoor/staticfiles:/opt/recipes/staticfiles
-      - ../../cloud-data/tandoor/mediafiles:/opt/recipes/mediafiles
+      - ../../cloud-data/tandoor/staticfiles:/static
+      - ../../cloud-data/tandoor/mediafiles:/media
     labels:
       - traefik.enable=true
 
@@ -65,4 +65,3 @@ networks:
 
 volumes:
   nginx_config:
-  staticfiles:
