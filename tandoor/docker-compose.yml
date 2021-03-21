@@ -3,6 +3,7 @@ services:
   postgres:
     restart: unless-stopped
     image: postgres:11-alpine
+    user: "1000:1000"
     volumes:
       - ../../cloud-data/tandoor/postgres:/var/lib/postgresql/data
     env_file:
@@ -14,6 +15,7 @@ services:
   web_recipes:
     image: vabene1111/recipes
     restart: unless-stopped
+    user: "1000:1000"
     env_file:
       - ./.env
     volumes:
