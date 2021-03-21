@@ -1,6 +1,7 @@
 version: "3"
 services:
   postgres:
+    container_name: tandoor_postgres
     restart: unless-stopped
     image: postgres:11-alpine
     user: "1000:1000"
@@ -13,6 +14,7 @@ services:
 
   # has to be called `web_recipes`: https://github.com/vabene1111/recipes/blob/develop/nginx/conf.d/Recipes.conf#L14
   web_recipes:
+    container_name: tandoor_web
     image: vabene1111/recipes
     restart: unless-stopped
     user: "1000:1000"
@@ -28,6 +30,7 @@ services:
       - backend
 
   nginx:
+    container_name: tandoor_nginx
     image: nginx:mainline-alpine
     restart: unless-stopped
     env_file:
