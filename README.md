@@ -225,6 +225,13 @@ HOME=/home/cloud
 1.  `$ docker-compose up -d`
 1.  Open [Tandoor](https://tandoor.noizwaves.cloud)
 
+## Plex (inspired by [pierre-emmanuelJ/plex-traefik](https://github.com/pierre-emmanuelJ/plex-traefik))
+1.  `$ cd plex`
+1.  `$ mkdir -p ~/cloud-data/plex/config ~/cloud-data/plex/data ~/cloud-data/plex/transcode`
+1.  Generate a [claim](https://www.plex.tv/claim)
+1.  `$ docker-compose up -d`
+1.  Open [Plex](https://plex.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server
