@@ -6,12 +6,11 @@ services:
     container_name: plex
     hostname: plex.noizwaves.cloud
     restart: unless-stopped
-    networks:
-      - web
+    network_mode: host
     environment:
       - VERSION=docker
       - TZ=America/Denver
-      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
+      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}:32400
       - PLEX_UID=${USER}
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
@@ -22,31 +21,3 @@ services:
       - ../../cloud-data/plex/transcode:/transcode
     devices:
       - /dev/dri:/dev/dri
-    ports:
-      - 32400:32400/tcp
-      - 32400:32400/udp
-      - 3005:3005/tcp
-      - 8324:8324/tcp
-      - 32469:32469/tcp
-      - 1900:1900/udp
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
-    labels:
-      - traefik.enable=true
-      - traefik.http.services.plex.loadbalancer.server.port=32400
-
-      # HTTPS
-      - traefik.http.routers.plex.rule=Host(`plex.${CLOUD_DOMAIN}`)
-      - traefik.http.routers.plex.tls.certresolver=mytlschallenge
-      - traefik.http.routers.plex.entrypoints=web-secured
-      - traefik.http.routers.plex.tls=true
-      - traefik.http.routers.plex.service=plex
-
-      # protect with Authelia
-      - traefik.http.routers.resilio.middlewares=authelia@docker
-
-networks:
-  web:
-    external: true
