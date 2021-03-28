@@ -17,7 +17,7 @@ services:
     volumes:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/data:/data
-      - ../../cloud-data/resilio-sync/data/encrypted-data/Videos/Tony Riddle:/data/misc/tony:ro
+      - ../../cloud-data/resilio-sync/data/encrypted-data/Videos/Tony Riddle:/data-other/misc/tony:ro
       - ../../cloud-data/plex/transcode:/transcode
     devices:
       - /dev/dri:/dev/dri
