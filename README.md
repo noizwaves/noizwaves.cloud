@@ -232,6 +232,12 @@ HOME=/home/cloud
 1.  `$ docker-compose up -d`
 1.  Open [Plex](https://plex.noizwaves.cloud)
 
+## Registry (Docker container registry)
+1.  `$ cd registry`
+1.  `$ mkdir -p ~/cloud-data/registry/data`
+1.  `$ docker compose up -d`
+1.  `$ docker login registry.noizwaves.cloud`
+
 ## Private SSH-based proxy
 
 ### Server

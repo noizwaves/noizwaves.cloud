@@ -27,6 +27,7 @@ docker run --rm \
   --exclude '/data/cloud-data/traefik/' \
   --exclude '/data/cloud-data/pihole/' \
   --exclude '/data/cloud-data/fotos/' \
+  --exclude '/data/cloud-data/registry/' \
   --include '/data/' \
   --exclude '**' \
   /data/ ${DEST}
