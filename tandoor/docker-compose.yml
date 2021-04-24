@@ -52,8 +52,6 @@ services:
       - traefik.http.routers.tandoor.service=tandoor
       - traefik.http.routers.tandoor.tls=true
       - traefik.http.routers.tandoor.tls.certresolver=mytlschallenge
-
-      - com.centurylinklabs.watchtower.enable=false
     depends_on:
       - web_recipes
     networks:
