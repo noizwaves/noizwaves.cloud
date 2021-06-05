@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: jc5x/firefly-iii:latest
+    image: fireflyiii/core:latest
     container_name: firefly-iii
     hostname: fireflyiii
     restart: unless-stopped
