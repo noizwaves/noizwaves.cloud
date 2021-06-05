@@ -18,6 +18,7 @@ services:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/data:/data
       - ../../cloud-data/resilio-sync/data/encrypted-data/Videos/Tony Riddle:/data-other/misc/tony:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/data-other/photos/iCloud_Photos:ro
       - ../../cloud-data/plex/transcode:/transcode
     devices:
       - /dev/dri:/dev/dri
