@@ -50,6 +50,35 @@ services:
       # protect with Authelia
       - traefik.http.routers.fotos-nginx.middlewares=authelia@docker
 
+  webdav:
+    image: linuxserver/nginx:latest
+    container_name: fotos_webdav
+    hostname: fotos_webdav
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - TZ=America/Denver
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./webdav.conf:/config/nginx/site-confs/default
+      - ./credentials.list:/etc/nginx/.credentials.list
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/webdav
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.fotos-webdav.loadbalancer.server.port=80
+
+      # HTTPS
+      - "traefik.http.routers.fotos-webdav.rule=Host(`fotos.${CLOUD_DOMAIN}`) && PathPrefix(`/webdav/`)"
+      - traefik.http.routers.fotos-webdav.tls.certresolver=mytlschallenge
+      - traefik.http.routers.fotos-webdav.entrypoints=web-secured
+      - traefik.http.routers.fotos-webdav.middlewares=fotos-webdav-prefix
+      - traefik.http.routers.fotos-webdav.tls=true
+      - traefik.http.routers.fotos-webdav.service=fotos-webdav
+
+      - traefik.http.middlewares.fotos-webdav-prefix.stripprefix.prefixes=/webdav
+
 networks:
   backend:
 

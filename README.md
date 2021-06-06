@@ -201,6 +201,7 @@ HOME=/home/cloud
 1.  `$ cd fotos`
 1.  `$ mkdir -p ~/cloud-data/fotos/thumbnails`
 1.  (optional) rsync existing thumbnails from host using `$ rsync -avzhe ssh ~/workspace/fotos/thumbnails/ noizwaves.cloud:/home/cloud/cloud-data/fotos/thumbnails/`
+1.  Create WebDAV credentials via `$ htpasswd -c credentials.list <username>` and then enter the password.
 1.  `$ docker-compose up -d`
 
 ## Firefly III
