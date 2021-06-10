@@ -1,0 +1,86 @@
+version: '3.7'
+
+services:
+  fotos:
+    build:
+      context: https://github.com/noizwaves/fotos.git
+    container_name: fotos-lauren
+    hostname: fotos
+    restart: unless-stopped
+    user: "1000:1000"
+    networks:
+      - backend
+    environment:
+      - TZ=America/Denver
+      - PORT=3000
+    volumes:
+      - ../../cloud-data/fotos-lauren/thumbnails:/thumbnails
+      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/photos:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Albums:/albums:ro
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+
+  nginx:
+    image: nginx:1.19.1
+    container_name: fotos-lauren_nginx
+    hostname: fotos_nginx
+    restart: unless-stopped
+    depends_on:
+      - fotos
+    networks:
+      - web
+      - backend
+    environment:
+      - TZ=America/Denver
+    volumes:
+      - ../../cloud-data/fotos-lauren/thumbnails:/usr/share/nginx/html/thumbnails:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/usr/share/nginx/html/photos:ro
+      - ./fotos.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.fotos-lauren-nginx.loadbalancer.server.port=80
+
+      # HTTPS
+      - traefik.http.routers.fotos-lauren-nginx.rule=Host(`fotos-lauren.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.fotos-lauren-nginx.tls.certresolver=mytlschallenge
+      - traefik.http.routers.fotos-lauren-nginx.entrypoints=web-secured
+      - traefik.http.routers.fotos-lauren-nginx.tls=true
+      - traefik.http.routers.fotos-lauren-nginx.service=fotos-lauren-nginx
+
+      # protect with Authelia
+      - traefik.http.routers.fotos-lauren-nginx.middlewares=authelia@docker
+
+  webdav:
+    image: linuxserver/nginx:latest
+    container_name: fotos-lauren_webdav
+    hostname: fotos_webdav
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - TZ=America/Denver
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./webdav.conf:/config/nginx/site-confs/default
+      - ./credentials.list:/etc/nginx/.credentials.list
+      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/webdav
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.fotos-lauren-webdav.loadbalancer.server.port=80
+
+      # HTTPS
+      - "traefik.http.routers.fotos-lauren-webdav.rule=Host(`fotos-lauren.${CLOUD_DOMAIN}`) && PathPrefix(`/webdav/`)"
+      - traefik.http.routers.fotos-lauren-webdav.tls.certresolver=mytlschallenge
+      - traefik.http.routers.fotos-lauren-webdav.entrypoints=web-secured
+      - traefik.http.routers.fotos-lauren-webdav.middlewares=fotos-lauren-webdav-prefix
+      - traefik.http.routers.fotos-lauren-webdav.tls=true
+      - traefik.http.routers.fotos-lauren-webdav.service=fotos-lauren-webdav
+
+      - traefik.http.middlewares.fotos-lauren-webdav-prefix.stripprefix.prefixes=/webdav
+
+networks:
+  backend:
+
+  web:
+    external: true
