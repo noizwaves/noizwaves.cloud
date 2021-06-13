@@ -28,22 +28,6 @@ services:
       # protect with Authelia
 #      - traefik.http.routers.resilio.middlewares=authelia@docker
 
-  photosync:
-    build:
-      context: ./photosync/
-      dockerfile: Dockerfile
-    user: "1000:1000"
-    container_name: resilio-sync_photosync
-    restart: unless-stopped
-    networks:
-      - backend
-    volumes:
-      - ../../cloud-data/resilio-sync/data/adams-phone-photos-backup:/source:ro
-      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/destination:rw
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-
-
 networks:
   web:
     external: true
