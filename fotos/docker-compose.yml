@@ -2,8 +2,7 @@ version: '3.7'
 
 services:
   fotos:
-    build:
-      context: https://github.com/noizwaves/fotos.git
+    image: ghcr.io/noizwaves/fotos:latest
     container_name: fotos
     hostname: fotos
     restart: unless-stopped
@@ -17,8 +16,6 @@ services:
       - ../../cloud-data/fotos/thumbnails:/thumbnails
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/photos:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Albums:/albums:ro
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
 
   nginx:
     image: nginx:1.19.1
