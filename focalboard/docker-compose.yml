@@ -8,8 +8,8 @@ services:
       - web
     volumes:
       - ../../cloud-data/focalboard/config.json:/opt/focalboard/config.json
-      - ../../cloud-data/focalboard/focalboard.db:/data/focalboard.db
-      - ../../cloud-data/focalboard/files:/data/files
+      - ../../cloud-data/focalboard/data:/data/
+      - ../../cloud-data/focalboard/files:/files
     labels:
       - traefik.enable=true
 
