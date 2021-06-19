@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+  app:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    user: "1000:1000"
+    networks:
+      - web
+    volumes:
+      - ../../cloud-data/filebrowser/database.db:/database.db
+      - ../../cloud-data/filebrowser/filebrowser.json:/.filebrowser.json
+
+      # Files
+      - ../../cloud-data/resilio-sync/data/encrypted-data:/srv/encrypted
+      - ../../cloud-data/resilio-sync/data/baedrive-data:/srv/baedrive
+      - ../../cloud-data/resilio-sync/data/doc-sync-data:/srv/doc-sync
+      - ../../cloud-data/resilio-sync/data/storage-data:/srv/storage
+      - ../../cloud-data/resilio-sync/data/pictures-data:/srv/pictures
+      - ../../cloud-data/resilio-sync/data/photography-data:/srv/photography
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 5s
+      timeout: 3s
+      start_period: 2s
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.filebrowser.loadbalancer.server.port=8080
+      - traefik.http.services.filebrowser.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.filebrowser.rule=Host(`filebrowser.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.filebrowser.entrypoints=web-secured
+      - traefik.http.routers.filebrowser.service=filebrowser
+      - traefik.http.routers.filebrowser.tls=true
+      - traefik.http.routers.filebrowser.tls.certresolver=mytlschallenge
+
+      # protect with Authelia
+      - traefik.http.routers.filebrowser.middlewares=authelia@docker
+
+networks:
+  web:
+    external: true
