@@ -1,0 +1,29 @@
+version: "3"
+services:
+  app:
+    image: mattermost/focalboard:latest
+    container_name: focalboard
+    user: "1000:1000"
+    networks:
+      - web
+    volumes:
+      - ../../cloud-data/focalboard/config.json:/opt/focalboard/config.json
+      - ../../cloud-data/focalboard/focalboard.db:/data/focalboard.db
+      - ../../cloud-data/focalboard/files:/data/files
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.focalboard.loadbalancer.server.port=8000
+      - traefik.http.services.focalboard.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.focalboard.rule=Host(`focalboard.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.focalboard.entrypoints=web-secured
+      - traefik.http.routers.focalboard.service=focalboard
+      - traefik.http.routers.focalboard.tls=true
+      - traefik.http.routers.focalboard.tls.certresolver=mytlschallenge
+
+networks:
+  web:
+    external: true

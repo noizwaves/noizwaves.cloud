@@ -244,6 +244,15 @@ HOME=/home/cloud
 1.  `$ docker compose up -d`
 1.  `$ docker login registry.noizwaves.cloud`
 
+## Focalboard
+1.  `$ cd focalboard`
+1.  `$ mkdir ~/cloud-data/focalboard/files`
+1.  `$ touch ~/cloud-data/focalboard/focalboard.db`
+1.  `$ cp config.json.tmpl ~/cloud-data/focalboard/config.json`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+1.  Open [Focalboard](https://focalboard.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server
