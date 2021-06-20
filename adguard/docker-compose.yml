@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  app:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    user: "1000:1000"
+    network_mode: service:tailscale
+    volumes:
+      - ../../cloud-data/adguard/work:/opt/adguardhome/work
+      - ../../cloud-data/adguard/conf:/opt/adguardhome/conf
+
+  tailscale:
+    hostname: dns
+    container_name: adguardhome_tailscale
+    build:
+      context: https://github.com/tailscale/tailscale.git#v1.8.7
+      args:
+        VERSION_LONG: "1.8.7"
+        VERSION_SHORT: "1.8.7"
+        VERSION_GIT_HASH: "e1571ed7e0e84aed16f267be24fe408150109af6"
+    command: tailscaled
+    cap_add:
+      - net_admin
+      - sys_module
+    volumes:
+      - ../../cloud-data/adguard/tailscale:/var/lib
+      - /dev/net/tun:/dev/net/tun

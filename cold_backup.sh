@@ -28,6 +28,7 @@ docker run \
   --exclude '/data/cloud-data/pihole/' \
   --exclude '/data/cloud-data/fotos/' \
   --exclude '/data/cloud-data/registry/' \
+  --exclude '/data/cloud-data/adguard/tailscale/' \
   --include '/data/' \
   --exclude '**' \
   /data "${DEST}"
