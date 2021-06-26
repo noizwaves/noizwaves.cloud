@@ -25,3 +25,5 @@ services:
     volumes:
       - ../../cloud-data/adguard/tailscale:/var/lib
       - /dev/net/tun:/dev/net/tun
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
