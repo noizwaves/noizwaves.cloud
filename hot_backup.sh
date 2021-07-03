@@ -3,8 +3,6 @@
 source ~/cloud-config/backup.env
 source ~/cloud-config/hot.env
 
-DEST="s3://us-east-1.linodeobjects.com/$BUCKET_NAME/"
-
 docker stop -t 60 $CONTAINERS
 
 docker run --rm \
@@ -31,7 +29,7 @@ docker run --rm \
   --exclude '/data/cloud-data/adguard/tailscale/' \
   --include '/data/' \
   --exclude '**' \
-  /data/ ${DEST}
+  /data/ "${BACKUP_URL}"
 
 docker start $CONTAINERS
 
@@ -46,5 +44,5 @@ docker run --rm \
   -e PASSPHRASE="${PASSPHRASE}" \
   wernight/duplicity \
   duplicity remove-all-but-n-full 3 \
-  ${DEST} \
+  "${BACKUP_URL}" \
   --force
