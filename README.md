@@ -350,7 +350,14 @@ For private network DNS resolution
 
 #### Restore
 
-1.  TODO
+1.  Start restore target device
+1.  Obtain secrets pack
+1.  `$ git clone https://github.com/noizwaves/noizwaves.cloud.git ~/noizwaves.cloud_restore`
+1.  `$ cd ~/noizwaves.cloud_restore`
+1.  Populate secrets by:
+    1.  `$ cp hot.env.tmpl hot.env`
+    1.  Setting secrets and `RESTORE_DIR`
+1.  Restore backup by `$ ./hot_restore.sh`
 
 ### Cold (duplicity)
 
@@ -368,21 +375,24 @@ For private network DNS resolution
 
 #### Restore
 
-1.  SSH into `noizwaves.cloud`
-1.  Connect cold backup USB drive to host
-1.  Mount drive via `$ pmount /dev/sda backup`
-1.  Edit `~/cloud-config/cold.env` to set desired restore point
-1.  Ensure restore point does *not* exist
-1.  Run a restore via `$ ~/cloud-config/cold_restore.sh`
-1.  Unmount drive via `$ pumount backup`
+1.  Start restore target device
+1.  Obtain secrets pack
+1.  `$ git clone https://github.com/noizwaves/noizwaves.cloud.git ~/noizwaves.cloud_restore`
+1.  `$ cd ~/noizwaves.cloud_restore`
+1.  Connect cold backup USB drive to restore target
+1.  Mount drive via `$ pmount /dev/sda backup` or GUI
+1.  Populate secrets by:
+    1.  `$ cp cold.env.tmpl cold.env`
+    1.  Set `RESTORE_DIR`
+1.  Restore backup by `$ ./cold_restore.sh`
+1.  Unmount drive via `$ pumount backup` og UI
 
 ### Recover from disaster
 
 How to recover from total hardware failure/destruction
 
-1.  Retrieve restore credentials from alternate source
-1.  Extract credentials
-1.  Prepare destination
+1.  Obtain secrets pack from secure storage
+1.  Prepare restore target device
 1.  Perform either a cold or hot restore
 
 ## Misc
