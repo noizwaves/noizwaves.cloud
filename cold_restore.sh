@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/cloud-config/backup.env
-source ~/cloud-config/cold.env
+source cold.env
 
 mkdir -p "${RESTORE_DIR}"
 
