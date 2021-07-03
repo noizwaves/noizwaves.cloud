@@ -5,6 +5,8 @@ services:
     container_name: adguardhome
     user: "1000:1000"
     network_mode: service:tailscale
+    depends_on:
+      - "tailscale"
     volumes:
       - ../../cloud-data/adguard/work:/opt/adguardhome/work
       - ../../cloud-data/adguard/conf:/opt/adguardhome/conf
