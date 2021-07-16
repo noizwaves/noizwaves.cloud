@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: https://github.com/noizwaves/running.git#main
+    container_name: running
+    hostname: running
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - TZ=America/Denver
+      - PORT=3000
+      - RUNS_ROOT_PATH=/data/runs
+    volumes:
+      - ../../cloud-data/resilio-sync/data/encrypted-data/Exercise/Runs:/data/runs:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.running.loadbalancer.server.port=3000
+
+      # HTTPS
+      - traefik.http.routers.running.rule=Host(`running.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.running.tls.certresolver=mytlschallenge
+      - traefik.http.routers.running.entrypoints=web-secured
+      - traefik.http.routers.running.tls=true
+      - traefik.http.routers.running.service=running
+
+      # protect with Authelia
+      - traefik.http.routers.running.middlewares=authelia@docker
+
+networks:
+  web:
+    external: true

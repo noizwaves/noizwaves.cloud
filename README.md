@@ -292,6 +292,11 @@ For private network DNS resolution
 1.  Add custom DNS records into `Filters > DNS rewrites`
 1.  Update Tailscale DNS for nameserver of `$IP_ADDRESS` restricted to search domain of `noizwaves.cloud`
 
+## Running
+1.  `$ cd running`
+1.  `$ docker-compose up -d`
+1.  Open [Running](https://running.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server
