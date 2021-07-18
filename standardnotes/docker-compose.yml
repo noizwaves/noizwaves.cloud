@@ -52,7 +52,7 @@ services:
       - traefik.http.routers.notes-sync.tls.certresolver=mytlschallenge
 
   web:
-    image: standardnotes/web:stable
+    image: standardnotes/web:f23f0e3088e1eb908b1358aaf09776d6bd2425a0
     container_name: standardnotes_web
     restart: unless-stopped
     env_file:
