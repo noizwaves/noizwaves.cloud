@@ -2,8 +2,7 @@ version: '3.7'
 
 services:
   app:
-    build:
-      context: https://github.com/noizwaves/running.git#main
+    image: ghcr.io/noizwaves/running:latest
     container_name: running
     hostname: running
     restart: unless-stopped
@@ -28,9 +27,6 @@ services:
 
       # protect with Authelia
       - traefik.http.routers.running.middlewares=authelia@docker
-
-      # Manually updated
-      - com.centurylinklabs.watchtower.enable=false
 
 networks:
   web:
