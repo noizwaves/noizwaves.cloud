@@ -297,6 +297,14 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Open [Running](https://running.noizwaves.cloud)
 
+## Vikunja
+1.  `$ cd vikunja`
+1.  `$ mkdir -p ~/cloud-data/vikunja/files ~/cloud-data/vikunja/mariadb
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+1.  Open [Vikunja](https://vikunja.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server

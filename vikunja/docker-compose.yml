@@ -1,0 +1,82 @@
+version: '3.7'
+
+services:
+  api:
+    image: vikunja/api
+    container_name: vikunja_api
+    environment:
+      - PUID=1000
+      - PGID=1000
+    env_file:
+      - .env
+    volumes:
+      - ../../cloud-data/vikunja/files:/app/vikunja/files
+    networks:
+      - web
+      - backend
+    depends_on:
+      - db
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.vikunja-api.loadbalancer.server.port=3456
+      - traefik.http.services.vikunja-api.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.vikunja-api.rule=Host(`vikunja.${CLOUD_DOMAIN}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)
+      - traefik.http.routers.vikunja-api.entrypoints=web-secured
+      - traefik.http.routers.vikunja-api.service=vikunja-api
+      - traefik.http.routers.vikunja-api.tls=true
+      - traefik.http.routers.vikunja-api.tls.certresolver=mytlschallenge
+
+      # Manually updated
+      - com.centurylinklabs.watchtower.enable=false
+
+  frontend:
+    image: vikunja/frontend
+    container_name: vikunja_frontend
+    restart: unless-stopped
+    networks:
+      - web
+      - backend
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.vikunja-backend.loadbalancer.server.port=80
+      - traefik.http.services.vikunja-backend.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.vikunja-backend.rule=Host(`vikunja.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.vikunja-backend.entrypoints=web-secured
+      - traefik.http.routers.vikunja-backend.service=vikunja-backend
+      - traefik.http.routers.vikunja-backend.tls=true
+      - traefik.http.routers.vikunja-backend.tls.certresolver=mytlschallenge
+
+      # Manually updated
+      - com.centurylinklabs.watchtower.enable=false
+
+  db:
+    image: linuxserver/mariadb:110.4.13mariabionic-ls73
+    container_name: vikunja_db
+#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=1000
+    restart: unless-stopped
+    networks:
+      - backend
+    env_file:
+      - .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ../../cloud-data/vikunja/mariadb:/config
+
+networks:
+  web:
+    external: true
+
+  backend:
+    external: false
+    internal: true
