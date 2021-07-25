@@ -61,7 +61,6 @@ services:
   db:
     image: linuxserver/mariadb:110.4.13mariabionic-ls73
     container_name: vikunja_db
-#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=1000
     restart: unless-stopped
     networks:
       - backend
