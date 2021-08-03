@@ -13,7 +13,7 @@ services:
       - PORT=3000
       - RUNS_ROOT_PATH=/data/runs
     volumes:
-      - ../../cloud-data/resilio-sync/data/encrypted-data/Exercise/Runs:/data/runs:ro
+      - ../../cloud-data/resilio-sync/data/encrypted-data/Exercise/RunsByEffort:/data/runs:ro
     labels:
       - traefik.enable=true
       - traefik.http.services.running.loadbalancer.server.port=3000
