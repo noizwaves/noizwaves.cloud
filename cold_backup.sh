@@ -15,6 +15,7 @@ docker run \
   -v ~/cloud-data:/data/cloud-data:ro \
   -v ~/cloud-config:/data/cloud-config:ro \
   -v "${BACKUP_DIR}":/backup:rw \
+  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
   wernight/duplicity \
   duplicity \
   --progress \
@@ -43,6 +44,22 @@ docker run \
   -v ~/cloud-data:/data/cloud-data:ro \
   -v ~/cloud-config:/data/cloud-config:ro \
   -v "${BACKUP_DIR}":/backup:rw \
+  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+  wernight/duplicity \
+  duplicity cleanup \
+  --force \
+  --no-encryption \
+  ${DEST}
+
+docker run \
+  --hostname duplicity-cold \
+  --user 1000:1000 \
+  --rm \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v ~/cloud-data:/data/cloud-data:ro \
+  -v ~/cloud-config:/data/cloud-config:ro \
+  -v "${BACKUP_DIR}":/backup:rw \
+  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
   wernight/duplicity \
   duplicity remove-all-but-n-full 3 \
   ${DEST} \
