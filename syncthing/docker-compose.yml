@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  syncthing:
+    image: linuxserver/syncthing:latest
+    container_name: syncthing
+    networks:
+      - web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+    volumes:
+      - ../../cloud-data/syncthing/config:/config
+      - ../../cloud-data/resilio-sync/data/zettlekasten-data:/data/zettelkasten
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.syncthing.loadbalancer.server.port=8384
+
+      # HTTPS
+      - traefik.http.routers.syncthing.rule=Host(`syncthing.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.syncthing.tls.certresolver=mytlschallenge
+      - traefik.http.routers.syncthing.entrypoints=web-secured
+      - traefik.http.routers.syncthing.tls=true
+      - traefik.http.routers.syncthing.service=syncthing
+
+
+networks:
+  web:
+    external: true
