@@ -310,6 +310,13 @@ For private network DNS resolution
 1.  `$ mkdir -p ~/cloud-data/syncthing/config`
 1.  `$ docker-compose up -d`
 1.  Open [Syncthing](https://syncthing.noizwaves.cloud)
+1.  Open [Vikunja](https://vikunja.noizwaves.cloud)
+
+## Trilio
+1.  `$ cd trilio`
+1.  `$ mkdir -p ~/cloud-data/trilio`
+1.  `$ docker-compose up -d`
+1.  Open [Trilio](https://trilio.noizwaves.cloud)
 
 ## Private SSH-based proxy
 
