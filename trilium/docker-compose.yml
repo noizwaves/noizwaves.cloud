@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  app:
+    image: zadam/trilium:0.47-latest
+    container_name: trilium
+    user: "1000:1000"
+    # environment:
+      # - PUID=1000
+      # - PGID=1000
+    volumes:
+      - ../../cloud-data/trilium:/home/node/trilium-data
+    networks:
+      - web
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.trilium.loadbalancer.server.port=8080
+      - traefik.http.services.trilium.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.trilium.rule=Host(`trilium.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.trilium.entrypoints=web-secured
+      - traefik.http.routers.trilium.service=trilium
+      - traefik.http.routers.trilium.tls=true
+      - traefik.http.routers.trilium.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true
