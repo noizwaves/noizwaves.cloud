@@ -331,6 +331,29 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Open [Synapse](https://matrix.noizwaves.cloud)
 
+## Cloudflare Argo Tunnels (Experimental)
+1.  `$ cd cloudflare`
+1.  `$ mkdir -p ~/cloud-data/cloudflare/data`
+1.  `$ sudo chown -R 65532:65532 ~/cloud-data/cloudflare/data`
+1.  Log into Cloudflare using `docker-compose run --rm -v ~/cloud-data/cloudflare/data:/home/nonroot/.cloudflared cloudflare tunnel login`
+1.  Create tunnel using `docker-compose run --rm -v ~/cloud-data/cloudflare/data:/home/nonroot/.cloudflared cloudflare tunnel create traefik` and note the tunnel UUID
+1.  Create a config using `vim ~/cloud-data/cloudflare/data/config.yml` that looks like:
+    ```yaml
+    tunnel: ${UUID}
+    credentials-file: /home/nonroot/.cloudflared/${UUID}.json
+    originRequest:
+      noTLSVerify: true
+
+    ingress:
+      - hostname: ${SERVICE}.${CLOUD_DOMAIN}
+        service: https://traefik:443
+      - ...
+  - service: http_status:404
+    ```
+1.  `$ sudo chown -R 65532:65532 ~/cloud-data/cloudflare/data`
+1.  Create DNS entries for each service by running `docker-compose run --rm -v ~/cloud-data/cloudflare/data:/home/nonroot/.cloudflared cloudflare tunnel route dns traefik ${SERVICE}`
+1.  Start tunnel using `docker-compose up -d`
+
 ## Private SSH-based proxy
 
 ### Server
