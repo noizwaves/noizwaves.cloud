@@ -318,6 +318,19 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Open [Trilio](https://trilio.noizwaves.cloud)
 
+## Matrix (Synapse)
+1.  `$ cd matrix`
+1.  `$ mkdir -p ~/cloud-data/matrix/data ~/cloud-data/matrix/postgres ~/cloud-data/matrix/telegram`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose run --rm -e SYNAPSE_SERVER_NAME=matrix.${CLOUD_DOMAIN} -e SYNAPSE_REPORT_STATS=no synapse generate`
+1.  Edit Synapse config using `$ vim ~/cloud-data/matrix/data/homeserver.yaml`
+1.  Generate Telegram config using `$ docker-compose run --rm telegram`
+1.  Edit Telegram config using `$ vim ~/cloud-data/matrix/telegram/config.yaml`
+1   Generate Telegram appservice registration using `$ docker-compose run --rm telegram`
+1.  `$ docker-compose up -d`
+1.  Open [Synapse](https://matrix.noizwaves.cloud)
+
 ## Private SSH-based proxy
 
 ### Server

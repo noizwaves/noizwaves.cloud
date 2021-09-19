@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+  synapse:
+    image: docker.io/matrixdotorg/synapse:latest
+    container_name: synapse
+    user: "1000:1000"
+    restart: unless-stopped
+    environment:
+      - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+      - UID=1000
+      - GID=1000
+    volumes:
+      - ../../cloud-data/matrix/data:/data
+
+      # appservice registrations
+      - ../../cloud-data/matrix/telegram:/bridges/telegram:ro
+    networks:
+      - backend
+      - web
+    # depends_on:
+    #   - synapse_postgres
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.matrix.loadbalancer.server.port=8008
+
+      # HTTPS
+      - traefik.http.routers.matrix.rule=Host(`matrix.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.matrix.tls.certresolver=mytlschallenge
+      - traefik.http.routers.matrix.entrypoints=web-secured
+      - traefik.http.routers.matrix.tls=true
+      - traefik.http.routers.matrix.service=matrix
+
+  # db:
+  #   # image: docker.io/postgres:12-alpine
+  #   image: postgres:11-alpine
+  #   container_name: synapse_postgres
+  #   user: "1000:1000"
+  #   env_file:
+  #     - ./.env
+  #   environment:
+  #     # https://matrix-org.github.io/synapse/latest/postgres.html#set-up-database
+  #     - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+  #   volumes:
+  #     - ../../cloud-data/matrix/postgres:/var/lib/postgresql/data
+  #   networks:
+  #     - backend
+
+  telegram:
+    image: dock.mau.dev/mautrix/telegram:latest
+    container_name: synapse-telegram
+    restart: unless-stopped
+    environment:
+      - UID=1000
+      - GID=1000
+    volumes:
+      - ../../cloud-data/matrix/telegram:/data
+    networks:
+      - backend
+      # TODO: figure out better way to give Telegram internet connectivity
+      - web
+
+networks:
+  backend:
+    external: false
+    internal: true
+
+  web:
+    external: true
