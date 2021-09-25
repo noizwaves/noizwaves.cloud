@@ -17,10 +17,12 @@ services:
       - ../../cloud-data/matrix/telegram:/bridges/telegram:ro
     networks:
       - backend
-      - web
+      - public
     # depends_on:
     #   - synapse_postgres
     labels:
+      - exposeTo=public
+
       - traefik.enable=true
       - traefik.http.services.matrix.loadbalancer.server.port=8008
 
@@ -30,6 +32,30 @@ services:
       - traefik.http.routers.matrix.entrypoints=web-secured
       - traefik.http.routers.matrix.tls=true
       - traefik.http.routers.matrix.service=matrix
+
+  wellknown:
+    image: linuxserver/nginx:latest
+    container_name: synapse_wellknown
+    restart: unless-stopped
+    networks:
+      - public
+    environment:
+      - TZ=America/Denver
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./well-known.conf:/config/nginx/site-confs/default
+    labels:
+      - exposeTo=public
+
+      - traefik.enable=true
+      - traefik.http.services.synapse-wellknown.loadbalancer.server.port=80
+
+      - traefik.http.routers.synapse-wellknown.rule=Host(`matrix.${CLOUD_DOMAIN}`) && PathPrefix(`/.well-known/matrix/server`)
+      - traefik.http.routers.synapse-wellknown.tls.certresolver=mytlschallenge
+      - traefik.http.routers.synapse-wellknown.entrypoints=web-secured
+      - traefik.http.routers.synapse-wellknown.tls=true
+      - traefik.http.routers.synapse-wellknown.service=synapse-wellknown
 
   # db:
   #   # image: docker.io/postgres:12-alpine
@@ -58,12 +84,12 @@ services:
     networks:
       - backend
       # TODO: figure out better way to give Telegram internet connectivity
-      - web
+      - public
 
 networks:
   backend:
     external: false
     internal: true
 
-  web:
+  public:
     external: true

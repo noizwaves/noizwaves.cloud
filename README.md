@@ -36,6 +36,7 @@ A self hosted cloud
     1.  `$ sudo usermod -aG docker cloud`
     1.  `$ sudo systemctl enable docker`
     1.  `$ docker network create web`
+    1.  `$ docker network create public`
     1.  Update Docker config at `~/.docker/config.json` with
         ```json
         {

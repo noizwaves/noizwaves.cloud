@@ -13,8 +13,8 @@ services:
       - ../../cloud-data/cloudflare/data:/home/nonroot/.cloudflared
     networks:
       # so cloudflared can connect to Traefik
-      - web
+      - public
 
 networks:
-  web:
+  public:
     external: true

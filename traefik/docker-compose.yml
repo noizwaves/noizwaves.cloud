@@ -20,6 +20,7 @@ services:
       - --providers.docker=true # <== Enabling docker as the provider for traefik
       - --providers.docker.exposedbydefault=false # <== Don't expose every container to traefik, only expose enabled ones
       - --providers.docker.network=web # <== Operate on the docker network named web
+      - --providers.docker.constraints=!Label(`exposeTo`, `public`)
       ## Entrypoints Settings - https://docs.traefik.io/routing/entrypoints/#configuration ##
       - --entrypoints.web=true # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web.address=:80
@@ -51,6 +52,43 @@ services:
 
       - traefik.http.routers.api.middlewares=authelia@docker
 
+  public:
+    image: traefik:v2.5
+    restart: unless-stopped
+    container_name: traefik_public
+    ports: []
+    command:
+      - --log.level=ERROR # <== Setting the level of the logs from traefik
+
+      - --providers.docker=true # <== Enabling docker as the provider for traefik
+      - --providers.docker.exposedbydefault=false # <== Don't expose every container to traefik, only expose enabled ones
+      - --providers.docker.network=public # <== Operate on the docker network named web
+      - --providers.docker.constraints=Label(`exposeTo`, `public`)
+
+      - --entrypoints.web=true # <== Defining an entrypoint for port :80 named web
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=web-secured
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+
+      - --entrypoints.web-secured=true # <== Defining an entrypoint for port :80 named web
+      - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
+
+      - --certificatesresolvers.mytlschallenge.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.mytlschallenge.acme.email=letsencrypt@noizwaves.com # <== Setting email for certs
+      - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json # <== Defining acme file to store cert information
+
+      - --serverstransport.insecureskipverify=true
+    env_file:
+      - .env
+    volumes:
+      - ../../cloud-data/traefik/letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock # <== Volume for docker admin
+    networks:
+      - public
+
 networks:
   web:
+    external: true
+
+  public:
     external: true
