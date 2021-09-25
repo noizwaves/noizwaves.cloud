@@ -17,11 +17,11 @@ services:
     container_name: adguardhome_tailscale
     restart: unless-stopped
     build:
-      context: https://github.com/tailscale/tailscale.git#v1.10.1
+      context: https://github.com/tailscale/tailscale.git#v1.14.4
       args:
-        VERSION_LONG: "1.10.1"
-        VERSION_SHORT: "1.10.1"
-        VERSION_GIT_HASH: "cd3fd076cc7952724f38fb4af24b349879d7145d"
+        VERSION_LONG: "1.14.4"
+        VERSION_SHORT: "1.14.4"
+        VERSION_GIT_HASH: "3a72ebb109433969b060e1b2c9142dee53fc4756"
     command: tailscaled
     cap_add:
       - net_admin
