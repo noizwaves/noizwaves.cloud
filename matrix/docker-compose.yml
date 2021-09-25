@@ -14,7 +14,7 @@ services:
       - ../../cloud-data/matrix/data:/data
 
       # appservice registrations
-      - ../../cloud-data/matrix/telegram:/bridges/telegram:ro
+      # - ../../cloud-data/matrix/telegram:/bridges/telegram:ro
     networks:
       - backend
       - public
@@ -51,7 +51,7 @@ services:
       - traefik.enable=true
       - traefik.http.services.synapse-wellknown.loadbalancer.server.port=80
 
-      - traefik.http.routers.synapse-wellknown.rule=Host(`matrix.${CLOUD_DOMAIN}`) && PathPrefix(`/.well-known/matrix/server`)
+      - traefik.http.routers.synapse-wellknown.rule=Host(`${CLOUD_DOMAIN}`) && PathPrefix(`/.well-known/matrix/server`)
       - traefik.http.routers.synapse-wellknown.tls.certresolver=mytlschallenge
       - traefik.http.routers.synapse-wellknown.entrypoints=web-secured
       - traefik.http.routers.synapse-wellknown.tls=true
@@ -72,19 +72,19 @@ services:
   #   networks:
   #     - backend
 
-  telegram:
-    image: dock.mau.dev/mautrix/telegram:latest
-    container_name: synapse-telegram
-    restart: unless-stopped
-    environment:
-      - UID=1000
-      - GID=1000
-    volumes:
-      - ../../cloud-data/matrix/telegram:/data
-    networks:
-      - backend
-      # TODO: figure out better way to give Telegram internet connectivity
-      - public
+  # telegram:
+  #   image: dock.mau.dev/mautrix/telegram:latest
+  #   container_name: synapse-telegram
+  #   restart: unless-stopped
+  #   environment:
+  #     - UID=1000
+  #     - GID=1000
+  #   volumes:
+  #     - ../../cloud-data/matrix/telegram:/data
+  #   networks:
+  #     - backend
+  #     # TODO: figure out better way to give Telegram internet connectivity
+  #     - public
 
 networks:
   backend:
