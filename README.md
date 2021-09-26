@@ -36,7 +36,6 @@ A self hosted cloud
     1.  `$ sudo usermod -aG docker cloud`
     1.  `$ sudo systemctl enable docker`
     1.  `$ docker network create web`
-    1.  `$ docker network create public`
     1.  Update Docker config at `~/.docker/config.json` with
         ```json
         {
@@ -324,7 +323,7 @@ For private network DNS resolution
 1.  `$ mkdir -p ~/cloud-data/matrix/data ~/cloud-data/matrix/postgres ~/cloud-data/matrix/telegram`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
-1.  `$ docker-compose run --rm -e SYNAPSE_SERVER_NAME=${CLOUD_DOMAIN} -e SYNAPSE_REPORT_STATS=no synapse generate`
+1.  `$ docker-compose run --rm -e SYNAPSE_SERVER_NAME=matrix.${CLOUD_DOMAIN} -e SYNAPSE_REPORT_STATS=no synapse generate`
 1.  Edit Synapse config using `$ vim ~/cloud-data/matrix/data/homeserver.yaml`
 1.  Generate Telegram config using `$ docker-compose run --rm telegram`
 1.  Edit Telegram config using `$ vim ~/cloud-data/matrix/telegram/config.yaml`
@@ -332,31 +331,6 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Register users by running `$ docker-compose exec synapse register_new_matrix_user -c /data/homeserver.yaml http://localhost:8008`
 1.  Open [Synapse](https://matrix.noizwaves.cloud)
-
-## Cloudflare Argo Tunnels (Experimental)
-1.  `$ cd cloudflare`
-1.  `$ mkdir -p ~/cloud-data/cloudflare/data`
-1.  `$ cp well-known.conf.tmpl well-known.conf`
-1.  Input appropriate values
-1.  `$ sudo chown -R 65532:65532 ~/cloud-data/cloudflare/data`
-1.  Log into Cloudflare using `docker-compose run --rm -v ~/cloud-data/cloudflare/data:/home/nonroot/.cloudflared cloudflare tunnel login`
-1.  Create tunnel using `docker-compose run --rm -v ~/cloud-data/cloudflare/data:/home/nonroot/.cloudflared cloudflare tunnel create traefik` and note the tunnel UUID
-1.  Create a config using `vim ~/cloud-data/cloudflare/data/config.yml` that looks like:
-    ```yaml
-    tunnel: ${UUID}
-    credentials-file: /home/nonroot/.cloudflared/${UUID}.json
-    originRequest:
-      noTLSVerify: true
-
-    ingress:
-      - hostname: ${SERVICE}.${CLOUD_DOMAIN}
-        service: https://traefik_public:443
-      - ...
-  - service: http_status:404
-    ```
-1.  `$ sudo chown -R 65532:65532 ~/cloud-data/cloudflare/data`
-1.  Create DNS entries for each service by running `docker-compose run --rm -v ~/cloud-data/cloudflare/data:/home/nonroot/.cloudflared cloudflare tunnel route dns traefik ${SERVICE}`
-1.  Start tunnel using `docker-compose up -d`
 
 ## Private SSH-based proxy
 
