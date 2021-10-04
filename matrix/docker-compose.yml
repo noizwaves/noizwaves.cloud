@@ -13,8 +13,13 @@ services:
     volumes:
       - ../../cloud-data/matrix/data:/data
 
+      # plugins
+      # https://github.com/devture/matrix-synapse-shared-secret-auth
+      - ./plugins/shared_secret_authenticator.py:/usr/local/lib/python3.8/site-packages/shared_secret_authenticator.py:ro
+
       # appservice registrations
-      - ../../cloud-data/matrix/telegram:/bridges/telegram:ro
+      # - ../../cloud-data/matrix/telegram:/bridges/telegram:ro
+      - ../../cloud-data/matrix/imessage:/bridges/imessage:ro
     networks:
       - backend
       - web
@@ -59,6 +64,32 @@ services:
       - backend
       # TODO: figure out better way to give Telegram internet connectivity
       - web
+
+  # from https://mau.dev/mautrix/wsproxy
+  wsproxy:
+    image: dock.mau.dev/mautrix/wsproxy:latest
+    container_name: synapse-wsproxy
+    restart: unless-stopped
+    ports: []
+    environment:
+      LISTEN_ADDRESS: ":29331"
+      APPSERVICE_ID: imessage
+    env_file:
+      - .env_wsproxy
+    networks:
+      - backend
+      - web
+    labels:
+      - traefik.enable=true
+
+      - traefik.http.services.synapse-wsproxy.loadbalancer.passhostheader=true
+      - traefik.http.services.synapse-wsproxy.loadbalancer.server.port=29331
+
+      - traefik.http.routers.synapse-wsproxy.rule=Host(`matrix-wsproxy.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.synapse-wsproxy.service=synapse-wsproxy
+      - traefik.http.routers.synapse-wsproxy.entrypoints=web-secured
+      - traefik.http.routers.synapse-wsproxy.tls=true
+      - traefik.http.routers.synapse-wsproxy.tls.certresolver=mytlschallenge
 
 networks:
   backend:
