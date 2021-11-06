@@ -11,6 +11,7 @@ docker run --rm \
   -v /etc/localtime:/etc/localtime:ro \
   -v ~/cloud-data:/data/cloud-data:ro \
   -v ~/cloud-config:/data/cloud-config:ro \
+  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
   -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   -e PASSPHRASE="${PASSPHRASE}" \
@@ -40,6 +41,7 @@ docker run --rm \
   -v /etc/localtime:/etc/localtime:ro \
   -v ~/cloud-data:/data/cloud-data:ro \
   -v ~/cloud-config:/data/cloud-config:ro \
+  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
   -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   -e PASSPHRASE="${PASSPHRASE}" \
