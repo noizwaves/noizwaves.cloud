@@ -9,6 +9,7 @@ docker run \
   --rm \
   -v "${BACKUP_DIR}":/backup:ro \
   -v /etc/localtime:/etc/localtime:ro \
+  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
   wernight/duplicity \
   duplicity collection-status \
   --no-encryption \
