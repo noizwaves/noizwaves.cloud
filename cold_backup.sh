@@ -31,6 +31,7 @@ docker run \
   --exclude '/data/cloud-data/registry/' \
   --exclude '/data/cloud-data/adguard/tailscale/' \
   --exclude '/data/cloud-data/cloudflare/' \
+  --exclude '/data/cloud-data/plex/' \
   --include '/data/' \
   --exclude '**' \
   /data "${DEST}"
