@@ -18,7 +18,7 @@ docker run --rm \
   wernight/duplicity \
   duplicity \
   --progress \
-  --full-if-older-than 1M \
+  --full-if-older-than 6M \
   --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
   --exclude '/data/cloud-data/resilio-sync/data/photography-data/' \
   --exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
@@ -47,6 +47,6 @@ docker run --rm \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   -e PASSPHRASE="${PASSPHRASE}" \
   wernight/duplicity \
-  duplicity remove-all-but-n-full 3 \
+  duplicity remove-all-but-n-full 1 \
   "${BACKUP_URL}" \
   --force
