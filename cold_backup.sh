@@ -19,7 +19,7 @@ docker run \
   wernight/duplicity \
   duplicity \
   --progress \
-  --full-if-older-than 6M \
+  --full-if-older-than 12M \
   --no-encryption \
   --no-compression \
   --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
@@ -63,6 +63,6 @@ docker run \
   -v "${BACKUP_DIR}":/backup:rw \
   -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
   wernight/duplicity \
-  duplicity remove-all-but-n-full 3 \
+  duplicity remove-all-but-n-full 2 \
   ${DEST} \
   --force
