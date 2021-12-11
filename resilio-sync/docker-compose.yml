@@ -31,5 +31,3 @@ services:
 networks:
   web:
     external: true
-  backend:
-    internal: true
