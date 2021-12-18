@@ -29,6 +29,9 @@ A self hosted cloud
     1.  `$ sudo ufw allow 80/tcp`
     1.  `$ sudo ufw allow 443/tcp`
     1.  `$ sudo ufw allow 2049/tcp`
+    1.  `$ sudo ufw allow 22000/tcp`
+    1.  `$ sudo ufw allow 22000/udp`
+    1.  `$ sudo ufw allow 21027/udp`
     1.  `$ sudo ufw enable`
     1.  `$ sudo ufw reload`
 1.  Set up Docker
@@ -493,3 +496,4 @@ How to recover from total hardware failure/destruction
 ### inxi
 1.  `sudo apt install inxi`
 1.  `inxi -Dxxx`
+
