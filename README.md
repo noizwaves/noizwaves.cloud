@@ -52,6 +52,7 @@ A self hosted cloud
 1.  Install NFS Server
     1.  `$ sudo apt install -y nfs-kernel-server`
     1.  `$ sudo vim /etc/exports` to add shares following [this guide](https://ubuntu.com/server/docs/service-nfs)
+    1.  `$ sudo systemctl restart nfs-kernel-server`
 1.  Install ZeroTier One
     1.  ```
         curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
