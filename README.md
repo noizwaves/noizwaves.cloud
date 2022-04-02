@@ -42,7 +42,12 @@ A self hosted cloud
     1.  Update Docker config at `~/.docker/config.json` with
         ```json
         {
-            "psFormat": "table {{.Names}}\t{{.Status}}\t{{.Image}}",
+            "psFormat": "table {{.Names}}\t{{.Status}}\t{{.Image}}"
+        }
+        ```
+    1. Update Docker daemon config at `/etc/docker/daemon.json` with:
+        ```json
+        {
             "log-driver": "local",
             "log-opts": {"max-size": "10m", "max-file": "3"}
         }
