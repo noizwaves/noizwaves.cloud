@@ -42,7 +42,9 @@ A self hosted cloud
     1.  Update Docker config at `~/.docker/config.json` with
         ```json
         {
-            "psFormat": "table {{.Names}}\t{{.Status}}\t{{.Image}}"
+            "psFormat": "table {{.Names}}\t{{.Status}}\t{{.Image}}",
+            "log-driver": "local",
+            "log-opts": {"max-size": "10m", "max-file": "3"}
         }
         ```
 1.  Install Samba
