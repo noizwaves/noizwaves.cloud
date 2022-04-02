@@ -17,6 +17,8 @@ services:
       - VIRTUAL_HOST=pihole.${CLOUD_DOMAIN}
     env_file:
       - .env
+    cap_add:
+      - NET_ADMIN
     volumes:
       - ../../cloud-data/pihole/config:/etc/pihole
       - ../../cloud-data/pihole/dnsmasq:/etc/dnsmasq.d
