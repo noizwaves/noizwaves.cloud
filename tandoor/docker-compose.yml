@@ -23,6 +23,9 @@ services:
       - ../../cloud-data/tandoor/staticfiles:/opt/recipes/staticfiles
       - ../../cloud-data/tandoor/mediafiles:/opt/recipes/mediafiles
       - nginx_config:/opt/recipes/nginx/conf.d
+    labels:
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
     depends_on:
       - postgres
     networks:
@@ -51,6 +54,9 @@ services:
       - traefik.http.routers.tandoor.service=tandoor
       - traefik.http.routers.tandoor.tls=true
       - traefik.http.routers.tandoor.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
     depends_on:
       - web_recipes
     networks:
