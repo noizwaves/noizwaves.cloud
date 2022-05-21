@@ -23,15 +23,17 @@ A self hosted cloud
     1.  `$ sudo systemctl disable systemd-resolved`
     1.  `$ sudo systemctl stop systemd-resolved`
 1.  Configure ufw
-    1.  `$ sudo ufw allow 22/tcp`
-    1.  `$ sudo ufw allow 53/tcp`
-    1.  `$ sudo ufw allow 53/udp`
-    1.  `$ sudo ufw allow 80/tcp`
-    1.  `$ sudo ufw allow 443/tcp`
-    1.  `$ sudo ufw allow 2049/tcp`
-    1.  `$ sudo ufw allow 22000/tcp`
-    1.  `$ sudo ufw allow 22000/udp`
-    1.  `$ sudo ufw allow 21027/udp`
+    1. Apply the [Docker+ufw fix](https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues)
+    1. Apply subnet specific firewall rules for local network accessible (using `192.168.0.0/16`) and for VPN accessible (using `100.0.0.0/8`) ports:
+        1.  `$ sudo ufw allow from SUBNET to any port 22 proto tcp`
+        1.  `$ sudo ufw allow from SUBNET to any port 53 proto tcp`
+        1.  `$ sudo ufw allow from SUBNET to any port 53 proto udp`
+        1.  `$ sudo ufw allow from SUBNET to any port 80 proto tcp`
+        1.  `$ sudo ufw allow from SUBNET to any port 443 proto tcp`
+        1.  `$ sudo ufw allow from SUBNET to any port 2049 proto tcp`
+        1.  `$ sudo ufw allow from SUBNET to any port 22000 proto tcp`
+        1.  `$ sudo ufw allow from SUBNET to any port 22000 proto udp`
+        1.  `$ sudo ufw allow from SUBNET to any port 21027 proto udp`
     1.  `$ sudo ufw enable`
     1.  `$ sudo ufw reload`
 1.  Set up Docker
