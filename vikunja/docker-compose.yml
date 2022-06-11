@@ -2,7 +2,9 @@ version: '3.7'
 
 services:
   api:
-    image: vikunja/api
+    #image: vikunja/api
+    build:
+      context: ~/workspace/vikunja-api
     container_name: vikunja_api
     environment:
       - PUID=1000
@@ -35,7 +37,9 @@ services:
       - com.centurylinklabs.watchtower.enable=false
 
   frontend:
-    image: vikunja/frontend
+    #image: vikunja/frontend
+    build:
+      context: ~/workspace/vikunja-frontend
     container_name: vikunja_frontend
     restart: unless-stopped
     networks:
