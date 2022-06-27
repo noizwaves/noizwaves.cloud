@@ -20,6 +20,7 @@ services:
       - ../../cloud-data/resilio-sync/data/notes-data:/data/notes
       - ../../cloud-data/resilio-sync/data/encrypted-data:/data/encrypted
       - ../../cloud-data/resilio-sync/data/baedrive-data:/data/baedrive
+      - ../../cloud-data/resilio-sync/data/journal-data:/data/journal
     restart: unless-stopped
     labels:
       - traefik.enable=true
