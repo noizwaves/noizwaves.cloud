@@ -29,14 +29,14 @@ A self hosted cloud
     1. Make containerized services accessible:
     1. Apply subnet specific firewall rules for local network accessible (using `192.168.0.0/16`) and for VPN accessible (using `100.0.0.0/8`) ports:
         1. `$ sudo ufw route allow from SUBNET to any port 53 proto tcp`
-        1. `$ sudo ufw allow from SUBNET to any port 53 proto tcp`
-        1. `$ sudo ufw allow from SUBNET to any port 53 proto udp`
-        1. `$ sudo ufw allow from SUBNET to any port 80 proto tcp`
-        1. `$ sudo ufw allow from SUBNET to any port 443 proto tcp`
-        1. `$ sudo ufw allow from SUBNET to any port 2049 proto tcp`
-        1. `$ sudo ufw allow from SUBNET to any port 22000 proto tcp`
-        1. `$ sudo ufw allow from SUBNET to any port 22000 proto udp`
-        1. `$ sudo ufw allow from SUBNET to any port 21027 proto udp`
+        1. `$ sudo ufw route allow from SUBNET to any port 53 proto tcp`
+        1. `$ sudo ufw route allow from SUBNET to any port 53 proto udp`
+        1. `$ sudo ufw route allow from SUBNET to any port 80 proto tcp`
+        1. `$ sudo ufw route allow from SUBNET to any port 443 proto tcp`
+        1. `$ sudo ufw route allow from SUBNET to any port 2049 proto tcp`
+        1. `$ sudo ufw route allow from SUBNET to any port 22000 proto tcp`
+        1. `$ sudo ufw route allow from SUBNET to any port 22000 proto udp`
+        1. `$ sudo ufw route allow from SUBNET to any port 21027 proto udp`
     1.  `$ sudo ufw enable`
     1.  `$ sudo ufw reload`
 1.  Set up Docker
