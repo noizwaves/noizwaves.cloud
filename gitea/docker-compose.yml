@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  server:
+    image: gitea/gitea:1
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__server__SSH_PORT=2222
+      - GITEA__server__SSH_DOMAIN=gitea.${CLOUD_DOMAIN}
+      - GITEA__server__ROOT_URL=https://gitea.${CLOUD_DOMAIN}
+      - GITEA__server__DOMAIN=gitea.${CLOUD_DOMAIN}
+    restart: unless-stopped
+    networks:
+      - web
+    volumes:
+      - ../../cloud-data/gitea/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - traefik.enable=true
+
+      ## HTTPS Service settings
+      - traefik.http.services.gitea-web.loadbalancer.server.port=3000
+      - traefik.http.services.gitea-web.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.gitea-web.rule=Host(`gitea.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.gitea-web.entrypoints=web-secured
+      - traefik.http.routers.gitea-web.service=gitea-web
+      - traefik.http.routers.gitea-web.tls=true
+      - traefik.http.routers.gitea-web.tls.certresolver=mytlschallenge
+
+      ## SSH Service settings
+      - traefik.tcp.services.gitea-ssh.loadbalancer.server.port=22
+
+      ## SSH
+      - traefik.tcp.routers.gitea-ssh.rule=HostSNI(`*`)
+      - traefik.tcp.routers.gitea-ssh.entrypoints=tcp-2222
+      - traefik.tcp.routers.gitea-ssh.service=gitea-ssh
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true
+

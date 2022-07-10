@@ -34,6 +34,7 @@ A self hosted cloud
         1. `$ sudo ufw route allow from SUBNET to any port 80 proto tcp`
         1. `$ sudo ufw route allow from SUBNET to any port 443 proto tcp`
         1. `$ sudo ufw route allow from SUBNET to any port 2049 proto tcp`
+        1. `$ sudo ufw route allow from SUBNET to any port 2222 proto tcp`
         1. `$ sudo ufw route allow from SUBNET to any port 22000 proto tcp`
         1. `$ sudo ufw route allow from SUBNET to any port 22000 proto udp`
         1. `$ sudo ufw route allow from SUBNET to any port 21027 proto udp`
@@ -331,6 +332,12 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Open [Syncthing](https://syncthing.noizwaves.cloud)
 1.  Open [Vikunja](https://vikunja.noizwaves.cloud)
+
+## Gitea
+1.  `$ cd gitea`
+1.  `$ mkdir -p ~/cloud-data/gitea/data`
+1.  `$ docker-compose up -d`
+1.  Open [Gitea](https://gitea.noizwaves.cloud) and complete initialization
 
 ## Trilio
 1.  `$ cd trilio`
