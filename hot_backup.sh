@@ -51,3 +51,5 @@ docker run --rm \
   duplicity remove-all-but-n-full 1 \
   "${BACKUP_URL}" \
   --force
+
+curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_HOT_BACKUP_UUID

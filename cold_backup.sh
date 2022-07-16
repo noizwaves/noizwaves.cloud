@@ -67,3 +67,5 @@ docker run \
   duplicity remove-all-but-n-full 2 \
   ${DEST} \
   --force
+
+curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_COLD_BACKUP_UUID
