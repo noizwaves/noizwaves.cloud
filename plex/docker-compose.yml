@@ -4,16 +4,17 @@ services:
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
-    hostname: plex.noizwaves.cloud
+    hostname: plex.${CLOUD_DOMAIN}
     restart: unless-stopped
-    network_mode: host
     environment:
       - VERSION=docker
       - TZ=America/Denver
-      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}:32400
+      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
       - PLEX_UID=${USER}
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
+    networks:
+      - web
     volumes:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/data:/data
@@ -21,5 +22,18 @@ services:
       - ../../cloud-data/resilio-sync/data/encrypted-data/Videos/Tony Riddle:/data-other/misc/tony:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/data-other/photos/iCloud_Photos:ro
       - ../../cloud-data/plex/transcode:/transcode
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.plex.loadbalancer.server.port=32400
+
+      # HTTPS
+      - traefik.http.routers.plex.rule=Host(`plex.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.plex.tls.certresolver=mytlschallenge
+      - traefik.http.routers.plex.entrypoints=web-secured
+      - traefik.http.routers.plex.tls=true
+      - traefik.http.routers.plex.service=plex
     devices:
       - /dev/dri:/dev/dri
+networks:
+  web:
+    external: true
