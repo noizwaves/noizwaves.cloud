@@ -9,10 +9,12 @@ services:
     environment:
       - VERSION=docker
       - TZ=America/Denver
-      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
+      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}:32400
       - PLEX_UID=${USER}
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
+    ports:
+      - "32400:32400/tcp"
     networks:
       - web
     volumes:
