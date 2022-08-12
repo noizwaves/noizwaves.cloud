@@ -9,7 +9,7 @@ services:
     environment:
       - VERSION=docker
       - TZ=America/Denver
-      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}:32400
+      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}:32400,https://${TAILSCALE_IP}:32400,https://${LAN_IP}:32400
       - PLEX_UID=${USER}
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
