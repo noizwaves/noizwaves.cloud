@@ -37,6 +37,9 @@ services:
       - traefik.http.routers.pihole-web.tls=true
       - traefik.http.routers.pihole-web.service=pihole-web
 
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
 networks:
   web:
     external: true
