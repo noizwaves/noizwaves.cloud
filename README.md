@@ -84,7 +84,7 @@ A self hosted cloud
 1.  `$ cp .envrc.tmpl .envrc` and change values as appropriate
 1.  `$ direnv allow`
 
-### Backups
+### Automation
 
 1.  `$ crontab -e`
 1.  Enable automated daily 1am hot backups with this cron config:
@@ -94,6 +94,10 @@ MAILTO=""
 HOME=/home/cloud
 
 0 1 * * * ./cloud-config/hot_backup.sh >> cloud-config/hot_backup.log
+```
+1.  Enable DNS healthchecks with cron config:
+```
+*/2 * * * * host traefik.$CLOUD_DOMAIN $BIND_ADDRESS && <healthchecks.io health check>
 ```
 
 ## Traefik
