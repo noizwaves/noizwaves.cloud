@@ -6,9 +6,9 @@ services:
     restart: always
     container_name: traefik
     ports:
-      - '80:80'
-      - '443:443'
-      - '2222:2222'
+      - '${BIND_ADDRESS}:80:80'
+      - '${BIND_ADDRESS}:443:443'
+      - '${BIND_ADDRESS}:2222:2222'
     command:
       #### These are the CLI commands that will configure Traefik and tell it how to work! ####
       ## API Settings - https://docs.traefik.io/operations/api/, endpoints - https://docs.traefik.io/operations/api/#endpoints ##

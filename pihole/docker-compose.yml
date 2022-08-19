@@ -6,8 +6,8 @@ services:
     container_name: pihole
     hostname: pihole
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+      - "${BIND_ADDRESS}:53:53/tcp"
+      - "${BIND_ADDRESS}:53:53/udp"
     networks:
       - web
     environment:
