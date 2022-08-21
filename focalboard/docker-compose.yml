@@ -1,8 +1,9 @@
 version: "3"
 services:
   app:
-    image: mattermost/focalboard:latest
+    image: mattermost/focalboard:7.1.0
     container_name: focalboard
+    restart: unless-stopped
     user: "1000:1000"
     networks:
       - web
