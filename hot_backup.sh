@@ -16,6 +16,7 @@ start_containers() {
 handle_error() {
 	echo "!!! Error taking backup"
 	start_containers
+	echo "!!! Error taking backup"
 }
 trap handle_error ERR
 
