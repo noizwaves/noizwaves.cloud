@@ -5,6 +5,7 @@ source cold.env
 mkdir -p "${RESTORE_DIR}"
 
 docker run \
+	--name duplicity-cold \
 	--hostname duplicity-cold \
 	--user 1000:1000 \
 	--rm \

@@ -27,6 +27,7 @@ stop_containers
 
 # Perform backup
 docker run \
+	--name duplicity-cold \
 	--hostname duplicity-cold \
 	--user 1000:1000 \
 	--rm \
@@ -61,6 +62,7 @@ start_containers
 
 # Tidy backups
 docker run \
+	--name duplicity-cold \
 	--hostname duplicity-cold \
 	--user 1000:1000 \
 	--rm \
@@ -76,6 +78,7 @@ docker run \
 	${DEST}
 
 docker run \
+	--name duplicity-cold \
 	--hostname duplicity-cold \
 	--user 1000:1000 \
 	--rm \

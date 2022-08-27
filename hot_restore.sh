@@ -13,7 +13,8 @@ mkdir -p "${RESTORE_DIR}"
 # --file-to-restore cloud-data/resilio-sync/data/zettlekasten-data/Daily \
 
 docker run \
-	--hostname duplicity \
+	--name duplicity-hot \
+	--hostname duplicity-hot \
 	--user 1000:1000 \
 	--rm \
 	-v /etc/localtime:/etc/localtime:ro \

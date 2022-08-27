@@ -24,7 +24,8 @@ trap handle_error ERR
 stop_containers
 
 docker run --rm \
-	--hostname duplicity \
+	--name duplicity-hot \
+	--hostname duplicity-hot \
 	--user 1000:1000 \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-data:/data/cloud-data:ro \
@@ -58,7 +59,8 @@ start_containers
 
 # Tidy backups
 docker run --rm \
-	--hostname duplicity \
+	--name duplicity-hot \
+	--hostname duplicity-hot \
 	--user 1000:1000 \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-data:/data/cloud-data:ro \

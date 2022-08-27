@@ -4,6 +4,7 @@ source ~/cloud-config/backup.env
 source ~/cloud-config/cold.env
 
 docker run \
+	--name duplicity-cold \
 	--hostname duplicity-cold \
 	--user 1000:1000 \
 	--rm \
