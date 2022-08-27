@@ -1,71 +1,92 @@
 #!/usr/bin/env bash
+set -e
 
 source ~/cloud-config/backup.env
 source ~/cloud-config/cold.env
 
 DEST="file:///backup"
 
-docker stop -t 60 $CONTAINERS
+stop_containers() {
+	docker stop -t 60 $CONTAINERS
+}
+
+start_containers() {
+	docker start $CONTAINERS
+}
+
+# Error handling, ensure containers are started again
+handle_error() {
+	echo "!!! Error taking backup"
+	start_containers
+}
+trap handle_error ERR
+
+# Stop containers in preparation for backup
+stop_containers
+
+# Perform backup
+docker run \
+	--hostname duplicity-cold \
+	--user 1000:1000 \
+	--rm \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v ~/cloud-data:/data/cloud-data:ro \
+	-v ~/cloud-config:/data/cloud-config:ro \
+	-v "${BACKUP_DIR}":/backup:rw \
+	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+	wernight/duplicity \
+	duplicity \
+	--progress \
+	--full-if-older-than 12M \
+	--no-encryption \
+	--no-compression \
+	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
+	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
+	--exclude '/data/cloud-data/nextcloud/' \
+	--exclude '/data/cloud-data/traefik/' \
+	--exclude '/data/cloud-data/pihole/' \
+	--exclude '/data/cloud-data/fotos/' \
+	--exclude '/data/cloud-data/registry/' \
+	--exclude '/data/cloud-data/adguard/tailscale/' \
+	--exclude '/data/cloud-data/cloudflare/' \
+	--exclude '/data/cloud-data/plex/' \
+	--exclude '/data/cloud-data/gitea/data/ssh/' \
+	--include '/data/' \
+	--exclude '**' \
+	/data "${DEST}"
+
+# Start containers again
+start_containers
+
+# Tidy backups
+docker run \
+	--hostname duplicity-cold \
+	--user 1000:1000 \
+	--rm \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v ~/cloud-data:/data/cloud-data:ro \
+	-v ~/cloud-config:/data/cloud-config:ro \
+	-v "${BACKUP_DIR}":/backup:rw \
+	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+	wernight/duplicity \
+	duplicity cleanup \
+	--force \
+	--no-encryption \
+	${DEST}
 
 docker run \
-  --hostname duplicity-cold \
-  --user 1000:1000 \
-  --rm \
-  -v /etc/localtime:/etc/localtime:ro \
-  -v ~/cloud-data:/data/cloud-data:ro \
-  -v ~/cloud-config:/data/cloud-config:ro \
-  -v "${BACKUP_DIR}":/backup:rw \
-  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-  wernight/duplicity \
-  duplicity \
-  --progress \
-  --full-if-older-than 12M \
-  --no-encryption \
-  --no-compression \
-  --exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
-  --exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
-  --exclude '/data/cloud-data/nextcloud/' \
-  --exclude '/data/cloud-data/traefik/' \
-  --exclude '/data/cloud-data/pihole/' \
-  --exclude '/data/cloud-data/fotos/' \
-  --exclude '/data/cloud-data/registry/' \
-  --exclude '/data/cloud-data/adguard/tailscale/' \
-  --exclude '/data/cloud-data/cloudflare/' \
-  --exclude '/data/cloud-data/plex/' \
-  --exclude '/data/cloud-data/gitea/data/ssh/' \
-  --include '/data/' \
-  --exclude '**' \
-  /data "${DEST}"
+	--hostname duplicity-cold \
+	--user 1000:1000 \
+	--rm \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v ~/cloud-data:/data/cloud-data:ro \
+	-v ~/cloud-config:/data/cloud-config:ro \
+	-v "${BACKUP_DIR}":/backup:rw \
+	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+	wernight/duplicity \
+	duplicity remove-all-but-n-full 2 \
+	${DEST} \
+	--force
 
-docker start $CONTAINERS
-
-docker run \
-  --hostname duplicity-cold \
-  --user 1000:1000 \
-  --rm \
-  -v /etc/localtime:/etc/localtime:ro \
-  -v ~/cloud-data:/data/cloud-data:ro \
-  -v ~/cloud-config:/data/cloud-config:ro \
-  -v "${BACKUP_DIR}":/backup:rw \
-  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-  wernight/duplicity \
-  duplicity cleanup \
-  --force \
-  --no-encryption \
-  ${DEST}
-
-docker run \
-  --hostname duplicity-cold \
-  --user 1000:1000 \
-  --rm \
-  -v /etc/localtime:/etc/localtime:ro \
-  -v ~/cloud-data:/data/cloud-data:ro \
-  -v ~/cloud-config:/data/cloud-config:ro \
-  -v "${BACKUP_DIR}":/backup:rw \
-  -v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-  wernight/duplicity \
-  duplicity remove-all-but-n-full 2 \
-  ${DEST} \
-  --force
-
+# Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_COLD_BACKUP_UUID
