@@ -53,6 +53,7 @@ docker run \
 	--exclude '/data/cloud-data/cloudflare/' \
 	--exclude '/data/cloud-data/plex/' \
 	--exclude '/data/cloud-data/gitea/data/ssh/' \
+	--exclude '/data/cloud-data/tig/' \
 	--include '/data/' \
 	--exclude '**' \
 	/data "${DEST}"
