@@ -7,7 +7,7 @@ DEST="s3://us-east-1.linodeobjects.com/$BUCKET_NAME/"
 
 docker run --rm \
 	--name duplicity-hot \
-	--hostname duplicity-hot \
+	--hostname duplicity \
 	--user 1000:1000 \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \

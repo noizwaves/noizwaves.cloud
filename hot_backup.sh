@@ -25,7 +25,7 @@ stop_containers
 
 docker run --rm \
 	--name duplicity-hot \
-	--hostname duplicity-hot \
+	--hostname duplicity \
 	--user 1000:1000 \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-data:/data/cloud-data:ro \
@@ -61,7 +61,7 @@ start_containers
 # Tidy backups
 docker run --rm \
 	--name duplicity-hot \
-	--hostname duplicity-hot \
+	--hostname duplicity \
 	--user 1000:1000 \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-data:/data/cloud-data:ro \

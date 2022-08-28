@@ -14,7 +14,7 @@ mkdir -p "${RESTORE_DIR}"
 
 docker run \
 	--name duplicity-hot \
-	--hostname duplicity-hot \
+	--hostname duplicity \
 	--user 1000:1000 \
 	--rm \
 	-v /etc/localtime:/etc/localtime:ro \
