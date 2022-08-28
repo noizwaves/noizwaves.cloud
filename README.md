@@ -10,7 +10,25 @@ A self hosted cloud
         1.  Add public key to `~/.ssh/authorized_keys`
         1.  Lock down SSHD config `/etc/ssh/sshd_config`
             1.  `PasswordAuthentication no` to disable password-based logins
+            1.  `PermitEmptyPasswords no` to disable empty passwords
             1.  `PermitRootLogin no` to disable root login
+            1.  `AllowUsers cloud` to only allow cloud to login
+    1.  Fail2ban
+        1.  `$ sudo apt-get install fail2ban`
+        1.  `$ sudo systemctl enable fail2ban.service`
+        1.  `$ sudo vim /etc/fail2ban/jail.local` with
+            ```
+            [sshd]
+            enabled = true
+            port = ssh
+            filter = sshd
+            logpath = /var/log/auth.log
+            maxretry = 0
+            findtime = 300
+            bantime = -1
+            ignoreip = 127.0.0.1 <TAILSCALE-IPS>
+            ```
+        1.  `$ sudo systemctl restart fail2ban.service`
     1.  NTP `$ sudo apt install ntp`
     1.  USB automount `$ sudo apt install pmount`
     1.  Direnv `$ sudo apt install direnv` and [setup Bash hook](https://direnv.net/docs/hook.html#bash) (`eval "$(direnv hook bash)"`)
