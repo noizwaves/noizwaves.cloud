@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole-lan
+    hostname: pihole-lan
+    ports:
+      - "${LAN_IP}:53:53/tcp"
+      - "${LAN_IP}:53:53/udp"
+    networks:
+      - web
+    environment:
+      - TZ=America/Denver
+      - DNS1=9.9.9.9
+      - DNS2=1.1.1.1
+      - VIRTUAL_HOST=pihole-lan.${NODE_NAME}.${CLOUD_DOMAIN}
+    env_file:
+      - .env
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ../../cloud-data/pihole-lan/config:/etc/pihole
+      - ../../cloud-data/pihole-lan/dnsmasq:/etc/dnsmasq.d
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.pihole-lan-web.loadbalancer.server.port=80
+
+      # HTTPS
+      - traefik.http.routers.pihole-lan-web.rule=Host(`pihole-lan.${NODE_NAME}.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.pihole-lan-web.tls.certresolver=mytlschallenge
+      - traefik.http.routers.pihole-lan-web.entrypoints=web-secured
+      - traefik.http.routers.pihole-lan-web.tls=true
+      - traefik.http.routers.pihole-lan-web.service=pihole-lan-web
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true

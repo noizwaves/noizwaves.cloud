@@ -114,9 +114,16 @@ HOME=/home/cloud
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
 
-## Pi-hole
+## Pi-hole (Tailscale)
 1.  `$ cd pihole`
 1.  `$ mkdir -p ~/cloud-data/pihole/config ~/cloud-data/pihole/dnsmasq`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+
+## Pi-hole (LAN)
+1.  `$ cd pihole-lan`
+1.  `$ mkdir -p ~/cloud-data/pihole-lan/config ~/cloud-data/pihole-lan/dnsmasq`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
