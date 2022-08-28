@@ -5,11 +5,15 @@ source ~/cloud-config/backup.env
 source ~/cloud-config/hot.env
 
 stop_containers() {
+	echo "[hot_backup] Begin stopping containers"
 	docker stop -t 60 $CONTAINERS
+	echo "[hot_backup] Completed stopping containers"
 }
 
 start_containers() {
+	echo "[hot_backup] Begin starting containers"
 	docker start $CONTAINERS
+	echo "[hot_backup] Completed starting containers"
 }
 
 # Error handling, ensure containers are started again
