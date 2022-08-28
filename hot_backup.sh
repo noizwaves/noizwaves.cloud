@@ -14,13 +14,15 @@ start_containers() {
 
 # Error handling, ensure containers are started again
 handle_error() {
-	echo "!!! Error taking backup"
+	echo "[hot_backup] !!! Error taking backup"
 	start_containers
-	echo "!!! Error taking backup"
+	echo "[hot_backup] !!! Error taking backup"
 }
 trap handle_error ERR
 
 # Stop containers in preparation for backup
+echo "[hot_backup] Starting backup at $(date)"
+
 stop_containers
 
 docker run --rm \
@@ -77,3 +79,5 @@ docker run --rm \
 
 # Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_HOT_BACKUP_UUID
+
+echo "[hot_backup] Completed backup at $(date)"
