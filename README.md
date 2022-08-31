@@ -111,7 +111,7 @@ SHELL=/bin/bash
 MAILTO=""
 HOME=/home/cloud
 
-0 1 * * * ./cloud-config/hot_backup.sh >>cloud-config/hot_backup.log 2&>1
+0 1 * * * ./cloud-config/hot_backup.sh >>cloud-config/hot_backup.log 2>&1
 ```
 1.  Enable DNS healthchecks with cron config:
 ```
