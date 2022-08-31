@@ -42,11 +42,11 @@ A self hosted cloud
     1.  `$ sudo systemctl stop systemd-resolved`
 1.  Configure ufw
     1. Apply the [Docker+ufw fix](https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues)
-    1. Make bare metal services accessible:
+    1. Make bare metal services accessible to network:
         1. `sudo ufw allow from SUBNET to any port 22 proto tcp`
-    1. Make containerized services accessible:
+    1. Make bare metal services accessible to VPN:
+        1. `sudo ufw allow from 10.0.0.0/8 to any port 8483 proto tcp`
     1. Apply subnet specific firewall rules for local network accessible (using `192.168.0.0/16`) and for VPN accessible (using `100.0.0.0/8`) ports:
-        1. `$ sudo ufw route allow from SUBNET to any port 53 proto tcp`
         1. `$ sudo ufw route allow from SUBNET to any port 53 proto tcp`
         1. `$ sudo ufw route allow from SUBNET to any port 53 proto udp`
         1. `$ sudo ufw route allow from SUBNET to any port 80 proto tcp`

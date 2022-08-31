@@ -4,16 +4,18 @@ services:
   syncthing:
     image: linuxserver/syncthing:latest
     container_name: syncthing
-    networks:
-      - web
+    network_mode: host
+    #networks:
+    #  - web
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Denver
-    ports:
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp
+    #ports:
+    #  - 8384:8384/tcp
+    #  - 22000:22000/tcp
+    #  - 22000:22000/udp
+    #  - 21027:21027/udp
     volumes:
       - ../../cloud-data/syncthing/config:/config
       - ../../cloud-data/resilio-sync/data/zettlekasten-data:/data/zettelkasten
@@ -22,18 +24,18 @@ services:
       - ../../cloud-data/resilio-sync/data/baedrive-data:/data/baedrive
       - ../../cloud-data/resilio-sync/data/journal-data:/data/journal
     restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.services.syncthing.loadbalancer.server.port=8384
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.http.services.syncthing.loadbalancer.server.port=8384
 
-      # HTTPS
-      - traefik.http.routers.syncthing.rule=Host(`syncthing.${CLOUD_DOMAIN}`)
-      - traefik.http.routers.syncthing.tls.certresolver=mytlschallenge
-      - traefik.http.routers.syncthing.entrypoints=web-secured
-      - traefik.http.routers.syncthing.tls=true
-      - traefik.http.routers.syncthing.service=syncthing
+    #  # HTTPS
+    #  - traefik.http.routers.syncthing.rule=Host(`syncthing.${CLOUD_DOMAIN}`)
+    #  - traefik.http.routers.syncthing.tls.certresolver=mytlschallenge
+    #  - traefik.http.routers.syncthing.entrypoints=web-secured
+    #  - traefik.http.routers.syncthing.tls=true
+    #  - traefik.http.routers.syncthing.service=syncthing
 
 
-networks:
-  web:
-    external: true
+#networks:
+#  web:
+#    external: true
