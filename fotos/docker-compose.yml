@@ -59,7 +59,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./webdav.conf:/config/nginx/site-confs/default
+      - ./webdav.conf:/config/nginx/site-confs/default.conf
       - ./credentials.list:/etc/nginx/.credentials.list
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/webdav
     labels:
