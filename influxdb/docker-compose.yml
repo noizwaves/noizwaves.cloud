@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    user: "1000:1000"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password
+      - DOCKER_INFLUXDB_INIT_ORG=noizwaves.cloud
+      - DOCKER_INFLUXDB_INIT_BUCKET=default
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=mytoken
+    networks:
+      - backend
+      - web
+    volumes:
+      - ../../cloud-data/influxdb/data:/var/lib/influxdb2
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.influxdb.loadbalancer.server.port=8086
+      - traefik.http.services.influxdb.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.influxdb.rule=Host(`influxdb.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.influxdb.entrypoints=web-secured
+      - traefik.http.routers.influxdb.service=influxdb
+      - traefik.http.routers.influxdb.tls=true
+      - traefik.http.routers.influxdb.tls.certresolver=mytlschallenge
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    user: "1000:118"
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - backend
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  web:
+    external: true
+  backend:
+    external: false

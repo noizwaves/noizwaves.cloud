@@ -164,6 +164,12 @@ HOME=/home/cloud
     1.  Fill in appropriate values
 1.  `$ docker-compose up -d`
 
+## InfluxDB
+1. `$ cd influxdb`
+1. `$ mkdir -p ~/cloud-data/influxdb/data`
+1. `$ docker-compose up -d`
+1. Visit [influxdb](https://influxdb.noizwaves.cloud) and set up data collection
+
 ## Bitwarden
 1.  `$ cd bitwarden`
 1.  `$ mkdir -p ~/cloud-data/bitwarden/data`
