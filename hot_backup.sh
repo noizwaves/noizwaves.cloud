@@ -58,6 +58,7 @@ docker run --rm \
 	--exclude '/data/cloud-data/plex/' \
 	--exclude '/data/cloud-data/gitea/data/ssh/' \
 	--exclude '/data/cloud-data/tig/' \
+	--exclude '/data/cloud-data/photoprism/' \
 	--include '/data/' \
 	--exclude '**' \
 	/data/ "${BACKUP_URL}"
