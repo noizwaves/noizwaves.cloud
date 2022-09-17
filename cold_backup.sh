@@ -39,6 +39,7 @@ docker run \
 	wernight/duplicity \
 	duplicity \
 	--progress \
+	--verbosity info \
 	--full-if-older-than 12M \
 	--no-encryption \
 	--no-compression \
