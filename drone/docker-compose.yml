@@ -10,6 +10,7 @@ services:
       - DRONE_GITEA_SERVER=https://gitea.${CLOUD_DOMAIN}
       - DRONE_SERVER_HOST=drone.${CLOUD_DOMAIN}
       - DRONE_SERVER_PROTO=https
+      - DRONE_STATUS_NAME=drone
     env_file:
       - .env
     networks:
