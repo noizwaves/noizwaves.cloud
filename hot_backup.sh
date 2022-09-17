@@ -44,6 +44,7 @@ docker run --rm \
 	duplicity \
 	--progress \
 	--full-if-older-than 6M \
+	--verbosity info \
 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
 	--exclude '/data/cloud-data/resilio-sync/data/photography-data/' \
 	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
