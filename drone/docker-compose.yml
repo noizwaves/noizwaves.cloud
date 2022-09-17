@@ -6,9 +6,8 @@ services:
     container_name: drone-server
     hostname: drone.${CLOUD_DOMAIN}
     restart: unless-stopped
+    user: 1000:1000
     environment:
-      - PUID=1000
-      - PGID=1000
       - DRONE_GITEA_SERVER=https://gitea.${CLOUD_DOMAIN}
       - DRONE_SERVER_HOST=drone.${CLOUD_DOMAIN}
       - DRONE_SERVER_PROTO=https
@@ -35,8 +34,6 @@ services:
     hostname: drone-runner.${CLOUD_DOMAIN}
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
       - DRONE_RPC_PROTO=http
       - DRONE_RPC_HOST=server
       - DRONE_RPC_SECRET=067c3c96bf438e837f096a9f6f111ab2
