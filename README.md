@@ -374,6 +374,14 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Open [Gitea](https://gitea.noizwaves.cloud) and complete initialization
 
+## Drone
+1.  `$ cd drone`
+1.  `$ mkdir -p ~/cloud-data/drone/data`
+1.  `$ cp .env.tmpl .env`
+1.  Update values in `.env`
+1.  `$ docker-compose up -d`
+1.  Open [Drone](https://drone.noizwaves.cloud) and complete installation
+
 ## Trilio
 1.  `$ cd trilio`
 1.  `$ mkdir -p ~/cloud-data/trilio`
