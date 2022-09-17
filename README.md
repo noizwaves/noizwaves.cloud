@@ -373,6 +373,8 @@ For private network DNS resolution
 1.  `$ mkdir -p ~/cloud-data/gitea/data`
 1.  `$ docker-compose up -d`
 1.  Open [Gitea](https://gitea.noizwaves.cloud) and complete initialization
+1.  Update configuration
+    1. `webhook.ALLOWED_HOST_LIST` to `*.${CLOUD_DOMAIN}`
 
 ## Drone
 1.  `$ cd drone`
