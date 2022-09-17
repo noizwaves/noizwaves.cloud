@@ -4,7 +4,6 @@ services:
   server:
     image: drone/drone:2
     container_name: drone-server
-    hostname: drone.${CLOUD_DOMAIN}
     restart: unless-stopped
     user: 1000:1000
     environment:
@@ -31,7 +30,6 @@ services:
   runner:
     image: drone/drone-runner-docker:1
     container_name: drone-runner
-    hostname: drone-runner.${CLOUD_DOMAIN}
     restart: unless-stopped
     environment:
       - DRONE_RPC_PROTO=http
