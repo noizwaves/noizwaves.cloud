@@ -23,6 +23,7 @@ services:
       - ../../cloud-data/resilio-sync/data/encrypted-data:/data/encrypted
       - ../../cloud-data/resilio-sync/data/baedrive-data:/data/baedrive
       - ../../cloud-data/resilio-sync/data/journal-data:/data/journal
+      - ../../cloud-data/resilio-sync/data/lauren-notebook-data:/data/lauren-notebook
     restart: unless-stopped
     #labels:
     #  - traefik.enable=true
