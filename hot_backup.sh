@@ -60,6 +60,7 @@ docker run --rm \
 	--exclude '/data/cloud-data/tig/' \
 	--exclude '/data/cloud-data/photoprism/' \
 	--exclude '/data/cloud-data/tandoor/staticfiles/' \
+	--exclude '/data/cloud-data/influxdb/' \
 	--include '/data/' \
 	--exclude '**' \
 	/data/ "${BACKUP_URL}"
