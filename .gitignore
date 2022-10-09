@@ -1,6 +1,10 @@
 .env
 .envrc
-.secrets/
+backup.env
+cold.env
+hot.env
 
+authelia/.secrets/
 authelia/config/users_database.yml
+authelia/config/notification.txt
 authelia/config/configuration.yml
