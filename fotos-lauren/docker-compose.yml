@@ -15,7 +15,7 @@ services:
     volumes:
       - ../../cloud-data/fotos-lauren/thumbnails:/thumbnails
       - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/photos:ro
-      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Albums:/albums:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Albums:/albums
 
   nginx:
     image: nginx:1.19.1
