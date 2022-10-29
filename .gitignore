@@ -4,7 +4,13 @@ backup.env
 cold.env
 hot.env
 
+.duplicity-cache
+hot_backup.log
+
 authelia/.secrets/
 authelia/config/users_database.yml
 authelia/config/notification.txt
 authelia/config/configuration.yml
+
+fotos/credentials.list
+fotos-lauren/credentials.list
