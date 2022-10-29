@@ -14,6 +14,7 @@ services:
       - PORT=3000
     volumes:
       - ../../cloud-data/fotos/thumbnails:/thumbnails
+      - ../../cloud-data/fotos/normals:/normals
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/photos:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Albums:/albums
 
