@@ -3,8 +3,6 @@
 source ~/cloud-config/backup.env
 source ~/cloud-config/hot.env
 
-DEST="s3://us-east-1.linodeobjects.com/$BUCKET_NAME/"
-
 docker run --rm \
 	--name duplicity-hot \
 	--hostname duplicity \
@@ -16,4 +14,4 @@ docker run --rm \
 	-e PASSPHRASE="${PASSPHRASE}" \
 	wernight/duplicity \
 	duplicity collection-status \
-	${DEST}
+	s3://$BUCKET_NAME/ --s3-endpoint-url=$ENDPOINT_URL

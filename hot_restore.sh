@@ -26,4 +26,4 @@ docker run \
 	wernight/duplicity \
 	duplicity restore \
 	--progress \
-	"${BACKUP_URL}" /restore
+	s3://$BUCKET_NAME/ /restore --s3-endpoint-url=$ENDPOINT_URL

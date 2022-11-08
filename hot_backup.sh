@@ -63,7 +63,7 @@ docker run --rm \
 	--exclude '/data/cloud-data/influxdb/' \
 	--include '/data/' \
 	--exclude '**' \
-	/data/ "${BACKUP_URL}"
+	/data/ s3://$BUCKET_NAME/ --s3-endpoint-url=$ENDPOINT_URL
 
 # Start containers again
 start_containers
@@ -82,7 +82,7 @@ docker run --rm \
 	-e PASSPHRASE="${PASSPHRASE}" \
 	wernight/duplicity \
 	duplicity remove-all-but-n-full 1 \
-	"${BACKUP_URL}" \
+	s3://$BUCKET_NAME/ --s3-endpoint-url=$ENDPOINT_URL \
 	--force
 
 # Healthy backup achieved
