@@ -268,6 +268,12 @@ HOME=/home/cloud
 1.  `$ docker-compose up -d`
 1.  Open [Photostructure](https://photostructure.noizwaves.cloud)
 
+## Photoprism
+1.  `$ cd photoprism`
+1.  `$ mkdir -p ~/cloud-data/photoprism/storage`
+1.  `$ docker-compose up -d`
+1.  Open [Photoprism](https://photoprism.noizwaves.cloud)
+
 ## Tandoor
 1.  `$ cd tandoor`
 1.  `$ mkdir -p ~/cloud-data/tandoor/postgres ~/cloud-data/tandoor/staticfiles ~/cloud-data/tandoor/mediafiles`
