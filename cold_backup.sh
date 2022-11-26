@@ -43,6 +43,8 @@ docker run \
 	--full-if-older-than 12M \
 	--no-encryption \
 	--no-compression \
+	--exclude '/data/cloud-config/.duplicity-cache/' \
+	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
 	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
 	--exclude '/data/cloud-data/nextcloud/' \

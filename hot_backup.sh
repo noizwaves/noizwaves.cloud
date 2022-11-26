@@ -45,6 +45,8 @@ docker run --rm \
 	--progress \
 	--full-if-older-than 6M \
 	--verbosity info \
+	--exclude '/data/cloud-config/.duplicity-cache/' \
+	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
 	--exclude '/data/cloud-data/resilio-sync/data/photography-data/' \
 	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
