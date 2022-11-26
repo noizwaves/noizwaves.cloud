@@ -49,6 +49,10 @@ docker run --rm \
 	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
 	--exclude '/data/cloud-data/resilio-sync/data/photography-data/' \
+	--exclude '/data/cloud-data/fotos/thumbnails/' \
+	--exclude '/data/cloud-data/fotos/normals/' \
+	--exclude '/data/cloud-data/fotos-lauren/thumbnails/' \
+	--exclude '/data/cloud-data/fotos-lauren/normals/' \
 	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
 	--exclude '/data/cloud-data/nextcloud/' \
 	--exclude '/data/cloud-data/traefik/' \
