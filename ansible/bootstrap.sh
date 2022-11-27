@@ -24,3 +24,6 @@ echo "ssh-rsa AAAAB4NzaC1yc2EAAAADAQABAAACAQDVACKaRKzpxRiXxxToMkAZcycfDVJkqhDS+B
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9jVkxs5XkdNRaK6d9K3NP0MYczCZySKYJVirJIlLmX adam.neumann@gusto.com
 " > /home/cloud/.ssh/authorized_keys
 chown -R cloud:cloud /home/cloud/.ssh
+
+# and with Tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
