@@ -35,3 +35,22 @@
     - name: Install pmount
       ansible.builtin.apt:
         name: pmount
+
+- name: DNS
+  hosts: all
+  become: true
+  tasks:
+    - name: Disable opinionated systemd-resolved
+      ansible.builtin.service:
+        name: systemd-resolved
+        state: stopped
+        enabled: false
+    - name: Configure upstream DNS servers
+      ansible.builtin.copy:
+        dest: /etc/resolv.conf
+        content: |-
+          nameserver 1.1.1.1
+          nameserver 1.0.0.1
+        group: root
+        owner: root
+        mode: "644"
