@@ -4,6 +4,7 @@ set -e
 # cloud user
 if ! id cloud &>/dev/null; then
   useradd \
+    -s /bin/bash \
     -d /home/cloud \
     -m \
     -G sudo \
