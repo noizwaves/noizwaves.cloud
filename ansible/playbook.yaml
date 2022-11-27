@@ -12,3 +12,26 @@
           PermitEmptyPasswords: "no"
           PermitRootLogin: "no"
           AllowUsers: cloud
+
+- name: Time
+  hosts: all
+  become: true
+  tasks:
+    - name: Install NTP
+      ansible.builtin.apt:
+        name: ntp
+    - name: Start NTP
+      ansible.builtin.service:
+        name: ntp
+        state: started
+    - name: Set timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+- name: USB Drives
+  hosts: all
+  become: true
+  tasks:
+    - name: Install pmount
+      ansible.builtin.apt:
+        name: pmount
