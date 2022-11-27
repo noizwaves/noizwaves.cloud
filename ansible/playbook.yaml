@@ -1,8 +1,15 @@
-- name: SSHD configuration
+- name: SSH server
   hosts: all
   become: true
   tasks:
-    - name: Configure SSHD
+    - name: Install SSH server
+      ansible.builtin.apt:
+        name: openssh-server
+    - name: Start SSH server
+      ansible.builtin.service:
+        name: ssh
+        state: started
+    - name: Configure SSH server
       ansible.builtin.include_role:
         name: willshersystems.sshd
       vars:
@@ -12,6 +19,13 @@
           PermitEmptyPasswords: "no"
           PermitRootLogin: "no"
           AllowUsers: cloud
+    - name: Install public keys for cloud user
+      ansible.builtin.copy:
+        dest: /home/cloud/.ssh/authorized_keys
+        src: files/authorized_keys
+        group: cloud
+        owner: cloud
+        mode: "600"
 
 - name: Time
   hosts: all
