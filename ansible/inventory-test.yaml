@@ -1,0 +1,6 @@
+all:
+  hosts:
+    test-vm:
+      ansible_host: test-vm
+      ansible_user: cloud
+      timezone: America/Los_Angeles

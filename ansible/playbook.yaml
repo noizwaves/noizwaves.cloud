@@ -1,0 +1,264 @@
+- name: SSH server
+  hosts: all
+  become: true
+  tasks:
+    - name: Install SSH server
+      ansible.builtin.apt:
+        name: openssh-server
+    - name: Start SSH server
+      ansible.builtin.service:
+        name: ssh
+        state: started
+    - name: Configure SSH server
+      ansible.builtin.include_role:
+        name: willshersystems.sshd
+      vars:
+        sshd_install_service: false
+        sshd:
+          PasswordAuthentication: "no"
+          PermitEmptyPasswords: "no"
+          PermitRootLogin: "no"
+          AllowUsers: cloud
+    - name: SSH config directory exists
+      ansible.builtin.file:
+        path: /home/cloud/.ssh
+        state: directory
+        mode: "755"
+    - name: Install public keys for cloud user
+      ansible.builtin.copy:
+        dest: /home/cloud/.ssh/authorized_keys
+        src: files/authorized_keys
+        group: cloud
+        owner: cloud
+        mode: "600"
+
+- name: Time
+  hosts: all
+  become: true
+  tasks:
+    - name: Install NTP
+      ansible.builtin.apt:
+        name: ntp
+    - name: Start NTP
+      ansible.builtin.service:
+        name: ntp
+        state: started
+    - name: Set timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+- name: USB Drives
+  hosts: all
+  become: true
+  tasks:
+    - name: Install pmount
+      ansible.builtin.apt:
+        name: pmount
+
+- name: DNS
+  hosts: all
+  become: true
+  tasks:
+    - name: Disable opinionated systemd-resolved
+      ansible.builtin.service:
+        name: systemd-resolved
+        state: stopped
+        enabled: false
+    - name: Configure upstream DNS servers
+      ansible.builtin.copy:
+        dest: /etc/resolv.conf
+        content: |-
+          nameserver 1.1.1.1
+          nameserver 1.0.0.1
+        group: root
+        owner: root
+        mode: "644"
+
+- name: Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Docker
+      ansible.builtin.apt:
+        name: docker.io
+    - name: Install Docker Compose
+      ansible.builtin.apt:
+        name: docker-compose
+    - name: Configure Docker daemon
+      ansible.builtin.copy:
+        dest: /etc/docker/daemon.json
+        src: files/docker_daemon.json
+        group: root
+        owner: root
+        mode: "644"
+    - name: Start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+    - name: Add cloud to docker group
+      ansible.builtin.user:
+        name: cloud
+        append: true
+        groups: docker
+    - name: Create web network
+      community.docker.docker_network:
+        name: web
+        internal: false
+        attachable: false
+        driver: bridge
+        scope: local
+    - name: Docker config directory exists
+      ansible.builtin.file:
+        path: /home/cloud/.docker
+        state: directory
+        mode: "755"
+    - name: Configure Docker for cloud
+      ansible.builtin.copy:
+        dest: /home/cloud/.docker/config.json
+        src: files/docker_config.json
+        group: cloud
+        owner: cloud
+        mode: "644"
+
+- name: Filewall
+  hosts: all
+  become: true
+  tasks:
+    - name: Install UFW
+      ansible.builtin.apt:
+        name: ufw
+    - name: Start UFW
+      ansible.builtin.service:
+        name: ufw
+        state: started
+    - name: Fix Docker+ufw disasterous default configuration
+      # https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues
+      ansible.builtin.blockinfile:
+        path: /etc/ufw/after.rules
+        marker_begin: BEGIN UFW AND DOCKER
+        marker_end: END UFW AND DOCKER
+        content: |
+          {{ lookup('file', 'files/ufw_after_rules') }}
+    - name: Allow bare metal SSH (port 22)
+      community.general.ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.64.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow containerized DNS (port 53)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '53'
+        proto: '{{ item[1] }}'
+        src: '{{ item[0] }}'
+      with_nested:
+        - [192.168.64.0/24, 100.64.0.0/10]
+        - [tcp, udp]
+    - name: Allow containerized HTTP (port 80)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '80'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.64.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow containerized HTTPS (port 443)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '443'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.64.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow containerized Gitea SSH (port 2222)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '2222'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.64.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow containerized Plex (port 32400)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '32400'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.64.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow bare metal Syncthing
+      community.general.ufw:
+        rule: allow
+        port: '{{ item[1] }}'
+        proto: '{{ item[2] }}'
+        src: '{{ item[0] }}'
+      with_nested:
+        - [192.168.64.0/24, 100.64.0.0/10]
+        - [['8384', tcp], ['22000', tcp], ['22000', udp], ['21027', udp]]
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+
+- name: Automatic Updates
+  hosts: all
+  become: true
+  tasks:
+    - name: Install unattended-upgrades
+      ansible.builtin.apt:
+        name: unattended-upgrades
+    - name: Start unattended-upgrades
+      ansible.builtin.service:
+        name: unattended-upgrades
+        state: started
+    - name: Configure unattended-upgrades
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        src: files/50unattended-upgrades
+        group: root
+        owner: root
+        mode: "644"
+
+- name: Configure cloning from GitHub
+  hosts: all
+  become: true
+  tasks:
+    - name: Fetch github.com public key
+      connection: local
+      become: false
+      ansible.builtin.command: ssh-keyscan -t rsa github.com | grep -v ^#
+      register: keyscan_github_com
+      changed_when: keyscan_github_com.rc != 0
+    - name: Add to known_hosts
+      ansible.builtin.known_hosts:
+        path: /etc/ssh/ssh_known_hosts
+        name: github.com
+        key: '{{ keyscan_github_com.stdout }}'
+
+- name: Platform configuration
+  hosts: all
+  tasks:
+    - name: Data directory exists
+      ansible.builtin.file:
+        path: /home/cloud/cloud-data
+        state: directory
+        group: cloud
+        owner: cloud
+        mode: "775"
+    - name: Clone noizwaves/noizwaves.cloud
+      ansible.builtin.git:
+        repo: git@github.com:noizwaves/noizwaves.cloud.git
+        version: main
+        dest: /home/cloud/cloud-config
+        update: false

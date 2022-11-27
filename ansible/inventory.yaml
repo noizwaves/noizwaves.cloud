@@ -1,0 +1,6 @@
+all:
+  hosts:
+    odroid:
+      ansible_host: odroid.nodes.noizwaves.cloud
+      ansible_user: cloud
+      timezone: America/Los_Angeles
