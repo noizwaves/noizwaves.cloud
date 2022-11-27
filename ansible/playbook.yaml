@@ -1,0 +1,14 @@
+- name: SSHD configuration
+  hosts: all
+  become: true
+  tasks:
+    - name: Configure SSHD
+      ansible.builtin.include_role:
+        name: willshersystems.sshd
+      vars:
+        sshd_install_service: false
+        sshd:
+          PasswordAuthentication: "no"
+          PermitEmptyPasswords: "no"
+          PermitRootLogin: "no"
+          AllowUsers: cloud
