@@ -210,3 +210,22 @@
     - name: Enable UFW
       community.general.ufw:
         state: enabled
+
+- name: Automatic Updates
+  hosts: all
+  become: true
+  tasks:
+    - name: Install unattended-upgrades
+      ansible.builtin.apt:
+        name: unattended-upgrades
+    - name: Start unattended-upgrades
+      ansible.builtin.service:
+        name: unattended-upgrades
+        state: started
+    - name: Configure unattended-upgrades
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        src: files/50unattended-upgrades
+        group: root
+        owner: root
+        mode: "644"
