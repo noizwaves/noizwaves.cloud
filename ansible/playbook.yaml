@@ -240,9 +240,6 @@
       ansible.builtin.command: ssh-keyscan -t rsa github.com | grep -v ^#
       register: keyscan_github_com
       changed_when: keyscan_github_com.rc != 0
-    - name: Echo
-      ansible.builtin.debug:
-        msg: Github key is {{ keyscan_github_com.stdout }}
     - name: Add to known_hosts
       ansible.builtin.known_hosts:
         path: /etc/ssh/ssh_known_hosts
