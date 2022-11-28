@@ -1,6 +1,7 @@
 all:
   hosts:
     test-vm:
-      ansible_host: 192.168.64.2
+      ansible_host: 100.96.106.118
       ansible_user: cloud
+      ansible_ssh_args: -o ForwardAgent=yes
       timezone: America/Los_Angeles
