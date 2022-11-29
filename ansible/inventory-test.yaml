@@ -3,5 +3,4 @@ all:
     test-vm:
       ansible_host: test-vm
       ansible_user: cloud
-      ansible_ssh_args: -o ForwardAgent=yes
       timezone: America/Los_Angeles
