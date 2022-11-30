@@ -35,7 +35,7 @@ HOME=/home/cloud
 ```
 1.  Enable DNS healthchecks with cron config:
 ```
-*/2 * * * * host traefik.$CLOUD_DOMAIN $BIND_ADDRESS && <healthchecks.io health check>
+*/2 * * * * host traefik.noizwaves.cloud $BIND_ADDRESS && <healthchecks.io health check>
 ```
 
 ## Traefik
@@ -44,7 +44,7 @@ HOME=/home/cloud
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
-1.  Open Traefik dashboard at `https://traefik.${CLOUD_DOMAIN}`
+1.  Open Traefik dashboard at `https://traefik.noizwaves.cloud`
 
 ## Watchtower
 1.  `$ cd watchtower`
@@ -300,7 +300,7 @@ For private network DNS resolution
 1.  `$ docker-compose up -d`
 1.  Open [Gitea](https://gitea.noizwaves.cloud) and complete initialization
 1.  Update configuration
-    1. `webhook.ALLOWED_HOST_LIST` to `*.${CLOUD_DOMAIN}`
+    1. `webhook.ALLOWED_HOST_LIST` to `*.noizwaves.cloud`
 
 ## Drone
 1.  `$ cd drone`
@@ -321,7 +321,7 @@ For private network DNS resolution
 1.  `$ mkdir -p ~/cloud-data/matrix/data ~/cloud-data/matrix/postgres ~/cloud-data/matrix/telegram`
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
-1.  `$ docker-compose run --rm -e SYNAPSE_SERVER_NAME=matrix.${CLOUD_DOMAIN} -e SYNAPSE_REPORT_STATS=no synapse generate`
+1.  `$ docker-compose run --rm -e SYNAPSE_SERVER_NAME=matrix.noizwaves.cloud -e SYNAPSE_REPORT_STATS=no synapse generate`
 1.  Edit Synapse config using `$ vim ~/cloud-data/matrix/data/homeserver.yaml`
 1.  Generate Telegram config using `$ docker-compose run --rm telegram`
 1.  Edit Telegram config using `$ vim ~/cloud-data/matrix/telegram/config.yaml`
@@ -351,10 +351,10 @@ Prepare bridge on mac:
 1.  Download latest release of [mautrix-imessage](https://mau.dev/mautrix/imessage/-/pipelines?scope=branches&page=1) to mac
 1.  Extract to a folder
 1.  `$ cp example-config.yaml config.yaml` and edit values:
-    - `homeserver.address` to `https://matrix.${CLOUD_DOMAIN}`
-    - `homeserver.websocket_proxy` to `wss://matrix-wsproxy.${CLOUD_DOMAIN}`
-    - `homeserver.domain` to `${CLOUD_DOMAIN}`
-    - `bridge.user` to `@adam:${CLOUD_DOMAIN}`
+    - `homeserver.address` to `https://matrix.noizwaves.cloud`
+    - `homeserver.websocket_proxy` to `wss://matrix-wsproxy.noizwaves.cloud`
+    - `homeserver.domain` to `noizwaves.cloud`
+    - `bridge.user` to `@adam:noizwaves.cloud`
     - `bridge.login_shared_secret` to `${SHARED_SECRET_AUTH_SECRET}`
 1.  `$ ./mautrix-imessage -g`
 1.  Ensure that `config.yaml` contains `appservice.as_token` and `appservice.hs_token` from `registration.yaml`
