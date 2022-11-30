@@ -45,25 +45,25 @@ docker run \
 	--no-compression \
 	--exclude '/data/cloud-config/.duplicity-cache/' \
 	--exclude '/data/cloud-config/hot_backup.log' \
-	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
-	--exclude '/data/cloud-data/fotos/thumbnails/' \
-	--exclude '/data/cloud-data/fotos/normals/' \
-	--exclude '/data/cloud-data/fotos-lauren/thumbnails/' \
-	--exclude '/data/cloud-data/fotos-lauren/normals/' \
-	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
-	--exclude '/data/cloud-data/nextcloud/' \
-	--exclude '/data/cloud-data/traefik/' \
-	--exclude '/data/cloud-data/pihole/' \
-	--exclude '/data/cloud-data/pihole-lan/' \
-	--exclude '/data/cloud-data/registry/' \
 	--exclude '/data/cloud-data/adguard/tailscale/' \
 	--exclude '/data/cloud-data/cloudflare/' \
-	--exclude '/data/cloud-data/plex/' \
+	--exclude '/data/cloud-data/fotos-lauren/normals/' \
+	--exclude '/data/cloud-data/fotos-lauren/thumbnails/' \
+	--exclude '/data/cloud-data/fotos/normals/' \
+	--exclude '/data/cloud-data/fotos/thumbnails/' \
 	--exclude '/data/cloud-data/gitea/data/ssh/' \
-	--exclude '/data/cloud-data/tig/' \
-	--exclude '/data/cloud-data/photoprism/' \
-	--exclude '/data/cloud-data/tandoor/staticfiles/' \
 	--exclude '/data/cloud-data/influxdb/' \
+	--exclude '/data/cloud-data/nextcloud/' \
+	--exclude '/data/cloud-data/photoprism/' \
+	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
+	--exclude '/data/cloud-data/pihole-lan/' \
+	--exclude '/data/cloud-data/pihole/' \
+	--exclude '/data/cloud-data/plex/' \
+	--exclude '/data/cloud-data/registry/' \
+	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
+	--exclude '/data/cloud-data/tandoor/staticfiles/' \
+	--exclude '/data/cloud-data/tig/' \
+	--exclude '/data/cloud-data/traefik/' \
 	--include '/data/' \
 	--exclude '**' \
 	/data "${DEST}"
