@@ -55,7 +55,6 @@ docker run \
 	--exclude '/data/cloud-data/traefik/' \
 	--exclude '/data/cloud-data/pihole/' \
 	--exclude '/data/cloud-data/pihole-lan/' \
-	--exclude '/data/cloud-data/fotos/' \
 	--exclude '/data/cloud-data/registry/' \
 	--exclude '/data/cloud-data/adguard/tailscale/' \
 	--exclude '/data/cloud-data/cloudflare/' \
