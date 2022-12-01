@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  app:
+    image: adguard/adguardhome:latest
+    hostname: adguardhome
+    container_name: adguardhome
+    restart: unless-stopped
+    networks:
+      - adguardhome
+    volumes:
+      - ../../cloud-data/adguardhome/work:/opt/adguardhome/work
+      - ../../cloud-data/adguardhome/conf:/opt/adguardhome/conf
+
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: adguardhome_tailscale
+    restart: unless-stopped
+    network_mode: service:app
+    environment:
+      TS_USERSPACE: "true"
+      TS_EXTRA_ARGS: "--hostname=adguardhome"
+      TS_STATE_DIR: /var/lib/tailscale/
+    volumes:
+      - ../../cloud-data/adguardhome/tailscale:/var/lib/tailscale
+
+networks:
+  adguardhome:
+    external: false
+    name: adguardhome
