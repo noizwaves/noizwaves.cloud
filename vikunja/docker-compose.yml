@@ -31,9 +31,6 @@ services:
       - traefik.http.routers.vikunja-api.tls=true
       - traefik.http.routers.vikunja-api.tls.certresolver=mytlschallenge
 
-      # Manually updated
-      - com.centurylinklabs.watchtower.enable=false
-
   frontend:
     image: vikunja/frontend
     container_name: vikunja_frontend
@@ -54,9 +51,6 @@ services:
       - traefik.http.routers.vikunja-backend.service=vikunja-backend
       - traefik.http.routers.vikunja-backend.tls=true
       - traefik.http.routers.vikunja-backend.tls.certresolver=mytlschallenge
-
-      # Manually updated
-      - com.centurylinklabs.watchtower.enable=false
 
   db:
     image: linuxserver/mariadb:110.4.13mariabionic-ls73
