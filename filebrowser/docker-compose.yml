@@ -3,6 +3,7 @@ services:
   app:
     image: filebrowser/filebrowser:latest
     container_name: filebrowser
+    restart: unless-stopped
     user: "1000:1000"
     networks:
       - web
