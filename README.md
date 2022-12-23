@@ -44,7 +44,7 @@ HOME=/home/cloud
 1.  `$ cp .env.tmpl .env`
 1.  Input appropriate values
 1.  `$ docker-compose up -d`
-1.  Open Traefik dashboard at `https://traefik.noizwaves.cloud`
+1.  Open Traefik dashboard at `https://traefik.odroid.noizwaves.cloud`
 
 ## Watchtower
 1.  `$ cd watchtower`

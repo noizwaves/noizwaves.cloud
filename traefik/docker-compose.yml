@@ -17,6 +17,7 @@ services:
       ## Log Settings (options: ERROR, DEBUG, PANIC, FATAL, WARN, INFO) - https://docs.traefik.io/observability/logs/ ##
       # - --log.level=DEBUG # <== Setting the level of the logs from traefik
       - --log.level=ERROR # <== Setting the level of the logs from traefik
+      # - --accesslog=true # <== Log all requests to STDOUT
       ## Provider Settings - https://docs.traefik.io/providers/docker/#provider-configuration ##
       - --providers.docker=true # <== Enabling docker as the provider for traefik
       - --providers.docker.exposedbydefault=false # <== Don't expose every container to traefik, only expose enabled ones
@@ -46,7 +47,7 @@ services:
     labels:
       #### Labels define the behavior and rules of the traefik proxy for this container ####
       - traefik.enable=true # <== Enable traefik on itself to view dashboard and assign subdomain to view it
-      - traefik.http.routers.api.rule=Host(`traefik.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.api.rule=Host(`traefik.${NODE_NAME}.${CLOUD_DOMAIN}`)
       - traefik.http.routers.api.entrypoints=web-secured
       - traefik.http.routers.api.service=api@internal # <== Enabling the api to be a service to access
       - traefik.http.routers.api.tls=true
