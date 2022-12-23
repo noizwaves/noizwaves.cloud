@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    hostname: minio
+    user: "1000:1000"
+    command: server /data --console-address :9090
+    networks:
+      - web
+    env_file:
+      - .env
+    volumes:
+      - ../../cloud-data/minio/data:/data
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.minio-console.loadbalancer.server.port=9090
+      - traefik.http.services.minio-api.loadbalancer.server.port=9000
+
+      # console
+      - traefik.http.routers.minio-console.rule=Host(`minio.${NODE_NAME}.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.minio-console.tls.certresolver=mytlschallenge
+      - traefik.http.routers.minio-console.entrypoints=web-secured
+      - traefik.http.routers.minio-console.tls=true
+      - traefik.http.routers.minio-console.service=minio-console
+
+      # api
+      - traefik.http.routers.minio-api.rule=Host(`s3.${NODE_NAME}.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.minio-api.tls.certresolver=mytlschallenge
+      - traefik.http.routers.minio-api.entrypoints=web-secured
+      - traefik.http.routers.minio-api.tls=true
+      - traefik.http.routers.minio-api.service=minio-api
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true
