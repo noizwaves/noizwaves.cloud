@@ -21,7 +21,7 @@ services:
     volumes:
       - ../../cloud-data/pihole-lan/config:/etc/pihole
       - ../../cloud-data/pihole-lan/dnsmasq:/etc/dnsmasq.d
-      - TZ=America/Denver
+      - /etc/localtime:/etc/localtime:ro
     dns:
       - 1.1.1.1
       - 1.0.0.1
