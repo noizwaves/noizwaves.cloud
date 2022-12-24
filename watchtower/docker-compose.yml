@@ -8,10 +8,10 @@ services:
     env_file:
       - .env
     environment:
-      - TZ=America/Denver
       - WATCHTOWER_MONITOR_ONLY=false
       - WATCHTOWER_SCHEDULE=0 0 2 ? * SAT
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_NOTIFICATIONS=email
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
