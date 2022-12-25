@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   api:
-    image: vikunja/api
+    image: vikunja/api:0.20.1
     container_name: vikunja_api
     environment:
       - PUID=1000
@@ -32,7 +32,7 @@ services:
       - traefik.http.routers.vikunja-api.tls.certresolver=mytlschallenge
 
   frontend:
-    image: vikunja/frontend
+    image: vikunja/frontend:0.20.2
     container_name: vikunja_frontend
     restart: unless-stopped
     networks:
