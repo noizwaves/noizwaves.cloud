@@ -35,7 +35,7 @@ HOME=/home/cloud
 ```
 1.  Enable DNS healthchecks with cron config:
 ```
-*/2 * * * * host traefik.noizwaves.cloud $BIND_ADDRESS && <healthchecks.io health check>
+*/2 * * * * host www.google.com 127.0.0.1 && <healthchecks.io health check>
 ```
 
 ## Traefik
