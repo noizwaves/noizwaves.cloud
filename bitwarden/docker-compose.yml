@@ -39,6 +39,9 @@ services:
       - traefik.http.routers.bitwarden-websocket.tls=true
       - traefik.http.routers.bitwarden-websocket.tls.certresolver=mytlschallenge
 
+      ## DNS
+      - external-dns-poc=bitwarden.${CLOUD_DOMAIN}
+
 networks:
   web:
     external: true

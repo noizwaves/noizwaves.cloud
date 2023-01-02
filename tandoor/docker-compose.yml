@@ -57,6 +57,9 @@ services:
 
       # Automatically updated
       - com.centurylinklabs.watchtower.enable=true
+
+      ## DNS
+      - external-dns-poc=tandoor.${CLOUD_DOMAIN}
     depends_on:
       - web_recipes
     networks:

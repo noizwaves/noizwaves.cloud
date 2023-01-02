@@ -25,7 +25,9 @@ services:
       - ../../cloud-data/resilio-sync/data/journal-data:/data/journal
       - ../../cloud-data/resilio-sync/data/lauren-notebook-data:/data/lauren-notebook
     restart: unless-stopped
-    #labels:
+    labels:
+      ## DNS
+      - external-dns-poc=syncthing.${CLOUD_DOMAIN}
     #  - traefik.enable=true
     #  - traefik.http.services.syncthing.loadbalancer.server.port=8384
 

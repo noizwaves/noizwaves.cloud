@@ -40,6 +40,9 @@ services:
       # protect with Authelia
       - traefik.http.routers.filebrowser.middlewares=authelia@docker
 
+      ## DNS
+      - external-dns-poc=filebrowser.${CLOUD_DOMAIN}
+
 networks:
   web:
     external: true

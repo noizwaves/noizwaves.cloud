@@ -33,6 +33,10 @@ services:
       - traefik.http.routers.plex.entrypoints=web-secured
       - traefik.http.routers.plex.tls=true
       - traefik.http.routers.plex.service=plex
+
+      ## DNS
+      - external-dns-poc=plex.${CLOUD_DOMAIN}
+
     devices:
       - /dev/dri:/dev/dri
 networks:

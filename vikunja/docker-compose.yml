@@ -31,6 +31,9 @@ services:
       - traefik.http.routers.vikunja-api.tls=true
       - traefik.http.routers.vikunja-api.tls.certresolver=mytlschallenge
 
+      ## DNS
+      - external-dns-poc=vikunja.${CLOUD_DOMAIN}
+
   frontend:
     image: vikunja/frontend:0.20.2
     container_name: vikunja_frontend

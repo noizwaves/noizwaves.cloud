@@ -25,8 +25,8 @@ services:
       - traefik.http.routers.resilio.tls=true
       - traefik.http.routers.resilio.service=resilio
 
-      # protect with Authelia
-#      - traefik.http.routers.resilio.middlewares=authelia@docker
+      ## DNS
+      - external-dns-poc=resilio.${CLOUD_DOMAIN}
 
 networks:
   web:
