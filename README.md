@@ -264,16 +264,10 @@ HOME=/home/cloud
 
 ## Adguard Home
 For private network DNS resolution
-1.  `$ cd adguardhome`
-1.  `$ mkdir -p ~/cloud-data/adguardhome/work ~/cloud-data/adguardhome/conf ~/cloud-data/adguardhome/tailscale`
+1.  `$ cd adguard`
+1.  `$ mkdir -p ~/cloud-data/adguard/work ~/cloud-data/adguard/conf ~/cloud-data/adguard/tailscale`
 1.  `$ docker-compose up -d`
-1.  Set up the Adguard Tailscale connection by:
-    1.  `$ docker-compose logs tailscale`
-    1.  Use the printed URL to join the container to the Tailscale network
-1.  Set up Adguard by visiting `http://$IP_ADDRESS:3000` where `$IP_ADDRESS` is the Tailscale IP address
-1.  Open [Adguard Home](http://adguard.noizwaves.cloud)
-1.  Add custom DNS records into `Filters > DNS rewrites`
-1.  Update Tailscale DNS for nameserver of `$IP_ADDRESS` restricted to search domain of `noizwaves.cloud`
+1.  Open [Adguard Home](http://adguard.dell.noizwaves.cloud) and set it up
 
 ## Running
 1.  `$ cd running`
