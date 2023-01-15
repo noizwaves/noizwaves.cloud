@@ -14,4 +14,4 @@ docker run --rm \
 	-e PASSPHRASE="${PASSPHRASE}" \
 	wernight/duplicity \
 	duplicity collection-status \
-	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} --s3-region-name=${REGION_NAME}
+	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL}

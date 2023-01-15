@@ -69,7 +69,7 @@ docker run --rm \
 	--exclude '/data/cloud-data/traefik/' \
 	--include '/data/' \
 	--exclude '**' \
-	/data/ s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} --s3-region-name=${REGION_NAME}
+	/data/ s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL}
 
 # Start containers again
 start_containers
@@ -88,7 +88,7 @@ docker run --rm \
 	-e PASSPHRASE="${PASSPHRASE}" \
 	wernight/duplicity \
 	duplicity remove-all-but-n-full 1 \
-	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} --s3-region-name=${REGION_NAME} \
+	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} \
 	--force
 
 # Healthy backup achieved
