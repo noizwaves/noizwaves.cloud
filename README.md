@@ -114,6 +114,11 @@ HOME=/home/cloud
 1.  Change value of `SIGNUPS_ALLOWED` to `'false'`
 1.  `$ docker-compose up -d`
 
+## Speedtest
+1.  `$ cd speedtest`
+1.  `$ docker-compose up -d`
+1.  Visit [Speedtest](https://speedtest.noizwaves.cloud)
+
 ## Seafile
 1.  `$ cd seafile`
 1.  `$ cp .env.tmpl .env`
