@@ -21,6 +21,11 @@ services:
       - traefik.http.routers.speedtest.tls=true
       - traefik.http.routers.speedtest.service=speedtest
 
+      # HTTP redirect
+      - traefik.http.middlewares.speedtest-redirect.redirectregex.regex=^https://speedtest.${CLOUD_DOMAIN}/(.*)
+      - traefik.http.middlewares.speedtest-redirect.redirectregex.replacement=http://speedtest.${CLOUD_DOMAIN}:8000/$${1}
+      - traefik.http.routers.speedtest.middlewares=speedtest-redirect@docker
+
       ## DNS
       - external-dns-poc=speedtest.${CLOUD_DOMAIN}
 
