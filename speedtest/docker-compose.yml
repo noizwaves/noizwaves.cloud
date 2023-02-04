@@ -6,7 +6,8 @@ services:
     hostname: speedtest.${CLOUD_DOMAIN}
     container_name: speedtest
     restart: unless-stopped
-    environment: {}
+    ports:
+      - "8000:80"
     networks:
       - web
     labels:
