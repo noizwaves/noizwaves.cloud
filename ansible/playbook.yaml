@@ -188,16 +188,16 @@
       loop:
         - 192.168.64.0/24 # local network
         - 100.64.0.0/10 # tailscale
-    - name: Allow containerized Plex (port 32400)
+    - name: Allow Plex (port 32400)
       community.general.ufw:
         rule: allow
-        route: true
         port: '32400'
         proto: tcp
         src: '{{ item }}'
       loop:
         - 192.168.64.0/24 # local network
         - 100.64.0.0/10 # tailscale
+        # - any # for accepting upnp remote connections via internet
     - name: Improved Tailscale direct connection (UDP 41641, https://tailscale.com/kb/1082/firewall-ports/)
       community.general.ufw:
         rule: allow
