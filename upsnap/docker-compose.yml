@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  upsnap:
+    image: ghcr.io/seriousm4x/upsnap:3
+    container_name: upsnap
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ../../cloud-data/upsnap/data:/app/pb_data
+    environment:
+      - TZ=America/Los_Angeles
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.upsnap.loadbalancer.server.port=8090
+
+      # HTTPS (only for the redirect)
+      - traefik.http.routers.upsnap.rule=Host(`upsnap.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.upsnap.tls.certresolver=mytlschallenge
+      - traefik.http.routers.upsnap.entrypoints=web-secured
+      - traefik.http.routers.upsnap.tls=true
+      - traefik.http.routers.upsnap.service=upsnap
+
+      # HTTP redirect
+      - traefik.http.middlewares.upsnap-redirect.redirectregex.regex=^https://upsnap.${CLOUD_DOMAIN}/(.*?)
+      - traefik.http.middlewares.upsnap-redirect.redirectregex.replacement=http://upsnap.${CLOUD_DOMAIN}:8090/$${1}
+      - traefik.http.routers.upsnap.middlewares=upsnap-redirect@docker
+
+      ## DNS
+      - external-dns-poc=upsnap.${CLOUD_DOMAIN}

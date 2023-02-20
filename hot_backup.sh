@@ -67,6 +67,7 @@ docker run --rm \
 	--exclude '/data/cloud-data/tandoor/staticfiles/' \
 	--exclude '/data/cloud-data/tig/' \
 	--exclude '/data/cloud-data/traefik/' \
+	--exclude '/data/cloud-data/upsnap/' \
 	--include '/data/' \
 	--exclude '**' \
 	/data/ s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL}

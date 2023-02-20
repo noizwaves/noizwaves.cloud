@@ -119,6 +119,12 @@ HOME=/home/cloud
 1.  `$ docker-compose up -d`
 1.  Visit [Speedtest](https://speedtest.noizwaves.cloud)
 
+## UpSnap
+1. `$ cd upsnap`
+1. `$ mkdir -p ~/cloud-data/upsnap/data`
+1. `$ docker-compose up -d`
+1. Visit [UpSnap](http://upsnap.noizwaves.cloud:8090)
+
 ## Seafile
 1.  `$ cd seafile`
 1.  `$ cp .env.tmpl .env`

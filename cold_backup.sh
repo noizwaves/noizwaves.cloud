@@ -64,6 +64,7 @@ docker run \
 	--exclude '/data/cloud-data/tandoor/staticfiles/' \
 	--exclude '/data/cloud-data/tig/' \
 	--exclude '/data/cloud-data/traefik/' \
+	--exclude '/data/cloud-data/upsnap/' \
 	--include '/data/' \
 	--exclude '**' \
 	/data "${DEST}"

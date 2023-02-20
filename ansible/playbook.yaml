@@ -198,6 +198,15 @@
         - 192.168.64.0/24 # local network
         - 100.64.0.0/10 # tailscale
         # - any # for accepting upnp remote connections via internet
+    - name: Allow Upsnap (port 8090)
+      community.general.ufw:
+        rule: allow
+        port: '8090'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24 # local network
+        - 100.64.0.0/10 # tailscale
     - name: Improved Tailscale direct connection (UDP 41641, https://tailscale.com/kb/1082/firewall-ports/)
       community.general.ufw:
         rule: allow
