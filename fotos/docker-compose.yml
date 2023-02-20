@@ -13,7 +13,7 @@ services:
       - TZ=America/Denver
       - PORT=3000
     volumes:
-      - ../../cloud-data/fotos/thumbnails:/thumbnails
+      - ../../cloud-data/fotos/thumbnails_v2:/thumbnails_v2
       - ../../cloud-data/fotos/normals:/normals
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/originals:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Albums:/albums
@@ -31,7 +31,7 @@ services:
     environment:
       - TZ=America/Denver
     volumes:
-      - ../../cloud-data/fotos/thumbnails:/usr/share/nginx/html/thumbnails:ro
+      - ../../cloud-data/fotos/thumbnails_v2:/usr/share/nginx/html/thumbnails_v2:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/usr/share/nginx/html/photos:ro
       - ./fotos.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
