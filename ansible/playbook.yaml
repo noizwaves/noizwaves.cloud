@@ -146,7 +146,7 @@
         proto: tcp
         src: '{{ item }}'
       loop:
-        - 192.168.64.0/24 # local network
+        - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
     - name: Allow containerized DNS (port 53)
       community.general.ufw:
@@ -156,7 +156,7 @@
         proto: '{{ item[1] }}'
         src: '{{ item[0] }}'
       with_nested:
-        - [192.168.64.0/24, 100.64.0.0/10]
+        - [192.168.68.0/24, 100.64.0.0/10]
         - [tcp, udp]
     - name: Allow containerized HTTP (port 80)
       community.general.ufw:
@@ -166,7 +166,7 @@
         proto: tcp
         src: '{{ item }}'
       loop:
-        - 192.168.64.0/24 # local network
+        - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
     - name: Allow containerized HTTPS (port 443)
       community.general.ufw:
@@ -176,7 +176,7 @@
         proto: tcp
         src: '{{ item }}'
       loop:
-        - 192.168.64.0/24 # local network
+        - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
     - name: Allow containerized Gitea SSH (port 2222)
       community.general.ufw:
@@ -186,7 +186,7 @@
         proto: tcp
         src: '{{ item }}'
       loop:
-        - 192.168.64.0/24 # local network
+        - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
     - name: Allow Plex (port 32400)
       community.general.ufw:
@@ -195,7 +195,7 @@
         proto: tcp
         src: '{{ item }}'
       loop:
-        - 192.168.64.0/24 # local network
+        - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
         # - any # for accepting upnp remote connections via internet
     - name: Allow Upsnap (port 8090)
@@ -221,7 +221,7 @@
         proto: '{{ item[2] }}'
         src: '{{ item[0] }}'
       with_nested:
-        - [192.168.64.0/24, 100.64.0.0/10]
+        - [192.168.68.0/24, 100.64.0.0/10]
         - [['8384', tcp], ['22000', tcp], ['22000', udp], ['21027', udp]]
     - name: Enable UFW
       community.general.ufw:
