@@ -188,13 +188,12 @@ HOME=/home/cloud
 
 ## Fotos
 1.  `$ cd fotos`
-1.  `$ mkdir -p ~/cloud-data/fotos/thumbnails`
-1.  (optional) rsync existing thumbnails from host using `$ rsync -avzhe ssh ~/workspace/fotos/thumbnails/ noizwaves.cloud:/home/cloud/cloud-data/fotos/thumbnails/`
+1.  `$ mkdir -p ~/cloud-data/fotos/thumbnails/v2 ~/cloud-data/fotos/normals`
 1.  Create WebDAV credentials via `$ htpasswd -c credentials.list <username>` and then enter the password.
 1.  `$ docker-compose up -d`
 
 1.  `$ cd .../fotos-lauren`
-1.  `$ mkdir -p ~/cloud-data/fotos-lauren/thumbnails`
+1.  `$ mkdir -p ~/cloud-data/fotos-lauren/thumbnails/v2 ~/cloud-data/fotos-lauren/normals`
 1.  Create WebDAV credentials via `$ htpasswd -c credentials.list <username>` and then enter the password.
 1.  `$ docker-compose up -d`
 

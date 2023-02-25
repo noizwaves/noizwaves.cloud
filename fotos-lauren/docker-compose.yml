@@ -13,7 +13,7 @@ services:
       - TZ=America/Denver
       - PORT=3000
     volumes:
-      - ../../cloud-data/fotos-lauren/thumbnails_v2:/thumbnails_v2
+      - ../../cloud-data/fotos-lauren/thumbnails/v2:/thumbnails_v2
       - ../../cloud-data/fotos-lauren/normals:/normals
       - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/originals:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Albums:/albums
@@ -31,7 +31,7 @@ services:
     environment:
       - TZ=America/Denver
     volumes:
-      - ../../cloud-data/fotos-lauren/thumbnails_v2:/usr/share/nginx/html/thumbnails_v2:ro
+      - ../../cloud-data/fotos-lauren/thumbnails/v2:/usr/share/nginx/html/thumbnails_v2:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/usr/share/nginx/html/photos:ro
       - ./fotos.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
