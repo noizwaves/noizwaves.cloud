@@ -17,6 +17,8 @@ A self hosted cloud
 
 For each new machine:
 
+1.  Install Ubuntu LTS
+    1.  Username: `cloud`
 1.  Bootstrap using `bash <(curl https://raw.githubusercontent.com/noizwaves/noizwaves.cloud/main/ansible/bootstrap.sh)`
 1.  Connect to Tailscale
 1.  Setup crontabs
@@ -434,6 +436,8 @@ Start iMessage bridge on mac:
 
 ### Hot
 
+#### Setup
+
 1.  `$ cd cloud-config`
 1.  `$ cp hot.env.tmpl hot.env`
 1.  Set appropriate values
@@ -442,18 +446,29 @@ Start iMessage bridge on mac:
 
 1.  Install crontab as mentioned above
 
-#### Restore
+#### Restore (partial data loss)
 
-1.  Start restore target device
-1.  Obtain secrets pack
-1.  `$ git clone https://github.com/noizwaves/noizwaves.cloud.git ~/noizwaves.cloud_restore`
-1.  `$ cd ~/noizwaves.cloud_restore`
-1.  Populate secrets by:
-    1.  `$ cp hot.env.tmpl hot.env`
-    1.  Setting secrets and `RESTORE_DIR`
+1.  `$ cd ~/cloud-config`
+1.  Edit `hot_restore.sh` to specify path to restore 
 1.  Restore backup by `$ ./hot_restore.sh`
+1.  `$ git restore hot_restore.sh`
 
-### Cold (duplicity)
+#### Restore (disaster recovery)
+
+1.  Set up restore device
+    1.  Follow steps for adding new node
+    1.  Install Docker using `sudo apt-get install docker.io`
+1.  `$ git clone https://github.com/noizwaves/noizwaves.cloud.git ~/cloud-config-recovery`
+1.  `$ cd ~/cloud-config-recovery`
+1.  Obtain secrets pack
+1.  Populate config
+    1.  `$ cp hot.env.tmpl hot.env`
+    1.  Set secrets and `RESTORE_DIR`
+1.  `$ ./hot_restore.sh`
+
+### Cold
+
+#### Setup
 
 1.  `$ cd cloud-config`
 1.  `$ cp cold.env.tmpl cold.env`
@@ -467,19 +482,34 @@ Start iMessage bridge on mac:
 1.  Run a restore via `$ ~/cloud-config/cold_backup.sh`
 1.  Unmount drive via `$ pumount backup`
 
-#### Restore
+#### Restore (partial data loss)
 
-1.  Start restore target device
+1.  `$ cd ~/cloud-config`
+1.  Edit `cold_restore.sh` to specify path to restore 
+1.  Connect cold backup drive
+1.  Mount drive via `$ pmount /dev/sda backup`
+1.  Restore backup by `$ ./cold_restore.sh`
+1.  Unmount drive via `$ pumount backup`
+1.  `$ git restore cold_restore.sh`
+1.  Disconnect drive
+
+#### Restore (disaster recovery)
+
+1.  Set up restore device
+    1.  Follow steps for adding new node
+    1.  Install Docker using `sudo apt-get install docker.io`
+1.  `$ git clone https://github.com/noizwaves/noizwaves.cloud.git ~/cloud-config-recovery`
+1.  `$ cd ~/cloud-config-recovery`
 1.  Obtain secrets pack
-1.  `$ git clone https://github.com/noizwaves/noizwaves.cloud.git ~/noizwaves.cloud_restore`
-1.  `$ cd ~/noizwaves.cloud_restore`
 1.  Connect cold backup USB drive to restore target
-1.  Mount drive via `$ pmount /dev/sda backup` or GUI
-1.  Populate secrets by:
+1.  Obtain secrets pack
+1.  `$ pmount /dev/sda backup`
+1.  Populate config
     1.  `$ cp cold.env.tmpl cold.env`
     1.  Set `RESTORE_DIR`
-1.  Restore backup by `$ ./cold_restore.sh`
-1.  Unmount drive via `$ pumount backup` og UI
+1.  `$ ./cold_restore.sh`
+1.  `$ pumount backup`
+1.  Disconnect drive
 
 ### Recover from disaster
 

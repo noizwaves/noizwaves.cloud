@@ -3,9 +3,15 @@
 source hot.env
 
 if [ -z "$RESTORE_DIR" ]; then
-	echo "RESTORE_DIR is not set; add to hot.env"
+	echo "RESTORE_DIR is not set; set in hot.env"
 	exit 1
 fi
+
+if [ -d "$RESTORE_DIR" ]; then
+	echo "$RESTORE_DIR already exists; delete it then re-run"
+	exit 1
+fi
+
 
 mkdir -p "${RESTORE_DIR}"
 
@@ -18,7 +24,7 @@ docker run \
 	--user 1000:1000 \
 	--rm \
 	-v /etc/localtime:/etc/localtime:ro \
-	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+	-v $(pwd)/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
 	-v "${RESTORE_DIR}":/restore:rw \
 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
