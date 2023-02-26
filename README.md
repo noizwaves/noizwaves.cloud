@@ -451,7 +451,7 @@ Start iMessage bridge on mac:
 #### Restore (partial data loss)
 
 1.  `$ cd ~/cloud-config`
-1.  Edit `hot_restore.sh` to specify path to restore 
+1.  Edit `hot_restore.sh` to specify path to restore
 1.  Restore backup by `$ ./hot_restore.sh`
 1.  `$ git restore hot_restore.sh`
 
@@ -467,6 +467,13 @@ Start iMessage bridge on mac:
     1.  `$ cp hot.env.tmpl hot.env`
     1.  Set secrets and `RESTORE_DIR`
 1.  `$ ./hot_restore.sh`
+1.  `$ mv ~/recovery/cloud-config ~/`
+1.  `$ mv ~/recovery/cloud-data ~/`
+1.  Update configuration in `~/cloud-config/.envrc`
+1.  Manually add DNS entry for Adguard to Cloudflare
+1.  Start foundational services (`traefik`, `authelia`, `adguard`)
+1.  Manually add DNS entries to Adguard
+1.  Start applications, adding DNS entries to Adguard
 
 ### Cold
 
@@ -487,7 +494,7 @@ Start iMessage bridge on mac:
 #### Restore (partial data loss)
 
 1.  `$ cd ~/cloud-config`
-1.  Edit `cold_restore.sh` to specify path to restore 
+1.  Edit `cold_restore.sh` to specify path to restore
 1.  Connect cold backup drive
 1.  Mount drive via `$ pmount /dev/sda backup`
 1.  Restore backup by `$ ./cold_restore.sh`
@@ -512,6 +519,13 @@ Start iMessage bridge on mac:
 1.  `$ ./cold_restore.sh`
 1.  `$ pumount backup`
 1.  Disconnect drive
+1.  `$ mv ~/recovery/cloud-config ~/`
+1.  `$ mv ~/recovery/cloud-data ~/`
+1.  Update configuration in `~/cloud-config/.envrc`
+1.  Manually add DNS entry for Adguard to Cloudflare
+1.  Start foundational services (`traefik`, `authelia`, `adguard`)
+1.  Manually add DNS entries to Adguard
+1.  Start applications, adding DNS entries to Adguard
 
 ### Recover from disaster
 
