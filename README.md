@@ -19,6 +19,8 @@ For each new machine:
 
 1.  Install Ubuntu LTS
     1.  Username: `cloud`
+    1.  Enable SSH server
+    1.  Import SSH keys from GitHub
 1.  Bootstrap using `bash <(curl https://raw.githubusercontent.com/noizwaves/noizwaves.cloud/main/ansible/bootstrap.sh)`
 1.  Connect to Tailscale
 1.  Setup crontabs
