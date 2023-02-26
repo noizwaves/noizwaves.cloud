@@ -22,13 +22,9 @@ authentication_backend:
 access_control:
   default_policy: deny
   rules:
-    # Rules applied to everyone
-    - domain: traefik.${CLOUD_DOMAIN}
-      policy: two_factor
-    - domain: duplicati.${CLOUD_DOMAIN}
-      policy: two_factor
-    - domain: photostructure.${CLOUD_DOMAIN}
-      policy: two_factor
+    # Everything requires one factor auth
+    - domain_regex: '^(.*)\.noizwaves\.cloud$'
+      policy: one_factor
 
 session:
   name: authelia_session
