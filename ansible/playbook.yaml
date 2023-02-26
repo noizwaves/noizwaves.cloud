@@ -23,7 +23,9 @@
       ansible.builtin.file:
         path: /home/cloud/.ssh
         state: directory
-        mode: "755"
+        group: cloud
+        owner: cloud
+        mode: "700"
     - name: Install public keys for cloud user
       ansible.builtin.copy:
         dest: /home/cloud/.ssh/authorized_keys
