@@ -280,3 +280,32 @@
         version: main
         dest: /home/cloud/cloud-config
         update: false
+
+- name: Direnv
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Direnv
+      ansible.builtin.apt:
+        name: direnv
+
+- name: Dotfiles
+  hosts: all
+  tasks:
+    - name: Workspace directory
+      ansible.builtin.file:
+        path: /home/cloud/workspace
+        state: directory
+        group: cloud
+        owner: cloud
+        mode: "775"
+    - name: Clone from GitHub
+      ansible.builtin.git:
+        repo: git@github.com:noizwaves/dotfiles.git
+        version: main
+        dest: /home/cloud/workspace/dotfiles
+        update: false
+    - name: Install
+      ansible.builtin.shell:
+        cmd: ./install
+        chdir: /home/cloud/workspace/dotfiles
