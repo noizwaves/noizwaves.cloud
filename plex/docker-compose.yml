@@ -16,12 +16,11 @@ services:
     network_mode: host
     volumes:
       - ../../cloud-data/plex/config:/config
-      - ../../cloud-data/plex/data:/data
+      - ../../cloud-data/plex/transcode:/transcode
+      - /mnt/media2:/data-media2:ro
       - ../../cloud-data/resilio-sync/data/encrypted-data/Videos/Tony Riddle:/data-other/misc/tony:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/data-other/photos/iCloud_Photos:ro
       - ../../cloud-data/resilio-sync/data/doc-sync-data/music:/data-other/music/doc-sync:ro
-      - /mnt/media:/data-media:ro
-      - ../../cloud-data/plex/transcode:/transcode
     labels:
       - traefik.enable=true
       - traefik.http.services.plex.loadbalancer.server.port=32400
