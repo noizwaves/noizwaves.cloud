@@ -41,6 +41,15 @@ HOME=/home/cloud
 ```
 */2 * * * * host www.google.com 127.0.0.1 && <healthchecks.io health check>
 ```
+## K3s (Kubernetes)
+1.  `$ cd k3s`
+1.  `$ mkdir -p ~/cloud-data/k3s/server ~/cloud-data/k3s/kubeconfig ~/cloud-data/k3s/tailscale`
+1.  `$ cp .env.tmpl .env`
+1.  Input appropriate values
+1.  `$ docker-compose up -d`
+1.  Use Tailscale token in `docker logs k3s_tailscale` to authenticate
+1.  Set up DNS record for `k3s.noizwaves.cloud`
+1.  Prepare kubeconfig from `~/cloud-data/k3s/kubeconfig/kubeconfig.yaml`
 
 ## Traefik
 1.  `$ cd traefik`
