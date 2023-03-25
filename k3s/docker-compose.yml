@@ -9,6 +9,9 @@ services:
     tmpfs:
       - /run
       - /var/run
+    dns:
+      - "1.1.1.1"
+      - "1.0.0.1"
     ulimits:
       nproc: 65535
       nofile:
@@ -31,12 +34,10 @@ services:
     container_name: k3s_tailscale
     image: tailscale/tailscale:latest
     network_mode: service:server
+    cap_add:
+      - NET_ADMIN
     environment:
       TS_EXTRA_ARGS: "--hostname=k3s"
       TS_STATE_DIR: /var/lib/tailscale/
     volumes:
       - ../../cloud-data/k3s/tailscale:/var/lib/tailscale
-
-networks:
-  default:
-    name: k3s
