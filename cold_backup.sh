@@ -33,6 +33,7 @@ docker run \
 	--rm \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-data:/data/cloud-data:ro \
+	-v /mnt/media/Photography:/data/mnt/media/Photography:ro \
 	-v ~/cloud-config:/data/cloud-config:ro \
 	-v "${BACKUP_DIR}":/backup:rw \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
