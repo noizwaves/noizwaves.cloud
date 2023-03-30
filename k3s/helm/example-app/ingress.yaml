@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-app
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    # DNS
+    # TODO: how we can move the target IP out of example-app?
+    external-dns.alpha.kubernetes.io/target: "100.95.250.27"
+spec:
+  tls:
+  - hosts:
+    - example.noizwaves.cloud
+    secretName: tls-ingress-http
+  rules:
+  - host: example.noizwaves.cloud
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: example-app
+            port:
+              number: 80

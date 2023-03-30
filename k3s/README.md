@@ -30,3 +30,21 @@ A single node Kubernetes cluster based on K3s.
     1.  Replace `TOKEN_VALUE_HERE` with appropriate token
     1.  `kubectl -n cert-manager apply -f cloudflare-dns-api-token.yaml`
 1.  Create ClusterIssuer for Let's Encrypt via `kubectl -n cert-manager apply -f letsencrypt-production.yaml`
+
+### 3. External DNS (for automatic DNS records)
+1.  `$ cd helm/external-dns`
+1.  `$ helm repo add bitnami https://charts.bitnami.com/bitnami`
+1.  `$ helm repo update`
+1.  ```
+    $ helm install external-dns bitnami/external-dns \
+        --namespace external-dns \
+        --create-namespace \
+        --version 6.14.4 \
+        --values values.yaml
+    ```
+
+### 4. Install Example App
+1.  `$ cd helm/example-app`
+1.  `$ kubectl create namespace example-app`
+1.  `$ kubectl apply -f deployment.yaml -f ingress.yaml -f service.yaml`
+1.  Open [example app](https://example.noizwaves.cloud:8443)

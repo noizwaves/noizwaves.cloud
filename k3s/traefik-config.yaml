@@ -1,0 +1,16 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  # values from https://github.com/traefik/traefik-helm-chart/blob/master/traefik/values.yaml
+  valuesContent: |-
+    service:
+      spec:
+        # Set load balancer external IP
+        # externalTrafficPolicy: local
+        # loadBalancerIP: X
+        # clusterIP: X
+      # externalIPs:
+        # - X

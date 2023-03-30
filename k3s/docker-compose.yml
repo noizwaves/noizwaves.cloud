@@ -28,16 +28,9 @@ services:
     volumes:
       - ../../cloud-data/k3s/server:/var/lib/rancher/k3s
       - ../../cloud-data/k3s/kubeconfig:/kubeconfig
-    ports: [] # expose no ports, use tailscale instead
-
-  tailscale:
-    container_name: k3s_tailscale
-    image: tailscale/tailscale:latest
-    network_mode: service:server
-    cap_add:
-      - NET_ADMIN
-    environment:
-      TS_EXTRA_ARGS: "--hostname=k3s"
-      TS_STATE_DIR: /var/lib/tailscale/
-    volumes:
-      - ../../cloud-data/k3s/tailscale:/var/lib/tailscale
+      # Customize Traefik ingress configuration
+      # - ./traefik-config.yaml:/var/lib/rancher/k3s/server/manifests/traefik-config.yaml:ro
+    ports:
+      - 6443:6443
+      - 8443:443
+      - 8080:80
