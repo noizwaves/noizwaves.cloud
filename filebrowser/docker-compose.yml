@@ -17,7 +17,9 @@ services:
       - ../../cloud-data/resilio-sync/data/doc-sync-data:/srv/doc-sync
       - ../../cloud-data/resilio-sync/data/storage-data:/srv/storage
       - ../../cloud-data/resilio-sync/data/pictures-data:/srv/pictures
-      - ../../cloud-data/resilio-sync/data/photography-data:/srv/photography
+
+      - /mnt/media:/srv/media
+      - /mnt/media2:/srv/media2
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 5s
