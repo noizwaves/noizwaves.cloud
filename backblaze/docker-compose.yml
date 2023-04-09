@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  app:
+    image: tessypowder/backblaze-personal-wine:latest
+    hostname: odroid
+    container_name: backblaze
+    restart: unless-stopped
+    init: true
+    networks:
+      - web
+    environment:
+      TZ: America/Los_Angeles
+    volumes:
+      - ../../cloud-data/backblaze/config:/config
+      - /mnt/media:/mnt/media
+      - /mnt/media2:/mnt/media2
+    labels:
+      - traefik.enable=true
+
+      - traefik.http.services.backblaze.loadbalancer.passhostheader=true
+      - traefik.http.services.backblaze.loadbalancer.server.port=5800
+
+      - traefik.http.routers.backblaze.rule=Host(`backblaze.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.backblaze.service=backblaze
+      - traefik.http.routers.backblaze.entrypoints=web-secured
+      - traefik.http.routers.backblaze.tls=true
+      - traefik.http.routers.backblaze.tls.certresolver=mytlschallenge
+
+      - traefik.http.routers.backblaze.middlewares=authelia@docker
+
+      - external-dns-poc=backblaze.${CLOUD_DOMAIN}
+
+networks:
+  web:
+    external: true

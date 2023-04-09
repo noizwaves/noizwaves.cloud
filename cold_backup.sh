@@ -47,6 +47,8 @@ docker run \
 	--exclude '/data/cloud-config/.duplicity-cache/' \
 	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-data/adguard/tailscale/' \
+	--exclude '/data/cloud-data/backblaze/' \
+	--exclude '/data/cloud-data/bitwarden/data/icon_cache/' \
 	--exclude '/data/cloud-data/cloudflare/' \
 	--exclude '/data/cloud-data/fotos-lauren/normals/' \
 	--exclude '/data/cloud-data/fotos-lauren/thumbnails/' \
