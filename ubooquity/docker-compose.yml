@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  ubooquity:
+    image: lscr.io/linuxserver/ubooquity:latest
+    container_name: ubooquity
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      # - MAXMEM=
+    volumes:
+      - ../../cloud-data/ubooquity/data:/config
+      - /mnt/media2/Books:/books
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.ubooquity.loadbalancer.server.port=2202
+      - traefik.http.services.ubooquity-admin.loadbalancer.server.port=2203
+
+      # HTTPS (library)
+      - traefik.http.routers.ubooquity.rule=Host(`ubooquity.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.ubooquity.tls.certresolver=mytlschallenge
+      - traefik.http.routers.ubooquity.entrypoints=web-secured
+      - traefik.http.routers.ubooquity.tls=true
+      - traefik.http.routers.ubooquity.service=ubooquity
+
+      # HTTPS (admin)
+      - traefik.http.routers.ubooquity-admin.rule=Host(`ubooquity-admin.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.ubooquity-admin.tls.certresolver=mytlschallenge
+      - traefik.http.routers.ubooquity-admn.entrypoints=web-secured
+      - traefik.http.routers.ubooquity-admin.tls=true
+      - traefik.http.routers.ubooquity-admin.service=ubooquity-admin
+
+      ## DNS
+      - external-dns-poc=ubooquity.${CLOUD_DOMAIN}
+
+  admin-dns:
+    image: nginx:1.19.1
+    container_name: ubooquity_admin_dns
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - external-dns-poc=ubooquity-admin.${CLOUD_DOMAIN}
+
+networks:
+  web:
+    external: true
