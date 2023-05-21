@@ -8,12 +8,13 @@ services:
     restart: unless-stopped
     environment:
       - VERSION=docker
-      - TZ=America/Denver
-      - ADVERTISE_IP=http://plex.${CLOUD_DOMAIN}:32400,http://${TAILSCALE_IP}:32400,http://${LAN_IP}:32400
+      - TZ=${TZ}
+      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
       - PLEX_UID=${USER}
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
-    network_mode: host
+    networks:
+      - web
     volumes:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/transcode:/transcode
@@ -33,13 +34,11 @@ services:
       - traefik.http.routers.plex.tls=true
       - traefik.http.routers.plex.service=plex
 
-      # HTTP redirect
-      - traefik.http.middlewares.plex-redirect.redirectregex.regex=^https://plex.${CLOUD_DOMAIN}/(.*?)
-      - traefik.http.middlewares.plex-redirect.redirectregex.replacement=https://plex.${CLOUD_DOMAIN}:32400/$${1}
-      - traefik.http.routers.plex.middlewares=plex-redirect@docker
-
       ## DNS
       - external-dns-poc=plex.${CLOUD_DOMAIN}
-
     devices:
       - /dev/dri:/dev/dri
+
+networks:
+  web:
+    external: true
