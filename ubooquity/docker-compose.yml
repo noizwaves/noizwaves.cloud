@@ -14,7 +14,7 @@ services:
       # - MAXMEM=
     volumes:
       - ../../cloud-data/ubooquity/data:/config
-      - /mnt/media2/Books:/books
+      - /mnt/media2/Books:/books:ro
     labels:
       - traefik.enable=true
       - traefik.http.services.ubooquity.loadbalancer.server.port=2202
