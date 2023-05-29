@@ -209,6 +209,15 @@
       loop:
         - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
+    - name: Adguard (port 3000)
+      community.general.ufw:
+        rule: allow
+        port: '3000'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24 # local network
+        - 100.64.0.0/10 # tailscale
     - name: Improved Tailscale direct connection (UDP 41641, https://tailscale.com/kb/1082/firewall-ports/)
       community.general.ufw:
         rule: allow
