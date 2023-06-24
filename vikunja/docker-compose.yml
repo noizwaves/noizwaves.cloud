@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   api:
-    image: vikunja/api:0.20.1
+    image: vikunja/api:0.20.4
     container_name: vikunja_api
     environment:
       - PUID=1000
@@ -35,7 +35,7 @@ services:
       - external-dns-poc=vikunja.${CLOUD_DOMAIN}
 
   frontend:
-    image: vikunja/frontend:0.20.2
+    image: vikunja/frontend:0.20.5
     container_name: vikunja_frontend
     restart: unless-stopped
     networks:
