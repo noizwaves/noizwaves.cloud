@@ -43,9 +43,6 @@ services:
       # Automatically updated
       - com.centurylinklabs.watchtower.enable=true
 
-      ## DNS
-      - external-dns-poc=gitea.${CLOUD_DOMAIN}
-
 networks:
   web:
     external: true

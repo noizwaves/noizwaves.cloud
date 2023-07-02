@@ -27,9 +27,6 @@ services:
       - traefik.http.routers.freshrss.tls=true
       - traefik.http.routers.freshrss.service=freshrss
 
-      ## DNS
-      - external-dns-poc=freshrss.${CLOUD_DOMAIN}
-
   mariadb:
     image: linuxserver/mariadb:110.4.13mariabionic-ls73
     container_name: freshrss_mariadb

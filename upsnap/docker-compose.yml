@@ -25,6 +25,3 @@ services:
       - traefik.http.middlewares.upsnap-redirect.redirectregex.regex=^https://upsnap.${CLOUD_DOMAIN}/(.*?)
       - traefik.http.middlewares.upsnap-redirect.redirectregex.replacement=http://upsnap.${CLOUD_DOMAIN}:8090/$${1}
       - traefik.http.routers.upsnap.middlewares=upsnap-redirect@docker
-
-      ## DNS
-      - external-dns-poc=upsnap.${CLOUD_DOMAIN}

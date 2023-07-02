@@ -48,9 +48,6 @@ services:
       # protect with Authelia
       - traefik.http.routers.fotos-lauren-nginx.middlewares=authelia@docker
 
-      ## DNS
-      - external-dns-poc=fotos-lauren.${CLOUD_DOMAIN}
-
   webdav:
     image: linuxserver/nginx:latest
     container_name: fotos-lauren_webdav

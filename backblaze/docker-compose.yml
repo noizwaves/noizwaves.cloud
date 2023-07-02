@@ -29,8 +29,6 @@ services:
 
       - traefik.http.routers.backblaze.middlewares=authelia@docker
 
-      - external-dns-poc=backblaze.${CLOUD_DOMAIN}
-
 networks:
   web:
     external: true

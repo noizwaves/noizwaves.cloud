@@ -25,9 +25,6 @@ services:
       - traefik.http.routers.resilio.tls=true
       - traefik.http.routers.resilio.service=resilio
 
-      ## DNS
-      - external-dns-poc=resilio.${CLOUD_DOMAIN}
-
 networks:
   web:
     external: true

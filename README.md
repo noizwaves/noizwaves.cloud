@@ -95,14 +95,6 @@ See [here](./k3s/README.md)
     - Endpoint URL: `https://s3.dell.noizwaves.cloud`
     - Region Name: `dell`
 
-## Docker External DNS POC
-1. `$ cd docker-external-dns-poc`
-1. `$ mkdir -p ~/workspace`
-1. `$ git clone ssh://git@gitea.noizwaves.cloud:2222/adam/docker-external-dns-poc.git ~/workspace/docker-external-dns-poc`
-1. `$ cp .env.tmpl .env`
-1. Fill in appropriate values
-1. `$ docker compose up -d`
-
 ## InfluxDB
 1. `$ cd influxdb`
 1. `$ mkdir -p ~/cloud-data/influxdb/data`

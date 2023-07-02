@@ -41,6 +41,11 @@ services:
       - nginx_config:/etc/nginx/conf.d:ro
       - ../../cloud-data/tandoor/staticfiles:/static
       - ../../cloud-data/tandoor/mediafiles:/media
+    depends_on:
+      - web_recipes
+    networks:
+      - backend
+      - web
     labels:
       - traefik.enable=true
 
@@ -57,14 +62,6 @@ services:
 
       # Automatically updated
       - com.centurylinklabs.watchtower.enable=true
-
-      ## DNS
-      - external-dns-poc=tandoor.${CLOUD_DOMAIN}
-    depends_on:
-      - web_recipes
-    networks:
-      - backend
-      - web
 
 networks:
   backend:

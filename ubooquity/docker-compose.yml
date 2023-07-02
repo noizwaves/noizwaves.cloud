@@ -34,18 +34,6 @@ services:
       - traefik.http.routers.ubooquity-admin.tls=true
       - traefik.http.routers.ubooquity-admin.service=ubooquity-admin
 
-      ## DNS
-      - external-dns-poc=ubooquity.${CLOUD_DOMAIN}
-
-  admin-dns:
-    image: nginx:1.19.1
-    container_name: ubooquity_admin_dns
-    restart: unless-stopped
-    networks:
-      - web
-    labels:
-      - external-dns-poc=ubooquity-admin.${CLOUD_DOMAIN}
-
 networks:
   web:
     external: true

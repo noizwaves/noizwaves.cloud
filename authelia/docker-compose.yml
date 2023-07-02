@@ -29,8 +29,6 @@ services:
       - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
       - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
 
-      ## DNS
-      - external-dns-poc=authelia.${CLOUD_DOMAIN}
     restart: unless-stopped
     depends_on:
       - redis
