@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   watchtower:
-    image: containrrr/watchtower
+    image: containrrr/watchtower:1.5.1
     restart: unless-stopped
     container_name: watchtower
     env_file:
@@ -12,6 +12,7 @@ services:
       - WATCHTOWER_SCHEDULE=0 0 2 ? * SAT
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_NOTIFICATIONS=email
+      - WATCHTOWER_TIMEOUT=60s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
