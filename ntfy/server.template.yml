@@ -1,0 +1,8 @@
+cache-file: /var/cache/ntfy/cache.db
+
+auth-file: /var/cache/ntfy/user.db
+auth-default-access: deny-all
+
+base-url: https://nfty.${CLOUD_DOMAIN}
+upstream-base-url: "https://ntfy.sh"
+behind-proxy: true
