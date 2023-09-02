@@ -6,3 +6,9 @@ auth-default-access: deny-all
 base-url: https://nfty.${CLOUD_DOMAIN}
 upstream-base-url: "https://ntfy.sh"
 behind-proxy: true
+
+# from docker exec -it ntfy ntfy webpush keys
+web-push-public-key: <PUBLIC_KEY>
+web-push-private-key: <PRIVATE_KEY>
+web-push-file: /var/cache/ntfy/webpush.db
+web-push-email-address: <EMAIL>
