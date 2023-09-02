@@ -110,3 +110,10 @@ docker run \
 
 # Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_COLD_BACKUP_UUID
+
+curl \
+	--silent \
+	-H "Authorization: Bearer ${NTFY_TOKEN}" \
+	-H "Tags: white_check_mark" \
+	-d "Backup complete" \
+	https://ntfy.noizwaves.cloud/odroid_cold_backups > /dev/null
