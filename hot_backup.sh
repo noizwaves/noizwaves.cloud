@@ -29,6 +29,8 @@ echo "[hot_backup] Starting backup at $(date)"
 
 stop_containers
 
+# --verbosity info \
+# Perform backup
 docker run --rm \
 	--name duplicity-hot \
 	--hostname duplicity \
@@ -45,7 +47,6 @@ docker run --rm \
 	duplicity \
 	--progress \
 	--full-if-older-than 6M \
-	--verbosity info \
 	--exclude '/data/cloud-config/.duplicity-cache/' \
 	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-config/elastic/filebeat.yml' \

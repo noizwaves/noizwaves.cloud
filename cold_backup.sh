@@ -25,6 +25,7 @@ trap handle_error ERR
 # Stop containers in preparation for backup
 stop_containers
 
+# --verbosity info \
 # Perform backup
 docker run \
 	--name duplicity-cold \
@@ -40,7 +41,6 @@ docker run \
 	wernight/duplicity \
 	duplicity \
 	--progress \
-	--verbosity info \
 	--full-if-older-than 12M \
 	--no-encryption \
 	--no-compression \
