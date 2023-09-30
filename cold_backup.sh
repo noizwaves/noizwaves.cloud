@@ -46,10 +46,13 @@ docker run \
 	--no-compression \
 	--exclude '/data/cloud-config/.duplicity-cache/' \
 	--exclude '/data/cloud-config/hot_backup.log' \
+	--exclude '/data/cloud-config/elastic/filebeat.yml' \
+	--exclude '/data/cloud-config/elastic/metricbeat.yml' \
 	--exclude '/data/cloud-data/adguard/tailscale/' \
 	--exclude '/data/cloud-data/backblaze/' \
 	--exclude '/data/cloud-data/bitwarden/data/icon_cache/' \
 	--exclude '/data/cloud-data/cloudflare/' \
+	--exclude '/data/cloud-data/elastic/' \
 	--exclude '/data/cloud-data/fotos-lauren/normals/' \
 	--exclude '/data/cloud-data/fotos-lauren/thumbnails/' \
 	--exclude '/data/cloud-data/fotos/normals/' \
