@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  k2d:
+    container_name: k2d
+    image: portainer/k2d:1.0.0-beta
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - '6443:6443'
+    env_file:
+      - .env
+    environment:
+      - K2D_ADVERTISE_ADDR=${TAILSCALE_IP}
+    volumes:
+      - ../../cloud-data/k2d/data:/var/lib/k2d
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    name: k2d

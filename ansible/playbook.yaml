@@ -190,6 +190,26 @@
       loop:
         - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
+    - name: Allow containerized k2d (TCP port 6443)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '6443'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow containerized k2d (UDP port 6443)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '6443'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24 # local network
+        - 100.64.0.0/10 # tailscale
     - name: Allow Plex (port 32400)
       community.general.ufw:
         rule: allow
