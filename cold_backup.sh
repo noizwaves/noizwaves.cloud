@@ -59,6 +59,7 @@ docker run \
 	--exclude '/data/cloud-data/fotos/thumbnails/' \
 	--exclude '/data/cloud-data/gitea/data/ssh/' \
 	--exclude '/data/cloud-data/influxdb/' \
+	--exclude '/data/cloud-data/k2d/' \
 	--exclude '/data/cloud-data/k3s/' \
 	--exclude '/data/cloud-data/nextcloud/' \
 	--exclude '/data/cloud-data/photoprism/' \
