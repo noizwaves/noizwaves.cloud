@@ -37,7 +37,7 @@ docker run --rm \
 	--user 1000:1000 \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-data:/data/cloud-data:ro \
-	-v /mnt/media/Photography:/data/mnt/media/Photography:ro \
+	-v /mnt/media2/Photography:/data/mnt/media/Photography:ro \
 	-v ~/cloud-config:/data/cloud-config:ro \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \

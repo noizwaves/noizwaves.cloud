@@ -13,7 +13,6 @@ services:
       TZ: America/Los_Angeles
     volumes:
       - ../../cloud-data/backblaze/config:/config
-      - /mnt/media:/mnt/media
       - /mnt/media2:/mnt/media2
     labels:
       - traefik.enable=true
