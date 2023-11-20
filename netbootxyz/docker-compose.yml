@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  netbootxyz:
+    image: lscr.io/linuxserver/netbootxyz:latest
+    container_name: netbootxyz
+    environment:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: ${TZ}
+    networks:
+      - web
+    volumes:
+      - ../../cloud-data/netbootxyz/config:/config
+      # - /path/to/assets:/assets #optional
+    ports:
+      - ${LAN_IP}:69:69/udp
+      # - 8080:80 #optional
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.netbootxyz.loadbalancer.server.port=3000
+
+      - traefik.http.routers.netbootxyz.rule=Host(`netbootxyz.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.netbootxyz.tls.certresolver=mytlschallenge
+      - traefik.http.routers.netbootxyz.entrypoints=web-secured
+      - traefik.http.routers.netbootxyz.tls=true
+      - traefik.http.routers.netbootxyz.service=netbootxyz
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true

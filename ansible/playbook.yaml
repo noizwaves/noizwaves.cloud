@@ -238,6 +238,15 @@
       loop:
         - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
+    - name: Netbootxyz
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '69'
+        proto: udp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24 # local network
     - name: Improved Tailscale direct connection (UDP 41641, https://tailscale.com/kb/1082/firewall-ports/)
       community.general.ufw:
         rule: allow
