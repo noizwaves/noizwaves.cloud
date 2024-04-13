@@ -1,14 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
-  labels:
-    app: nginx
+  name: hello-world
+  namespace: hello-world
 spec:
-  replicas: 1
   selector:
-    matchLabels:
-      app: nginx
+    app: nginx
+  replicas: 1
   template:
     metadata:
       labels:

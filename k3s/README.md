@@ -1,50 +1,16 @@
-# K3s
+# k3s
 
-A single node Kubernetes cluster based on K3s.
+1. Set up envrc:
+    1. `cp .envrc.template .envrc`
+    1. Edit `.envrc` and set the values
+    1. `direnv allow`
+1. Install k3s: `curl -sfL https://get.k3s.io | sh -s - --disable-traefik`
+1. Get Kube config:
+    1. `sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s`
+    1. `sudo chown cloud:cloud ~/.kube/k3s`
+1. `kubectl get nodes`
 
-## Setup
+## Other steps
 
-### 1. K3s (for Kubernetes)
-1.  `$ cd k3s`
-1.  `$ mkdir -p ~/cloud-data/k3s/server ~/cloud-data/k3s/kubeconfig ~/cloud-data/k3s/tailscale`
-1.  `$ cp .env.tmpl .env`
-1.  Input appropriate values
-1.  `$ docker-compose up -d`
-1.  Use Tailscale token in `docker logs k3s_tailscale` to authenticate
-1.  Set up DNS record for `k3s.noizwaves.cloud`
-1.  Prepare kubeconfig from `~/cloud-data/k3s/kubeconfig/kubeconfig.yaml`
-
-### 2. Cert Manager (for automatic SSL certificate creation)
-1.  `$ cd helm/cert-manager`
-1.  `$ helm repo add jetstack https://charts.jetstack.io`
-1.  `$ helm repo update`
-1.  ```
-    $ helm install cert-manager jetstack/cert-manager \
-        --namespace cert-manager \
-        --create-namespace \
-        --version v1.11.0 \
-        --values values.yaml
-    ```
-1.  Create Cloudflare DNS API Token secret:
-    1.  `cp cloudflare-dns-api-token.template.yaml cloudflare-dns-api-token.yaml`
-    1.  Replace `TOKEN_VALUE_HERE` with appropriate token
-    1.  `kubectl -n cert-manager apply -f cloudflare-dns-api-token.yaml`
-1.  Create ClusterIssuer for Let's Encrypt via `kubectl -n cert-manager apply -f letsencrypt-production.yaml`
-
-### 3. External DNS (for automatic DNS records)
-1.  `$ cd helm/external-dns`
-1.  `$ helm repo add bitnami https://charts.bitnami.com/bitnami`
-1.  `$ helm repo update`
-1.  ```
-    $ helm install external-dns bitnami/external-dns \
-        --namespace external-dns \
-        --create-namespace \
-        --version 6.14.4 \
-        --values values.yaml
-    ```
-
-### 4. Install Example App
-1.  `$ cd helm/example-app`
-1.  `$ kubectl create namespace example-app`
-1.  `$ kubectl apply -f deployment.yaml -f ingress.yaml -f service.yaml`
-1.  Open [example app](https://example.noizwaves.cloud:8443)
+1. Install a recent version of Helm
+1. [Install Tailscale operator](./tailscale/README.md)

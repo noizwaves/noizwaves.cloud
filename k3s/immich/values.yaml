@@ -1,0 +1,33 @@
+image:
+  tag: "v1.101.0"
+
+immich:
+  persistence:
+    library:
+      existingClaim: immich
+
+server:
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: immich
+          paths:
+            - path: "/"
+              service:
+                name: immich-server
+                port: "3001"
+
+      ingressClassName: tailscale
+      tls:
+      - hosts:
+        - immich
+
+postgresql:
+  enabled: true
+
+redis:
+  enabled: true
+
+machine-learning:
+  enabled: false

@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cloudflare-dns-api-token
-type: Opaque
-stringData:
-  # snake case to match cloudflare.secretName in
-  # https://artifacthub.io/packages/helm/bitnami/external-dns
-  cloudflare_api_token: "TOKEN_VALUE_HERE"
