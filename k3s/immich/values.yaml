@@ -11,7 +11,7 @@ server:
     main:
       enabled: true
       hosts:
-        - host: immich
+        - host: immich2
           paths:
             - path: "/"
               service:
@@ -21,7 +21,7 @@ server:
       ingressClassName: tailscale
       tls:
       - hosts:
-        - immich
+        - immich2
 
 postgresql:
   enabled: true
