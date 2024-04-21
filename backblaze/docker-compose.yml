@@ -3,6 +3,7 @@ version: '3.7'
 services:
   app:
     image: tessypowder/backblaze-personal-wine:latest
+    #image: tessypowder/backblaze-personal-wine:v1.5
     hostname: odroid
     container_name: backblaze
     restart: unless-stopped
@@ -11,6 +12,7 @@ services:
       - web
     environment:
       TZ: America/Los_Angeles
+      DISABLE_VIRTUAL_DESKTOP: "true"
     volumes:
       - ../../cloud-data/backblaze/config:/config
       - /mnt/media2:/mnt/media2
