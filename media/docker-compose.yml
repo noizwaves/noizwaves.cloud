@@ -51,6 +51,31 @@ services:
       - traefik.http.routers.sonarr.tls=true
       - traefik.http.routers.sonarr.service=sonarr
 
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+    volumes:
+      - ../../cloud-data/radarr/config:/config
+      - /mnt/media2/Arr:/data
+    ports: []
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.radarr.loadbalancer.server.port=7878
+
+      # HTTPS
+      - traefik.http.routers.radarr.rule=Host(`radarr.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.radarr.tls.certresolver=mytlschallenge
+      - traefik.http.routers.radarr.entrypoints=web-secured
+      - traefik.http.routers.radarr.tls=true
+      - traefik.http.routers.radarr.service=radarr
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
