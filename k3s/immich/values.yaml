@@ -22,6 +22,35 @@ server:
       tls:
       - hosts:
         - immich2
+  persistence:
+    adams-photos:
+      enabled: true
+      mountPath: /external/adam
+      type: hostPath
+      hostPath: /home/cloud/cloud-data/resilio-sync/data/pictures-data/iCloud_Photos
+      readOnly: true
+    laurens-photos:
+      enabled: true
+      mountPath: /external/lauren
+      type: hostPath
+      hostPath: /home/cloud/cloud-data/resilio-sync/data/pictures-data/Lauren Photos
+      readOnly: true
+
+
+microservices:
+  persistence:
+    adams-photos:
+      enabled: true
+      mountPath: /external/adam
+      type: hostPath
+      hostPath: /home/cloud/cloud-data/resilio-sync/data/pictures-data/iCloud_Photos
+      readOnly: true
+    laurens-photos:
+      enabled: true
+      mountPath: /external/lauren
+      type: hostPath
+      hostPath: /home/cloud/cloud-data/resilio-sync/data/pictures-data/Lauren Photos
+      readOnly: true
 
 postgresql:
   enabled: true
