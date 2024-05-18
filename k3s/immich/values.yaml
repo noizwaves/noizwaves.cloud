@@ -17,11 +17,26 @@ server:
               service:
                 name: immich-server
                 port: "3001"
-
       ingressClassName: tailscale
       tls:
       - hosts:
         - immich2
+    internal:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      hosts:
+        - host: immich.noizwaves.cloud
+          paths:
+            - path: "/"
+              service:
+                name: immich-server
+                port: "3001"
+      tls:
+        - secretName: testsecret-tls
+          hosts:
+          - immich.noizwaves.cloud
+
   persistence:
     # https://bjw-s.github.io/helm-charts/docs/common-library/storage/types/hostPath/
     adams-photos:
