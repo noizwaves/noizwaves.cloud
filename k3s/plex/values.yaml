@@ -1,0 +1,21 @@
+# https://github.com/plexinc/pms-docker/blob/master/charts/plex-media-server/README.md#configuration
+ingress:
+  enabled: true
+  url: https://plex
+  ingressClassName: tailscale
+pms:
+  configStorage: 10Gi
+  resources:
+    limits:
+      gpu.intel.com/i915: "1"
+    requests:
+      gpu.intel.com/i915: "1"
+
+extraVolumes:
+  - name: media2
+    hostPath:
+      path: /mnt/media2
+extraVolumeMounts:
+  - name: media2
+    mountPath: /data/media2
+    readOnly: true
