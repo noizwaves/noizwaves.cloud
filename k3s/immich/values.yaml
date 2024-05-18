@@ -23,6 +23,7 @@ server:
       - hosts:
         - immich2
   persistence:
+    # https://bjw-s.github.io/helm-charts/docs/common-library/storage/types/hostPath/
     adams-photos:
       enabled: true
       mountPath: /external/adam
