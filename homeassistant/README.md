@@ -12,3 +12,15 @@
     ```
 1. Allow web network<>Docker host connectivity: `sudo ufw allow proto tcp from $WEB_CIDR to 172.17.0.1 port 8123`
 1. Allow LAN<>hass connectivity: `sudo ufw allow from $LAN_CIDR to any port 8123`
+
+## Homekit pairing
+
+UFW will block incomming connections from iOS when pairing. Temporarily allow connectivity using:
+```
+$ sudo ufw allow from $IOS_IP_ADDRESS
+```
+
+UFW will block incomming connections from the Homekit bridge after pairing. Allow connectivity using:
+```
+$ sudo ufw allow from $HOMEKIT_BRIDGE_IP_ADDRESS
+```
