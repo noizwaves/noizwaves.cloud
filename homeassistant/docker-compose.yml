@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: homeassistant-app
+    image: lscr.io/linuxserver/homeassistant:latest
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - ../../cloud-data/homeassistant/config:/config
+    restart: unless-stopped
+    labels:
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+  proxy:
+    container_name: homeassistant-proxy
+    image: alpine/socat
+    networks:
+      - web
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:host.docker.internal:8123"
+    depends_on:
+      - app
+    ports: []
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.homeassistant.loadbalancer.server.port=8080
+      - traefik.http.services.homeassistant.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.homeassistant.rule=Host(`hass.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.homeassistant.entrypoints=web-secured
+      - traefik.http.routers.homeassistant.service=homeassistant
+      - traefik.http.routers.homeassistant.tls=true
+      - traefik.http.routers.homeassistant.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true
