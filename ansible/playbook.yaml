@@ -238,6 +238,13 @@
       loop:
         - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
+    - name: Home Assistant proxy
+      community.general.ufw:
+        rule: allow
+        port: '8123'
+        proto: tcp
+        src: '172.18.0.0/16'
+        dest: '172.17.0.1'
     - name: Netbootxyz
       community.general.ufw:
         rule: allow
