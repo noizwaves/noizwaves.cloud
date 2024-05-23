@@ -21,10 +21,8 @@ services:
     image: alpine/socat
     networks:
       - web
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     restart: unless-stopped
-    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:host.docker.internal:8123"
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:8123"
     depends_on:
       - app
     ports: []
