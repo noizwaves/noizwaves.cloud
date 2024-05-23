@@ -11,17 +11,36 @@ services:
     environment:
       - TZ=America/Los_Angeles
     labels:
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+  proxy:
+    container_name: upsnap-proxy
+    image: alpine/socat
+    networks:
+      - web
+    restart: unless-stopped
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:8090"
+    depends_on:
+      - upsnap
+    ports: []
+    labels:
       - traefik.enable=true
-      - traefik.http.services.upsnap.loadbalancer.server.port=8090
 
-      # HTTPS (only for the redirect)
+      ## Service settings
+      - traefik.http.services.upsnap.loadbalancer.server.port=8080
+      - traefik.http.services.upsnap.loadbalancer.passhostheader=true
+
+      ## HTTPS
       - traefik.http.routers.upsnap.rule=Host(`upsnap.${CLOUD_DOMAIN}`)
-      - traefik.http.routers.upsnap.tls.certresolver=mytlschallenge
       - traefik.http.routers.upsnap.entrypoints=web-secured
-      - traefik.http.routers.upsnap.tls=true
       - traefik.http.routers.upsnap.service=upsnap
+      - traefik.http.routers.upsnap.tls=true
+      - traefik.http.routers.upsnap.tls.certresolver=mytlschallenge
 
-      # HTTP redirect
-      - traefik.http.middlewares.upsnap-redirect.redirectregex.regex=^https://upsnap.${CLOUD_DOMAIN}/(.*?)
-      - traefik.http.middlewares.upsnap-redirect.redirectregex.replacement=http://upsnap.${CLOUD_DOMAIN}:8090/$${1}
-      - traefik.http.routers.upsnap.middlewares=upsnap-redirect@docker
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true

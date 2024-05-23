@@ -5,8 +5,6 @@ services:
     image: linuxserver/syncthing:latest
     container_name: syncthing
     network_mode: host
-    #networks:
-    #  - web
     environment:
       - PUID=1000
       - PGID=1000
@@ -26,17 +24,36 @@ services:
       - ../../cloud-data/resilio-sync/data/lauren-notebook-data:/data/lauren-notebook
     restart: unless-stopped
     labels:
-    #  - traefik.enable=true
-    #  - traefik.http.services.syncthing.loadbalancer.server.port=8384
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
 
-    #  # HTTPS
-    #  - traefik.http.routers.syncthing.rule=Host(`syncthing.${CLOUD_DOMAIN}`)
-    #  - traefik.http.routers.syncthing.tls.certresolver=mytlschallenge
-    #  - traefik.http.routers.syncthing.entrypoints=web-secured
-    #  - traefik.http.routers.syncthing.tls=true
-    #  - traefik.http.routers.syncthing.service=syncthing
+  proxy:
+    container_name: syncthing-proxy
+    image: alpine/socat
+    networks:
+      - web
+    restart: unless-stopped
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:8384"
+    depends_on:
+      - syncthing
+    ports: []
+    labels:
+      - traefik.enable=true
 
+      ## Service settings
+      - traefik.http.services.syncthing.loadbalancer.server.port=8080
+      - traefik.http.services.syncthing.loadbalancer.passhostheader=true
 
-#networks:
-#  web:
-#    external: true
+      ## HTTPS
+      - traefik.http.routers.syncthing.rule=Host(`syncthing.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.syncthing.entrypoints=web-secured
+      - traefik.http.routers.syncthing.service=syncthing
+      - traefik.http.routers.syncthing.tls=true
+      - traefik.http.routers.syncthing.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  web:
+    external: true

@@ -10,6 +10,33 @@ services:
       - ../../cloud-data/adguard/work:/opt/adguardhome/work
       - ../../cloud-data/adguard/conf:/opt/adguardhome/conf
 
+  proxy:
+    container_name: adguard-proxy
+    image: alpine/socat
+    networks:
+      - web
+    restart: unless-stopped
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:3000"
+    depends_on:
+      - app
+    ports: []
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.adguard.loadbalancer.server.port=8080
+      - traefik.http.services.adguard.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.adguard.rule=Host(`adguard.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.adguard.entrypoints=web-secured
+      - traefik.http.routers.adguard.service=adguard
+      - traefik.http.routers.adguard.tls=true
+      - traefik.http.routers.adguard.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
 networks:
   web:
     external: true
