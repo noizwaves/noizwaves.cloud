@@ -51,6 +51,12 @@ server:
       type: hostPath
       hostPath: /home/cloud/cloud-data/resilio-sync/data/pictures-data/Lauren Photos
       readOnly: true
+    photograph:
+      enabled: true
+      mountPath: /external/photography
+      type: hostPath
+      hostPath: /mnt/media2/Photography
+      readOnly: true
 
 
 microservices:
@@ -66,6 +72,12 @@ microservices:
       mountPath: /external/lauren
       type: hostPath
       hostPath: /home/cloud/cloud-data/resilio-sync/data/pictures-data/Lauren Photos
+      readOnly: true
+    photograph:
+      enabled: true
+      mountPath: /external/photography
+      type: hostPath
+      hostPath: /mnt/media2/Photography
       readOnly: true
 
 postgresql:

@@ -17,7 +17,7 @@
     namespace: kube-system
     spec:
     valuesContent: |-
-      #Traefik debugging
+      # Traefik debugging
       #additionalArguments:
       #  - "--log.level=DEBUG"
       ports:
@@ -36,3 +36,5 @@
 1. Install a recent version of Helm
 1. [Install Tailscale operator](./tailscale/README.md)
 1. [Install cert-manager](./cert-manager/README.md)
+1. [Install Immich](./immich/README.md)
+1. [Install Plex](./plex/README.md)
