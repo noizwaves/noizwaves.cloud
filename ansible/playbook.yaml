@@ -170,11 +170,21 @@
       loop:
         - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
-    - name: Allow containerized HTTPS (port 443)
+    - name: Allow containerized HTTPS (traefik, port 443)
       community.general.ufw:
         rule: allow
         route: true
         port: '443'
+        proto: tcp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24 # local network
+        - 100.64.0.0/10 # tailscale
+    - name: Allow containerized HTTPS (k3s, port 8443)
+      community.general.ufw:
+        rule: allow
+        route: true
+        port: '8443'
         proto: tcp
         src: '{{ item }}'
       loop:
