@@ -87,4 +87,7 @@ redis:
   enabled: true
 
 machine-learning:
-  enabled: false
+  enabled: true
+  persistence:
+    cache:
+      type: persistentVolumeClaim
