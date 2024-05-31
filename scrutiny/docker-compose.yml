@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  app:
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    container_name: scrutiny
+    restart: unless-stopped
+    networks:
+      - web
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    ports: []
+    devices:
+      - "/dev/sda"
+      - "/dev/nvme0"
+    volumes:
+      - /run/udev:/run/udev:ro
+      - ../../cloud-data/scrutiny/config:/opt/scrutiny/config
+      - ../../cloud-data/scrutiny/influxdb:/opt/scrutiny/influxdb
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.scrutiny.loadbalancer.server.port=8080
+
+      # HTTPS
+      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.scrutiny.tls.certresolver=mytlschallenge
+      - traefik.http.routers.scrutiny.entrypoints=web-secured
+      - traefik.http.routers.scrutiny.tls=true
+      - traefik.http.routers.scrutiny.service=scrutiny
+
+      # protect with Authelia
+      - traefik.http.routers.scrutiny.middlewares=authelia@docker
+
+networks:
+  web:
+    external: true
