@@ -4,7 +4,8 @@ set -eou pipefail
 
 if findmnt --mountpoint /media/ozo >>/dev/null; then
   mkdir -p /media/ozo/backup/TV
-  rsync -av /mnt/media2/TV/ /media/ozo/backup/TV
+  # to delete, add "--delete"
+  rsync -av --exclude-from media_backup_tv_excludes.txt /mnt/media2/TV/ /media/ozo/backup/TV
 else
   echo "ozo is not mounted, skipping"
 fi

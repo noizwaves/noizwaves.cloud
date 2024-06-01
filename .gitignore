@@ -3,6 +3,7 @@
 backup.env
 cold.env
 hot.env
+media_backup_tv_excludes.txt
 
 .duplicity-cache
 hot_backup.log
