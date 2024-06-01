@@ -69,6 +69,7 @@ docker run \
 	--exclude '/data/cloud-data/plex/' \
 	--exclude '/data/cloud-data/registry/' \
 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
+	--exclude '/data/cloud-data/scrutiny/' \
 	--exclude '/data/cloud-data/tandoor/staticfiles/' \
 	--exclude '/data/cloud-data/tig/' \
 	--exclude '/data/cloud-data/traefik/' \
