@@ -15,3 +15,6 @@ authelia/config/configuration.yml
 
 fotos/credentials.list
 fotos-lauren/credentials.list
+
+isync/mbsyncrc
+dovecot/conf.d/userdb

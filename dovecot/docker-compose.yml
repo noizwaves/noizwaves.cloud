@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  dovecot:
+    image: dovecot/dovecot:2.3.21
+    container_name: dovecot
+    restart: unless-stopped
+    # user: "1000:1000"
+    networks:
+      - email
+    # ports:
+      # - '143:143'
+      # - '993:993'
+    # environment:
+
+    volumes:
+      - ../../cloud-data/dovecot/data/mail:/srv/mail
+      - ./dovecot.conf:/etc/dovecot/dovecot.conf
+      - ./conf.d:/etc/dovecot/conf.d
+
+networks:
+  email:
+    name: email
+    external: false

@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  roundcube:
+    image: roundcube/roundcubemail:latest
+    container_name: roundcube
+    restart: unless-stopped
+    networks:
+      - email
+      - web
+    volumes:
+      - ../../cloud-data/roundcube/db:/var/roundcube/db
+    environment:
+      - ROUNDCUBEMAIL_DB_TYPE=sqlite
+      - ROUNDCUBEMAIL_SKIN=elastic
+      - ROUNDCUBEMAIL_DEFAULT_HOST=dovecot
+      # - ROUNDCUBEMAIL_SMTP_SERVER=tls://dovecot
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.roundcube-web.loadbalancer.server.port=80
+
+      # HTTPS
+      - traefik.http.routers.roundcube-web.rule=Host(`roundcube.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.roundcube-web.tls.certresolver=mytlschallenge
+      - traefik.http.routers.roundcube-web.entrypoints=web-secured
+      - traefik.http.routers.roundcube-web.tls=true
+      - traefik.http.routers.roundcube-web.service=roundcube-web
+
+      - com.centurylinklabs.watchtower.enable=false
+
+networks:
+  email:
+    external: true
+  web:
+    external: true

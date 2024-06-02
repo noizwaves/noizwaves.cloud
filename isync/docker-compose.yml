@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  isync:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: isync
+    volumes:
+      # TODO: make this dynamic?
+      - ./mbsyncrc:/home/isync/.mbsyncrc:ro
+      - ../../cloud-data/isync/state:/home/isync/.mbsync
+      - ../../cloud-data/dovecot/data/mail:/home/isync/mail
+    labels:
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=false
