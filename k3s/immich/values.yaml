@@ -1,5 +1,5 @@
 image:
-  tag: "v1.105.1"
+  tag: "v1.106.4"
 
 immich:
   persistence:
@@ -90,4 +90,4 @@ machine-learning:
   enabled: true
   persistence:
     cache:
-      type: persistentVolumeClaim
+      existingClaim: immich-cache
