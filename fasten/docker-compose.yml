@@ -22,9 +22,6 @@ services:
       - traefik.http.routers.fasten.tls=true
       - traefik.http.routers.fasten.service=fasten
 
-      # protect with Authelia
-      - traefik.http.routers.fasten.middlewares=authelia@docker
-
       # Automatically updated
       - com.centurylinklabs.watchtower.enable=true
 
