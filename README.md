@@ -512,7 +512,6 @@ Start iMessage bridge on mac:
 1.  Connect cold backup USB drive to restore target
 1.  Obtain secrets pack
 1.  `$ pmount /dev/sda backup`
-1.  Populate config
     1.  `$ cp cold.env.tmpl cold.env`
     1.  Set `RESTORE_DIR`
 1.  `$ ./cold_restore.sh`

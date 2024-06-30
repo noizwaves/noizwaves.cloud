@@ -26,7 +26,7 @@ docker run \
 	-v $(pwd)/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
 	-v "${BACKUP_DIR}":/backup:ro \
 	-v "${RESTORE_DIR}":/restore:rw \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity restore \
 	--progress \
 	--no-encryption \

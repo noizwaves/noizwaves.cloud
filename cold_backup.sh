@@ -38,7 +38,7 @@ docker run \
 	-v ~/cloud-config:/data/cloud-config:ro \
 	-v "${BACKUP_DIR}":/backup:rw \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity \
 	--progress \
 	--full-if-older-than 12M \
@@ -92,7 +92,7 @@ docker run \
 	-v ~/cloud-config:/data/cloud-config:ro \
 	-v "${BACKUP_DIR}":/backup:rw \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity cleanup \
 	--force \
 	--no-encryption \
@@ -108,7 +108,7 @@ docker run \
 	-v ~/cloud-config:/data/cloud-config:ro \
 	-v "${BACKUP_DIR}":/backup:rw \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity remove-all-but-n-full 2 \
 	${DEST} \
 	--force

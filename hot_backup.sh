@@ -43,7 +43,7 @@ docker run --rm \
 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
 	-e PASSPHRASE="${PASSPHRASE}" \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity \
 	--progress \
 	--full-if-older-than 6M \
@@ -96,7 +96,7 @@ docker run --rm \
 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
 	-e PASSPHRASE="${PASSPHRASE}" \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity remove-all-but-n-full 1 \
 	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} \
 	--force

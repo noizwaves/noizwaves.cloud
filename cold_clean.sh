@@ -11,7 +11,7 @@ docker run \
 	-v "${BACKUP_DIR}":/backup:rw \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity cleanup \
 	--force \
 	--no-encryption \

@@ -12,6 +12,6 @@ docker run --rm \
 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
 	-e PASSPHRASE="${PASSPHRASE}" \
-	wernight/duplicity \
+	wernight/duplicity:stable \
 	duplicity collection-status \
 	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL}
