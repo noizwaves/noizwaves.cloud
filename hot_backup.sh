@@ -97,7 +97,7 @@ docker run --rm \
 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
 	-e PASSPHRASE="${PASSPHRASE}" \
 	wernight/duplicity:stable \
-	duplicity remove-all-but-n-full 1 \
+	duplicity remove-all-but-n-full 2 \
 	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} \
 	--force
 
