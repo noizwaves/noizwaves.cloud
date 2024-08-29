@@ -64,6 +64,8 @@ docker run --rm \
 	--exclude '/data/cloud-data/immich/model-cache' \
 	--exclude '/data/cloud-data/immich/redis' \
 	--exclude '/data/cloud-data/immich/tailscale' \
+	--exclude '/data/cloud-data/immich/upload/encoded-video' \
+	--exclude '/data/cloud-data/immich/upload/thumbs' \
 	--exclude '/data/cloud-data/influxdb/' \
 	--exclude '/data/cloud-data/k2d/' \
 	--exclude '/data/cloud-data/k3s/' \
