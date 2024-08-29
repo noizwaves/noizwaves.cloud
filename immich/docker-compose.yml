@@ -1,0 +1,126 @@
+version: '3.7'
+
+services:
+  server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
+    command: ["start.sh", "immich"]
+    user: 1000:1000
+    networks:
+      - web
+      - tailscale
+      - default
+    volumes:
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/external/adam:ro
+      - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Photos:/external/lauren:ro
+      - /mnt/media2/Photography:/external/photography:ro
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      # for quicksync transcoding: https://github.com/immich-app/immich/blob/main/docker/hwaccel.transcoding.yml#L24
+      - /dev/dri:/dev/dri
+    env_file:
+      - .env
+    environment:
+      # verbose,debug,info,log, etc: https://immich.app/docs/install/environment-variables/#general
+      # - IMMICH_LOG_LEVEL=verbose
+
+      # Needed to specify this to get jobs to run, not sure why it's required though...
+      - IMMICH_WORKERS_INCLUDE=api,microservices
+    ulimits:
+      # for watching external libraries: https://github.com/immich-app/immich/issues/8592#issuecomment-2076175417
+      nofile:
+        soft: 200000
+        hard: 200000
+    depends_on:
+      - redis
+      - database
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.immich.loadbalancer.server.port=3001
+      - traefik.http.services.immich.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.immich.rule=Host(`immich.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.immich.entrypoints=web-secured
+      - traefik.http.routers.immich.service=immich
+      - traefik.http.routers.immich.tls=true
+      - traefik.http.routers.immich.tls.certresolver=mytlschallenge
+    restart: unless-stopped
+
+  machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v1.112.0-openvino
+    volumes:
+      - ../../cloud-data/immich/model-cache:/cache
+    env_file:
+      - .env
+    restart: unless-stopped
+
+    # For openvino acceleration: https://github.com/immich-app/immich/blob/main/docker/hwaccel.ml.yml#L29
+    # Incompatible with current Docker Compose version
+    # device_cgroup_rules:
+      # - 'c 189:* rmw'
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+
+  redis:
+    container_name: immich_redis
+    image: redis:6.2-alpine@sha256:70a7a5b641117670beae0d80658430853896b5ef269ccf00d1827427e3263fa3
+    command: redis-server /etc/redis.conf --save 60 1
+    user: 1000:1000
+    restart: unless-stopped
+    volumes:
+      - ../../cloud-data/immich/redis:/data
+      - ./redis.conf:/etc/redis.conf
+
+  database:
+    container_name: immich_postgres
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    user: 1000:1000
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  tailscale:
+    image: tailscale/tailscale
+    container_name: immich_tailscale
+    hostname: immich
+    restart: unless-stopped
+    cap_add:
+      - net_admin
+      - sys_module
+    networks:
+      - tailscale
+    volumes:
+      - ../../cloud-data/immich/tailscale:/var/lib/tailscale
+      - ./serve-config.json:/config/serve-config.json
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_OAUTH_KEY}?ephemeral=false
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container --reset
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve-config.json
+      - TS_USERSPACE=false
+    labels:
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+networks:
+  default:
+    external: false
+  tailscale:
+    external: false
+  web:
+    external: true
