@@ -31,6 +31,8 @@
     1. `sudo chown cloud:cloud ~/.kube/k3s`
 1. `kubectl get nodes`
 
+If k3s is stopped, start it with: `sudo systemctl start k3s`
+
 ## Other steps
 
 1. Install a recent version of Helm
@@ -38,3 +40,7 @@
 1. [Install cert-manager](./cert-manager/README.md)
 1. [Install Immich](./immich/README.md)
 1. [Install Plex](./plex/README.md)
+
+## Stopping
+
+To stop, run: `sudo systemctl stop k3s`
