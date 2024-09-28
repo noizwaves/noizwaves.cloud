@@ -9,7 +9,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/Denver
+      - TZ=${TZ}
     volumes:
       - ../../cloud-data/resilio-sync/config:/config
       - ../../cloud-data/resilio-sync/data:/sync

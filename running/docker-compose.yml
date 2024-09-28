@@ -9,7 +9,7 @@ services:
     networks:
       - web
     environment:
-      - TZ=America/Denver
+      - TZ=${TZ}
       - PORT=3000
       - RUNS_ROOT_PATH=/data/runs
     volumes:

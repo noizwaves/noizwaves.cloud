@@ -11,7 +11,7 @@ services:
     networks:
       - web
     environment:
-      TZ: America/Los_Angeles
+      TZ: ${TZ}
       DISABLE_VIRTUAL_DESKTOP: "true"
     volumes:
       - ../../cloud-data/backblaze/config:/config

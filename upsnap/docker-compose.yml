@@ -9,7 +9,7 @@ services:
     volumes:
       - ../../cloud-data/upsnap/data:/app/pb_data
     environment:
-      - TZ=America/Los_Angeles
+      - TZ=${TZ}
     labels:
       # Automatically updated
       - com.centurylinklabs.watchtower.enable=true

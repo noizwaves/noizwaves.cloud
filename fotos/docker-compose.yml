@@ -10,7 +10,7 @@ services:
     networks:
       - backend
     environment:
-      - TZ=America/Denver
+      - TZ=${TZ}
       - PORT=3000
     volumes:
       - ../../cloud-data/fotos/thumbnails/v2:/thumbnails_v2
@@ -29,7 +29,7 @@ services:
       - web
       - backend
     environment:
-      - TZ=America/Denver
+      - TZ=${TZ}
     volumes:
       - ../../cloud-data/fotos/thumbnails/v2:/usr/share/nginx/html/thumbnails_v2:ro
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/usr/share/nginx/html/photos:ro
