@@ -46,7 +46,7 @@ docker run --rm \
 	wernight/duplicity:stable \
 	duplicity \
 	--progress \
-	--full-if-older-than 6M \
+	--full-if-older-than 12M \
 	--exclude '/data/cloud-config/.duplicity-cache/' \
 	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-config/elastic/filebeat.yml' \
