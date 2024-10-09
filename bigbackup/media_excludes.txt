@@ -1,0 +1,6 @@
+._.DS_Store
+.DS_Store
+/.Incomplete
+/Arr/Downloads
+/Arr/Incomplete
+/Incoming
