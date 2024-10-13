@@ -1,0 +1,3 @@
+/home/cloud/cloud-data
+/home/cloud/cloud-config
+/mnt/media2/Photography
