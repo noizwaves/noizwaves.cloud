@@ -4,6 +4,12 @@ set -e
 source ~/cloud-config/backup.env
 source ~/cloud-config/hot.env
 
+# Restic config
+export RESTIC_REPOSITORY="b2:$BUCKET_NAME:restic/odroid"
+export RESTIC_PASSWORD=$PASSPHRASE
+export B2_ACCOUNT_ID=$AWS_ACCESS_KEY_ID
+export B2_ACCOUNT_KEY=$AWS_SECRET_ACCESS_KEY
+
 stop_containers() {
 	echo "[hot_backup] Begin stopping containers"
 	docker stop -t 60 $CONTAINERS
@@ -51,9 +57,10 @@ docker run --rm \
 	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-config/elastic/filebeat.yml' \
 	--exclude '/data/cloud-config/elastic/metricbeat.yml' \
-	--exclude '/data/cloud-data/adguard/tailscale/' \
+	--exclude '/data/cloud-data/adguard/' \
 	--exclude '/data/cloud-data/backblaze/' \
 	--exclude '/data/cloud-data/bitwarden/data/icon_cache/' \
+	--exclude '/data/cloud-data/borgmatic/' \
 	--exclude '/data/cloud-data/cloudflare/' \
 	--exclude '/data/cloud-data/elastic/' \
 	--exclude '/data/cloud-data/fotos-lauren/normals/' \
@@ -85,6 +92,11 @@ docker run --rm \
 	--include '/data/' \
 	--exclude '**' \
 	/data/ s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL}
+
+# restic to backblaze
+restic backup \
+  --files-from ~/cloud-config/restic/odroid_backup.txt \
+  --exclude-file ~/cloud-config/restic/odroid_exclude.txt
 
 # Start containers again
 start_containers

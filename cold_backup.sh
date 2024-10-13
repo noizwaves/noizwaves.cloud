@@ -4,6 +4,24 @@ set -e
 source ~/cloud-config/backup.env
 source ~/cloud-config/cold.env
 
+export RESTIC_REPOSITORY=/media/bigbackup/restic/odroid
+export RESTIC_PASSWORD_FILE="${RESTIC_REPOSITORY}.password"
+
+if [ ! -d "$BACKUP_DIR" ]; then
+	echo "Directory ${BACKUP_DIR} missing. Is backup mounted?"
+	exit 1
+fi
+
+if [ ! -d "$RESTIC_REPOSITORY" ]; then
+  echo "Directory ${RESTIC_REPOSITORY} missing. Is bigbackup mounted?"
+  exit 1
+fi
+
+if [ ! -d /media/bigbackup/rsync ]; then
+  echo "Destination directory missing. Is bigbackup mounted?"
+  exit 1
+fi
+
 DEST="file:///backup"
 
 stop_containers() {
@@ -48,9 +66,10 @@ docker run \
 	--exclude '/data/cloud-config/hot_backup.log' \
 	--exclude '/data/cloud-config/elastic/filebeat.yml' \
 	--exclude '/data/cloud-config/elastic/metricbeat.yml' \
-	--exclude '/data/cloud-data/adguard/tailscale/' \
+	--exclude '/data/cloud-data/adguard/' \
 	--exclude '/data/cloud-data/backblaze/' \
 	--exclude '/data/cloud-data/bitwarden/data/icon_cache/' \
+	--exclude '/data/cloud-data/borgmatic/' \
 	--exclude '/data/cloud-data/cloudflare/' \
 	--exclude '/data/cloud-data/elastic/' \
 	--exclude '/data/cloud-data/fotos-lauren/normals/' \
@@ -82,6 +101,17 @@ docker run \
 	--include '/data/' \
 	--exclude '**' \
 	/data "${DEST}"
+
+# restic to bigbackup
+restic backup \
+  --files-from ~/cloud-config/restic/odroid_backup.txt \
+  --exclude-file ~/cloud-config/restic/odroid_exclude.txt
+
+# rsync to bigbackup
+rsync --archive --noatime --progress --itemize-changes --stats --delete --delete-excluded  \
+  --exclude-from ~/cloud-config/bigbackup/media_excludes.txt \
+  /mnt/media2/ \
+  /media/bigbackup/rsync/media2
 
 # Start containers again
 start_containers
