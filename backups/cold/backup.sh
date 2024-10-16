@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-source ~/cloud-config/backup.env
-source ~/cloud-config/cold.env
+source ~/cloud-config/backups/backup.env
+source ~/cloud-config/backups/cold/cold.env
 
 export RESTIC_REPOSITORY=/media/bigbackup/restic/odroid
 export RESTIC_PASSWORD_FILE="${RESTIC_REPOSITORY}.password"
@@ -104,12 +104,12 @@ docker run \
 
 # restic to bigbackup
 restic backup \
-  --files-from ~/cloud-config/restic/odroid_backup.txt \
-  --exclude-file ~/cloud-config/restic/odroid_exclude.txt
+  --files-from ~/cloud-config/backups/restic_backup.txt \
+  --exclude-file ~/cloud-config/backups/restic_exclude.txt
 
 # rsync to bigbackup
 rsync --archive --noatime --progress --itemize-changes --stats --delete --delete-excluded  \
-  --exclude-from ~/cloud-config/bigbackup/media_excludes.txt \
+  --exclude-from ~/cloud-config/backups/rsync_exclude.txt \
   /mnt/media2/ \
   /media/bigbackup/rsync/media2
 

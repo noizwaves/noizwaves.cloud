@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+source ~/cloud-config/backups/hot/hot.env
+
+restic "$@"

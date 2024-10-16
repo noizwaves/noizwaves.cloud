@@ -1,14 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-source ~/cloud-config/backup.env
-source ~/cloud-config/hot.env
-
-# Restic config
-export RESTIC_REPOSITORY="b2:$BUCKET_NAME:restic/odroid"
-export RESTIC_PASSWORD=$PASSPHRASE
-export B2_ACCOUNT_ID=$AWS_ACCESS_KEY_ID
-export B2_ACCOUNT_KEY=$AWS_SECRET_ACCESS_KEY
+source ~/cloud-config/backups/backup.env
+source ~/cloud-config/backups/hot/hot.env
 
 stop_containers() {
 	echo "[hot_backup] Begin stopping containers"
@@ -95,8 +89,8 @@ docker run --rm \
 
 # restic to backblaze
 restic backup \
-  --files-from ~/cloud-config/restic/odroid_backup.txt \
-  --exclude-file ~/cloud-config/restic/odroid_exclude.txt
+  --files-from ~/cloud-config/backups/restic_backup.txt \
+  --exclude-file ~/cloud-config/backups/restic_exclude.txt
 
 # Start containers again
 start_containers

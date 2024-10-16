@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-source hot.env
+source ~/cloud-config/backups/backup.env
+source ~/cloud-config/backups/hot/hot.env
 
 if [ -z "$RESTORE_DIR" ]; then
 	echo "RESTORE_DIR is not set; set in hot.env"
@@ -11,7 +12,6 @@ if [ -d "$RESTORE_DIR" ]; then
 	echo "$RESTORE_DIR already exists; delete it then re-run"
 	exit 1
 fi
-
 
 mkdir -p "${RESTORE_DIR}"
 

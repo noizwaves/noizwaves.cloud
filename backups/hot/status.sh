@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ~/cloud-config/backup.env
-source ~/cloud-config/hot.env
+source ~/cloud-config/backups/backup.env
+source ~/cloud-config/backups/hot/hot.env
 
 docker run --rm \
 	--name duplicity-hot \
@@ -13,6 +13,7 @@ docker run --rm \
 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
 	-e PASSPHRASE="${PASSPHRASE}" \
 	wernight/duplicity:stable \
-	duplicity cleanup \
-	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} \
-	--force
+	duplicity collection-status \
+	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL}
+
+restic snapshots --compact

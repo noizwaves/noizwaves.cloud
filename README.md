@@ -35,7 +35,7 @@ SHELL=/bin/bash
 MAILTO=""
 HOME=/home/cloud
 
-0 1 * * * ./cloud-config/hot_backup.sh >>cloud-config/hot_backup.log 2>&1
+0 1 * * * ./cloud-config/backups/hot/backup.sh >cloud-config/hot_backup.log 2>&1
 ```
 1.  Enable DNS healthchecks with cron config:
 ```
@@ -432,7 +432,7 @@ Start iMessage bridge on mac:
 ## Disaster Recovery
 
 1.  `$ cd cloud-config`
-1.  `$ cp backup.env.tmpl backup.env`
+1.  `$ cp backups/backup.env.tmpl backups/backup.env`
 1.  Set appropriate values
 
 ### Hot
@@ -440,7 +440,7 @@ Start iMessage bridge on mac:
 #### Setup
 
 1.  `$ cd cloud-config`
-1.  `$ cp hot.env.tmpl hot.env`
+1.  `$ cp backups/hot/hot.env.tmpl backups/hot/hot.env`
 1.  Set appropriate values
 
 #### Backup
@@ -450,9 +450,9 @@ Start iMessage bridge on mac:
 #### Restore (partial data loss)
 
 1.  `$ cd ~/cloud-config`
-1.  Edit `hot_restore.sh` to specify path to restore
-1.  Restore backup by `$ ./hot_restore.sh`
-1.  `$ git restore hot_restore.sh`
+1.  Edit `backups/hot/restore.sh` to specify path to restore
+1.  Restore backup by `$ ./backups/hot/restore.sh`
+1.  `$ git restore backups/hot/restore.sh`
 
 #### Restore (disaster recovery)
 
@@ -463,9 +463,9 @@ Start iMessage bridge on mac:
 1.  `$ cd ~/cloud-config-recovery`
 1.  Obtain secrets pack
 1.  Populate config
-    1.  `$ cp hot.env.tmpl hot.env`
+    1.  `$ cp backups/hot/hot.env.tmpl backups/hot/hot.env`
     1.  Set secrets and `RESTORE_DIR`
-1.  `$ ./hot_restore.sh`
+1.  `$ .backups/hot/restore.sh`
 1.  `$ mv ~/recovery/cloud-config ~/`
 1.  `$ mv ~/recovery/cloud-data ~/`
 1.  Update configuration in `~/cloud-config/.envrc`
@@ -479,27 +479,27 @@ Start iMessage bridge on mac:
 #### Setup
 
 1.  `$ cd cloud-config`
-1.  `$ cp cold.env.tmpl cold.env`
+1.  `$ cp backups/cold/cold.env.tmpl backups/cold/cold.env`
 1.  Set appropriate values
 
 #### Backup
 
 1.  SSH into `noizwaves.cloud`
 1.  Connect cold backup USB drive to host
-1.  Mount drive via `$ pmount /dev/sda backup`
-1.  Run a restore via `$ ~/cloud-config/cold_backup.sh`
-1.  Unmount drive via `$ pumount backup`
+1.  Mount backup drive via `$ pmount /dev/sda backup`
+1.  Mount bigbackup drive via `$ pmount /dev/sdb bigbackup`
+1.  Run a backup via `$ ~/cloud-config/backups/cold/backup.sh`
+1.  Unmount drives via `$ pumount backup` and `$ pumount bigbackup`
 
 #### Restore (partial data loss)
 
 1.  `$ cd ~/cloud-config`
-1.  Edit `cold_restore.sh` to specify path to restore
+1.  Edit `backups/cold/restore.sh` to specify path to restore
 1.  Connect cold backup drive
 1.  Mount drive via `$ pmount /dev/sda backup`
-1.  Restore backup by `$ ./cold_restore.sh`
+1.  Restore backup by `$ ./backups/cold/restore.sh`
 1.  Unmount drive via `$ pumount backup`
-1.  `$ git restore cold_restore.sh`
-1.  Disconnect drive
+1.  `$ git restore backups/cold/restore.sh`
 
 #### Restore (disaster recovery)
 
@@ -512,9 +512,9 @@ Start iMessage bridge on mac:
 1.  Connect cold backup USB drive to restore target
 1.  Obtain secrets pack
 1.  `$ pmount /dev/sda backup`
-    1.  `$ cp cold.env.tmpl cold.env`
+    1.  `$ cp backups/cold/cold.env.tmpl backups/cold/cold.env`
     1.  Set `RESTORE_DIR`
-1.  `$ ./cold_restore.sh`
+1.  `$ ./backups/cold/restore.sh`
 1.  `$ pumount backup`
 1.  Disconnect drive
 1.  `$ mv ~/recovery/cloud-config ~/`

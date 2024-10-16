@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-source cold.env
+source ~/cloud-config/backups/backup.env
+source ~/cloud-config/backups/cold/cold.env
 
 if [ -z "$RESTORE_DIR" ]; then
 	echo "RESTORE_DIR is not set; set in cold.env"
