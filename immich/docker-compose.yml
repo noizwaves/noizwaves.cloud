@@ -4,7 +4,6 @@ services:
   server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
-    command: ["start.sh", "immich"]
     user: 1000:1000
     networks:
       - web
@@ -39,7 +38,7 @@ services:
       - traefik.enable=true
 
       ## Service settings
-      - traefik.http.services.immich.loadbalancer.server.port=3001
+      - traefik.http.services.immich.loadbalancer.server.port=2283
       - traefik.http.services.immich.loadbalancer.passhostheader=true
 
       ## HTTPS
