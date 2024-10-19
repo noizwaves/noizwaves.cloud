@@ -16,7 +16,6 @@
 /home/cloud/cloud-data/gitea/data/ssh/
 /home/cloud/cloud-data/immich/model-cache
 /home/cloud/cloud-data/immich/redis
-/home/cloud/cloud-data/immich/tailscale
 /home/cloud/cloud-data/immich/upload
 /home/cloud/cloud-data/influxdb/
 /home/cloud/cloud-data/k2d/
@@ -26,7 +25,9 @@
 /home/cloud/cloud-data/photostructure/library/.photostructure/previews/
 /home/cloud/cloud-data/pihole-lan/
 /home/cloud/cloud-data/pihole/
-/home/cloud/cloud-data/plex/
+/home/cloud/cloud-data/plex/config/
+/home/cloud/cloud-data/plex/data/
+/home/cloud/cloud-data/plex/transcode/
 /home/cloud/cloud-data/registry/
 /home/cloud/cloud-data/resilio-sync/data/storage-data/
 /home/cloud/cloud-data/scrutiny/

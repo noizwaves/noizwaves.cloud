@@ -79,7 +79,6 @@ docker run \
 	--exclude '/data/cloud-data/gitea/data/ssh/' \
 	--exclude '/data/cloud-data/immich/model-cache' \
 	--exclude '/data/cloud-data/immich/redis' \
-	--exclude '/data/cloud-data/immich/tailscale' \
 	--exclude '/data/cloud-data/immich/upload/encoded-video' \
 	--exclude '/data/cloud-data/immich/upload/thumbs' \
 	--exclude '/data/cloud-data/influxdb/' \
@@ -90,7 +89,9 @@ docker run \
 	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
 	--exclude '/data/cloud-data/pihole-lan/' \
 	--exclude '/data/cloud-data/pihole/' \
-	--exclude '/data/cloud-data/plex/' \
+	--exclude '/data/cloud-data/plex/config/' \
+	--exclude '/data/cloud-data/plex/data/' \
+	--exclude '/data/cloud-data/plex/transcode/' \
 	--exclude '/data/cloud-data/registry/' \
 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
 	--exclude '/data/cloud-data/scrutiny/' \
