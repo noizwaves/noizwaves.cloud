@@ -1,12 +1,10 @@
 /home/cloud/cloud-config/.duplicity-cache/
-/home/cloud/cloud-config/borgmatic/
 /home/cloud/cloud-config/hot_backup.log
 /home/cloud/cloud-config/elastic/filebeat.yml
 /home/cloud/cloud-config/elastic/metricbeat.yml
 /home/cloud/cloud-data/adguard/
 /home/cloud/cloud-data/backblaze/
 /home/cloud/cloud-data/bitwarden/data/icon_cache/
-/home/cloud/cloud-data/borgmatic/
 /home/cloud/cloud-data/cloudflare/
 /home/cloud/cloud-data/elastic/
 /home/cloud/cloud-data/fotos-lauren/normals/

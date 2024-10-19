@@ -54,7 +54,6 @@ docker run --rm \
 	--exclude '/data/cloud-data/adguard/' \
 	--exclude '/data/cloud-data/backblaze/' \
 	--exclude '/data/cloud-data/bitwarden/data/icon_cache/' \
-	--exclude '/data/cloud-data/borgmatic/' \
 	--exclude '/data/cloud-data/cloudflare/' \
 	--exclude '/data/cloud-data/elastic/' \
 	--exclude '/data/cloud-data/fotos-lauren/normals/' \
