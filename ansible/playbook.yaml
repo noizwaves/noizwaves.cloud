@@ -85,7 +85,7 @@
         name: docker.io
     - name: Install Docker Compose
       ansible.builtin.apt:
-        name: docker-compose
+        name: docker-compose-v2
     - name: Configure Docker daemon
       ansible.builtin.copy:
         dest: /etc/docker/daemon.json

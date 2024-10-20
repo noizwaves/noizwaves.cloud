@@ -4,7 +4,9 @@ A self hosted cloud
 
 ## Requirements
 
-1.  Install Ansible locally via `brew install ansible ansible-lint`
+1.  Install Ansible locally via:
+    - `brew install ansible ansible-lint`
+    - `pacman -S ansible`
 1.  Install Ansible packages via:
     1.   `ansible-galaxy install willshersystems.sshd`
 
@@ -21,8 +23,10 @@ For each new machine:
     1.  Username: `cloud`
     1.  Enable SSH server
     1.  Import SSH keys from GitHub
-1.  Bootstrap using `bash <(curl https://raw.githubusercontent.com/noizwaves/noizwaves.cloud/main/ansible/bootstrap.sh)`
+1.  Bootstrap as root using `bash <(curl https://raw.githubusercontent.com/noizwaves/noizwaves.cloud/main/ansible/bootstrap.sh)`
 1.  Connect to Tailscale
+1.  Run anisble playbook
+1.  Populate `.envrc`
 1.  Setup crontabs
 1.  Add to the inventory and ssh config
 
