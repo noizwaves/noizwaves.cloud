@@ -148,6 +148,8 @@ docker run \
 	${DEST} \
 	--force
 
+restic cache --cleanup
+
 # Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_COLD_BACKUP_UUID
 
