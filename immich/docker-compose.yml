@@ -54,6 +54,8 @@ services:
     image: ghcr.io/immich-app/immich-machine-learning:v1.112.0-openvino
     volumes:
       - ../../cloud-data/immich/model-cache:/cache
+      # for openvino (see below)
+      - /dev/bus/usb:/dev/bus/usb
     env_file:
       - .env
     restart: unless-stopped
