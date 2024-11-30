@@ -14,9 +14,5 @@ fi
 # cloud user can sudo
 echo "cloud   ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/cloud
 
-# with SSH server installed
-apt-get update
-apt-get install -y openssh-server
-
 # and with Tailscale
 curl -fsSL https://tailscale.com/install.sh | sh

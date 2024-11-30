@@ -28,6 +28,9 @@ For each new machine:
 1.  Run anisble playbook
 1.  Populate `.envrc`
 1.  Setup crontabs
+1.  [Setup Samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
+    -  add shared directories
+    -  set cloud Samba password
 1.  Add to the inventory and ssh config
 
 ### Automation
