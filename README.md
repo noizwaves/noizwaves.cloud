@@ -51,6 +51,9 @@ HOME=/home/cloud
 ## K3s (Kubernetes)
 See [here](./k3s/README.md)
 
+## Applications
+1.  [Homebox](./homebox/README.md)
+
 ## Traefik
 1.  `$ cd traefik`
 1.  `$ mkdir -p ~/cloud-data/traefik/letsencrypt`

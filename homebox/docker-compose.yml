@@ -1,0 +1,36 @@
+services:
+  homebox:
+    image: ghcr.io/sysadminsmedia/homebox:0.16.0-rootless
+    container_name: homebox
+    restart: unless-stopped
+    user: 1000:1000
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=1000
+      # https://homebox.software/en/configure-homebox.html
+      - HBOX_OPTIONS_ALLOW_REGISTRATION=false
+      - HBOX_LOG_LEVEL=warn
+      - HBOX_LOG_FORMAT=text
+      - HBOX_WEB_MAX_UPLOAD_SIZE=10
+    networks:
+      - web
+    volumes:
+      - ../../cloud-data/homebox:/data/
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.homebox.loadbalancer.server.port=7745
+      - traefik.http.services.homebox.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.homebox.rule=Host(`homebox.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.homebox.entrypoints=web-secured
+      - traefik.http.routers.homebox.service=homebox
+      - traefik.http.routers.homebox.tls=true
+      - traefik.http.routers.homebox.tls.certresolver=mytlschallenge
+
+networks:
+  web:
+    external: true
