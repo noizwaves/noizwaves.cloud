@@ -159,10 +159,9 @@
       loop:
         - 192.168.68.0/24
         - 100.64.0.0/10
-    - name: Allow containerized DNS (port 53)
+    - name: Allow bare metal DNS (port 53)
       community.general.ufw:
         rule: allow
-        route: true
         port: '53'
         proto: '{{ item[1] }}'
         src: '{{ item[0] }}'
