@@ -122,6 +122,15 @@
         owner: cloud
         mode: "644"
 
+- name: Samba
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Samba
+      ansible.builtin.apt:
+        name: samba
+  # TODO: configure samba
+
 - name: Filewall
   hosts: all
   become: true
@@ -313,15 +322,6 @@
         group: root
         owner: root
         mode: "644"
-
-- name: Samba
-  hosts: all
-  become: true
-  tasks:
-    - name: Install Samba
-      ansible.builtin.apt:
-        name: samba
-  # TODO: configure samba
 
 - name: Configure cloning from GitHub
   hosts: all
