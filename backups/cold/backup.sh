@@ -108,7 +108,7 @@ restic backup \
   --exclude-file ~/cloud-config/backups/restic_exclude.txt
 
 # rsync to bigbackup
-rsync --archive --noatime --progress --itemize-changes --stats --delete --delete-excluded  \
+rsync --archive --open-noatime --progress --itemize-changes --stats --delete --delete-excluded  \
   --exclude-from ~/cloud-config/backups/rsync_exclude.txt \
   /mnt/media2/ \
   /media/bigbackup/rsync/media2
