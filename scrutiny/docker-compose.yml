@@ -13,7 +13,9 @@ services:
     ports: []
     devices:
       - "/dev/sda"
-      - "/dev/nvme0"
+      # - "/dev/sdb"
+      - "/dev/nvme0n1"
+      - "/dev/mmcblk0"
     volumes:
       - /run/udev:/run/udev:ro
       - ../../cloud-data/scrutiny/config:/opt/scrutiny/config
