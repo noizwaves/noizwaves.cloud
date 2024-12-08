@@ -15,7 +15,7 @@ services:
       - "/dev/sda"
       # - "/dev/sdb"
       - "/dev/nvme0n1"
-      - "/dev/mmcblk0"
+      # - "/dev/mmcblk0"
     volumes:
       - /run/udev:/run/udev:ro
       - ../../cloud-data/scrutiny/config:/opt/scrutiny/config
