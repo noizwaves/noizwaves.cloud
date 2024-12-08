@@ -8,7 +8,7 @@ export RESTIC_REPOSITORY=/media/bigbackup/restic/odroid
 export RESTIC_PASSWORD_FILE="${RESTIC_REPOSITORY}.password"
 
 if [ ! -d "$BACKUP_DIR" ]; then
-	echo "Directory ${BACKUP_DIR} missing. Is backup mounted?"
+	echo "Directory ${BACKUP_DIR} missing. Is bigbackup mounted?"
 	exit 1
 fi
 
