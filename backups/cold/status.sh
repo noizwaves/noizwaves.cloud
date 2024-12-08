@@ -17,4 +17,8 @@ docker run \
 	--no-compression \
 	file:///backup
 
-restic snapshots --compact
+restic --repo /media/backup/restic/odroid --insecure-no-password \
+	snapshots --compact
+
+restic --repo /media/bigbackup/restic/odroid --password-file /media/bigbackup/restic/odroid.password \
+	snapshots --compact

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-source ~/cloud-config/backups/cold/cold.env
-
-restic "$@"

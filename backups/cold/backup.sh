@@ -4,21 +4,18 @@ set -e
 source ~/cloud-config/backups/backup.env
 source ~/cloud-config/backups/cold/cold.env
 
-export RESTIC_REPOSITORY=/media/bigbackup/restic/odroid
-export RESTIC_PASSWORD_FILE="${RESTIC_REPOSITORY}.password"
-
 if [ ! -d "$BACKUP_DIR" ]; then
 	echo "Directory ${BACKUP_DIR} missing. Is bigbackup mounted?"
 	exit 1
 fi
 
-if [ ! -d "$RESTIC_REPOSITORY" ]; then
-  echo "Directory ${RESTIC_REPOSITORY} missing. Is bigbackup mounted?"
+if [ ! -d /media/backup/restic ]; then
+  echo "backup drive is not mounted!"
   exit 1
 fi
 
-if [ ! -d /media/bigbackup/rsync ]; then
-  echo "Destination directory missing. Is bigbackup mounted?"
+if [ ! -d /media/bigbackup/restic ]; then
+  echo "bigbackup drive is not mounted!"
   exit 1
 fi
 
@@ -44,7 +41,7 @@ trap handle_error ERR
 stop_containers
 
 # --verbosity info \
-# Perform backup
+# duplicity to bigbackup
 docker run \
 	--name duplicity-cold \
 	--hostname duplicity-cold \
@@ -102,8 +99,15 @@ docker run \
 	--exclude '**' \
 	/data "${DEST}"
 
+# restic to backup
+restic --repo /media/backup/restic/odroid --insecure-no-password \
+  backup \
+	--files-from ~/cloud-config/backups/restic_backup.txt \
+  --exclude-file ~/cloud-config/backups/restic_exclude.txt
+
 # restic to bigbackup
-restic backup \
+restic --repo /media/bigbackup/restic/odroid --password-file /media/bigbackup/restic/odroid.password \
+  backup \
   --files-from ~/cloud-config/backups/restic_backup.txt \
   --exclude-file ~/cloud-config/backups/restic_exclude.txt
 
