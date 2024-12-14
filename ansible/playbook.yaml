@@ -122,6 +122,14 @@
         owner: cloud
         mode: "644"
 
+- name: Bonjour
+  hosts: all
+  become: true
+  tasks:
+    - name: Install avahi-daemon
+      ansible.builtin.apt:
+        name: avahi-daemon
+
 - name: Samba
   hosts: all
   become: true
@@ -159,6 +167,15 @@
       loop:
         - 192.168.68.0/24 # local network
         - 100.64.0.0/10 # tailscale
+    - name: Allow bare metal Avahi/mDNS
+      community.general.ufw:
+        rule: allow
+        port: '5353'
+        proto: udp
+        src: '{{ item }}'
+      loop:
+        - 192.168.68.0/24
+        - 100.64.0.0/10
     - name: Allow bare metal Samba
       community.general.ufw:
         rule: allow
