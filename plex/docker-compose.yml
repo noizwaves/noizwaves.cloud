@@ -16,6 +16,9 @@ services:
     networks:
       - default
       - web
+    ports:
+      # Because Wiim Home cannot connect using https://plex.noizwaves.cloud...
+      - "${LAN_IP}:32400:32400/tcp"
     volumes:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/transcode:/transcode
