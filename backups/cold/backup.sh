@@ -121,36 +121,36 @@ rsync --archive --open-noatime --progress --itemize-changes --stats --delete --d
 start_containers
 
 # Tidy backups
-docker run \
-	--name duplicity-cold \
-	--hostname duplicity-cold \
-	--user 1000:1000 \
-	--rm \
-	-v /etc/localtime:/etc/localtime:ro \
-	-v ~/cloud-data:/data/cloud-data:ro \
-	-v ~/cloud-config:/data/cloud-config:ro \
-	-v "${BACKUP_DIR}":/backup:rw \
-	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	wernight/duplicity:stable \
-	duplicity cleanup \
-	--force \
-	--no-encryption \
-	${DEST}
+# docker run \
+# 	--name duplicity-cold \
+# 	--hostname duplicity-cold \
+# 	--user 1000:1000 \
+# 	--rm \
+# 	-v /etc/localtime:/etc/localtime:ro \
+# 	-v ~/cloud-data:/data/cloud-data:ro \
+# 	-v ~/cloud-config:/data/cloud-config:ro \
+# 	-v "${BACKUP_DIR}":/backup:rw \
+# 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+# 	wernight/duplicity:stable \
+# 	duplicity cleanup \
+# 	--force \
+# 	--no-encryption \
+# 	${DEST}
 
-docker run \
-	--name duplicity-cold \
-	--hostname duplicity-cold \
-	--user 1000:1000 \
-	--rm \
-	-v /etc/localtime:/etc/localtime:ro \
-	-v ~/cloud-data:/data/cloud-data:ro \
-	-v ~/cloud-config:/data/cloud-config:ro \
-	-v "${BACKUP_DIR}":/backup:rw \
-	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	wernight/duplicity:stable \
-	duplicity remove-all-but-n-full 2 \
-	${DEST} \
-	--force
+# docker run \
+# 	--name duplicity-cold \
+# 	--hostname duplicity-cold \
+# 	--user 1000:1000 \
+# 	--rm \
+# 	-v /etc/localtime:/etc/localtime:ro \
+# 	-v ~/cloud-data:/data/cloud-data:ro \
+# 	-v ~/cloud-config:/data/cloud-config:ro \
+# 	-v "${BACKUP_DIR}":/backup:rw \
+# 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+# 	wernight/duplicity:stable \
+# 	duplicity remove-all-but-n-full 2 \
+# 	${DEST} \
+# 	--force
 
 restic cache --cleanup
 

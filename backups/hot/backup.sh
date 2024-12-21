@@ -97,21 +97,21 @@ restic backup \
 start_containers
 
 # Tidy backups
-docker run --rm \
-	--name duplicity-hot \
-	--hostname duplicity \
-	--user 1000:1000 \
-	-v /etc/localtime:/etc/localtime:ro \
-	-v ~/cloud-data:/data/cloud-data:ro \
-	-v ~/cloud-config:/data/cloud-config:ro \
-	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-	-e PASSPHRASE="${PASSPHRASE}" \
-	wernight/duplicity:stable \
-	duplicity remove-all-but-n-full 2 \
-	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} \
-	--force
+# docker run --rm \
+# 	--name duplicity-hot \
+# 	--hostname duplicity \
+# 	--user 1000:1000 \
+# 	-v /etc/localtime:/etc/localtime:ro \
+# 	-v ~/cloud-data:/data/cloud-data:ro \
+# 	-v ~/cloud-config:/data/cloud-config:ro \
+# 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
+# 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+# 	-e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+# 	-e PASSPHRASE="${PASSPHRASE}" \
+# 	wernight/duplicity:stable \
+# 	duplicity remove-all-but-n-full 2 \
+# 	s3://${BUCKET_NAME} --s3-endpoint-url=${ENDPOINT_URL} \
+# 	--force
 
 # Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_HOT_BACKUP_UUID
