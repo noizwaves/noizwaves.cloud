@@ -1,4 +1,3 @@
-/home/cloud/cloud-config/.duplicity-cache/
 /home/cloud/cloud-config/hot_backup.log
 /home/cloud/cloud-config/elastic/filebeat.yml
 /home/cloud/cloud-config/elastic/metricbeat.yml
