@@ -13,22 +13,17 @@ if [ -d "${RESTORE_DIR}" ]; then
 	exit 1
 fi
 
-mkdir -p "${RESTORE_DIR}"
+mkdir -p "$RESTORE_DIR"
 
-# To restore a specific directory, add:
-# --file-to-restore cloud-data/resilio-sync/data/zettlekasten-data/Daily \
-
-docker run \
-	--name duplicity-cold \
-	--hostname duplicity-cold \
-	--user 1000:1000 \
-	--rm \
-	-v /etc/localtime:/etc/localtime:ro \
-	-v $(pwd)/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-	-v "${BACKUP_DIR}":/backup:ro \
-	-v "${RESTORE_DIR}":/restore:rw \
-	wernight/duplicity:stable \
-	duplicity restore \
-	--progress \
-	--no-encryption \
-	file:///backup /restore
+# By default will restore latest backup from backup drive, with absolute paths to $RESTORE_DIR
+#
+# To include only certain files in the restore, add:
+# --include /home/cloud/cloud-data
+#
+# To restore just a specific folder to $RESTORE_DIR, change to:
+# restic restore latest:<PATH> --target "$RESTORE_DIR"
+#
+# To restore from big backup, change to:
+# --repo /media/bigbackup/restic/odroid --password-file /media/bigbackup/restic/odroid.password
+restic --repo /media/backup/restic/odroid --insecure-no-password \
+	restore latest --target "$RESTORE_DIR"
