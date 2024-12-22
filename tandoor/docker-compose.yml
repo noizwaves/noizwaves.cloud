@@ -3,7 +3,7 @@ services:
   postgres:
     container_name: tandoor_postgres
     restart: unless-stopped
-    image: postgres:11-alpine
+    image: postgres:16-alpine
     user: "1000:1000"
     volumes:
       - ../../cloud-data/tandoor/postgres:/var/lib/postgresql/data
@@ -15,7 +15,7 @@ services:
   # has to be called `web_recipes`: https://github.com/vabene1111/recipes/blob/develop/nginx/conf.d/Recipes.conf#L14
   web_recipes:
     container_name: tandoor_web
-    image: vabene1111/recipes:1.5.6
+    image: vabene1111/recipes:1.5.24
     restart: unless-stopped
     env_file:
       - ./.env
