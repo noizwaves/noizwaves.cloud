@@ -21,6 +21,7 @@ services:
     env_file:
       - .env
     environment:
+      - TZ=${TZ}
       # verbose,debug,info,log, etc: https://immich.app/docs/install/environment-variables/#general
       # - IMMICH_LOG_LEVEL=verbose
 
@@ -58,6 +59,8 @@ services:
       - /dev/bus/usb:/dev/bus/usb
     env_file:
       - .env
+    environment:
+      - TZ=${TZ}
     restart: unless-stopped
 
     # For openvino acceleration: https://github.com/immich-app/immich/blob/main/docker/hwaccel.ml.yml#L29
