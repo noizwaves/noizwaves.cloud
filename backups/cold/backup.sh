@@ -40,65 +40,6 @@ trap handle_error ERR
 # Stop containers in preparation for backup
 stop_containers
 
-# --verbosity info \
-# duplicity to bigbackup
-# docker run \
-# 	--name duplicity-cold \
-# 	--hostname duplicity-cold \
-# 	--user 1000:1000 \
-# 	--rm \
-# 	-v /etc/localtime:/etc/localtime:ro \
-# 	-v ~/cloud-data:/data/cloud-data:ro \
-# 	-v /mnt/media2/Photography:/data/mnt/media/Photography:ro \
-# 	-v ~/cloud-config:/data/cloud-config:ro \
-# 	-v "${BACKUP_DIR}":/backup:rw \
-# 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-# 	wernight/duplicity:stable \
-# 	duplicity \
-# 	--progress \
-# 	--full-if-older-than 12M \
-# 	--no-encryption \
-# 	--no-compression \
-# 	--exclude '/data/cloud-config/.duplicity-cache/' \
-# 	--exclude '/data/cloud-config/hot_backup.log' \
-# 	--exclude '/data/cloud-config/elastic/filebeat.yml' \
-# 	--exclude '/data/cloud-config/elastic/metricbeat.yml' \
-# 	--exclude '/data/cloud-data/adguard/' \
-# 	--exclude '/data/cloud-data/backblaze/' \
-# 	--exclude '/data/cloud-data/bitwarden/data/icon_cache/' \
-# 	--exclude '/data/cloud-data/cloudflare/' \
-# 	--exclude '/data/cloud-data/elastic/' \
-# 	--exclude '/data/cloud-data/fotos-lauren/normals/' \
-# 	--exclude '/data/cloud-data/fotos-lauren/thumbnails/' \
-# 	--exclude '/data/cloud-data/fotos/normals/' \
-# 	--exclude '/data/cloud-data/fotos/thumbnails/' \
-# 	--exclude '/data/cloud-data/gitea/data/ssh/' \
-# 	--exclude '/data/cloud-data/immich/model-cache' \
-# 	--exclude '/data/cloud-data/immich/redis' \
-# 	--exclude '/data/cloud-data/immich/upload/encoded-video' \
-# 	--exclude '/data/cloud-data/immich/upload/thumbs' \
-# 	--exclude '/data/cloud-data/influxdb/' \
-# 	--exclude '/data/cloud-data/k2d/' \
-# 	--exclude '/data/cloud-data/k3s/' \
-# 	--exclude '/data/cloud-data/nextcloud/' \
-# 	--exclude '/data/cloud-data/photoprism/' \
-# 	--exclude '/data/cloud-data/photostructure/library/.photostructure/previews/' \
-# 	--exclude '/data/cloud-data/pihole-lan/' \
-# 	--exclude '/data/cloud-data/pihole/' \
-# 	--exclude '/data/cloud-data/plex/config/' \
-# 	--exclude '/data/cloud-data/plex/data/' \
-# 	--exclude '/data/cloud-data/plex/transcode/' \
-# 	--exclude '/data/cloud-data/registry/' \
-# 	--exclude '/data/cloud-data/resilio-sync/data/storage-data/' \
-# 	--exclude '/data/cloud-data/scrutiny/' \
-# 	--exclude '/data/cloud-data/tandoor/staticfiles/' \
-# 	--exclude '/data/cloud-data/tig/' \
-# 	--exclude '/data/cloud-data/traefik/' \
-# 	--exclude '/data/cloud-data/upsnap/' \
-# 	--include '/data/' \
-# 	--exclude '**' \
-# 	/data "${DEST}"
-
 # restic to backup
 restic --repo /media/backup/restic/odroid --insecure-no-password \
   backup \
@@ -119,38 +60,6 @@ rsync --archive --open-noatime --progress --itemize-changes --stats --delete --d
 
 # Start containers again
 start_containers
-
-# Tidy backups
-# docker run \
-# 	--name duplicity-cold \
-# 	--hostname duplicity-cold \
-# 	--user 1000:1000 \
-# 	--rm \
-# 	-v /etc/localtime:/etc/localtime:ro \
-# 	-v ~/cloud-data:/data/cloud-data:ro \
-# 	-v ~/cloud-config:/data/cloud-config:ro \
-# 	-v "${BACKUP_DIR}":/backup:rw \
-# 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-# 	wernight/duplicity:stable \
-# 	duplicity cleanup \
-# 	--force \
-# 	--no-encryption \
-# 	${DEST}
-
-# docker run \
-# 	--name duplicity-cold \
-# 	--hostname duplicity-cold \
-# 	--user 1000:1000 \
-# 	--rm \
-# 	-v /etc/localtime:/etc/localtime:ro \
-# 	-v ~/cloud-data:/data/cloud-data:ro \
-# 	-v ~/cloud-config:/data/cloud-config:ro \
-# 	-v "${BACKUP_DIR}":/backup:rw \
-# 	-v ~/cloud-config/.duplicity-cache:/home/duplicity/.cache/duplicity:rw \
-# 	wernight/duplicity:stable \
-# 	duplicity remove-all-but-n-full 2 \
-# 	${DEST} \
-# 	--force
 
 restic cache --cleanup
 
