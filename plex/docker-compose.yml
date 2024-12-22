@@ -9,7 +9,7 @@ services:
     environment:
       - VERSION=docker
       - TZ=${TZ}
-      - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
+      # - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
       - PLEX_UID=${USER}
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
@@ -19,6 +19,8 @@ services:
     ports:
       # Because Wiim Home cannot connect using https://plex.noizwaves.cloud...
       - "${LAN_IP}:32400:32400/tcp"
+      # Bypass Traefik when on Tailscale
+      - "${TAILSCALE_IP}:32400:32400/tcp"
     volumes:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/transcode:/transcode
