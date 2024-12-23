@@ -52,23 +52,17 @@ services:
 
   machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v1.112.0-openvino
+    # Use software ML because of Ubuntu 24.04/kernel 6.8/OpenVINO/HD600 compatability issues
+    # - https://github.com/immich-app/immich/issues/7487
+    # - https://github.com/immich-app/immich/issues/13712
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION}
     volumes:
       - ../../cloud-data/immich/model-cache:/cache
-      # for openvino (see below)
-      - /dev/bus/usb:/dev/bus/usb
     env_file:
       - .env
     environment:
       - TZ=${TZ}
     restart: unless-stopped
-
-    # For openvino acceleration: https://github.com/immich-app/immich/blob/main/docker/hwaccel.ml.yml#L29
-    # Incompatible with current Docker Compose version
-    # device_cgroup_rules:
-      # - 'c 189:* rmw'
-    devices:
-      - /dev/dri:/dev/dri
 
   redis:
     container_name: immich_redis
