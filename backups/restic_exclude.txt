@@ -17,6 +17,7 @@
 /home/cloud/cloud-data/influxdb/
 /home/cloud/cloud-data/k2d/
 /home/cloud/cloud-data/k3s/
+/home/cloud/cloud-data/lidarr/config/MediaCover/
 /home/cloud/cloud-data/nextcloud/
 /home/cloud/cloud-data/photoprism/
 /home/cloud/cloud-data/photostructure/library/.photostructure/previews/
