@@ -26,8 +26,10 @@
 /home/cloud/cloud-data/plex/config/
 /home/cloud/cloud-data/plex/data/
 /home/cloud/cloud-data/plex/transcode/
+/home/cloud/cloud-data/radarr/config/MediaCover/
 /home/cloud/cloud-data/registry/
 /home/cloud/cloud-data/resilio-sync/data/storage-data/
+/home/cloud/cloud-data/sonarr/config/MediaCover/
 /home/cloud/cloud-data/scrutiny/
 /home/cloud/cloud-data/tandoor/staticfiles/
 /home/cloud/cloud-data/tig/
