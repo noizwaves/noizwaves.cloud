@@ -2,9 +2,13 @@ services:
   hub:
     image: henrygd/beszel:0.9.1
     container_name: beszel_hub
+    user: "1000:1000"
     restart: unless-stopped
     networks:
       - web
+    # Not sure why this needs to be specified manually when setting `user`
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
     volumes:
       - ../../cloud-data/beszel:/beszel_data
     labels:
