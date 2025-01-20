@@ -77,6 +77,7 @@ HOME=/home/cloud
 - [Immich](./immich/)
 - [Scrutiny](./scrutiny/)
 - [Ubooquity](./ubooquity/)
+- [Beszel](./beszel/)
 
 ## Inactive
 

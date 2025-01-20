@@ -295,6 +295,13 @@
         proto: tcp
         src: '172.18.0.0/16'
         dest: '172.17.0.1'
+    - name: Beszel Agent/Hub connectivity
+      community.general.ufw:
+        rule: allow
+        port: '45876'
+        proto: tcp
+        src: '172.18.0.0/16'
+        dest: '172.17.0.1'
     - name: Netbootxyz
       community.general.ufw:
         rule: allow

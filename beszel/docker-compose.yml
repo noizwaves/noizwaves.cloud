@@ -1,0 +1,40 @@
+services:
+  hub:
+    image: henrygd/beszel:0.9.1
+    container_name: beszel_hub
+    restart: unless-stopped
+    networks:
+      - web
+    volumes:
+      - ../../cloud-data/beszel:/beszel_data
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.beszel.loadbalancer.server.port=8090
+      - traefik.http.services.beszel.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.beszel.rule=Host(`beszel.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.beszel.entrypoints=web-secured
+      - traefik.http.routers.beszel.service=beszel
+      - traefik.http.routers.beszel.tls=true
+      - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
+
+  agent:
+    image: henrygd/beszel-agent:0.9.1
+    container_name: beszel_agent
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/cloud/cloud-data/.beszel:/extra-filesystems/data:ro
+      - /mnt/media2/.beszel:/extra-filesystems/media2:ro
+    env_file:
+      - .env
+    environment:
+      PORT: 45876
+
+networks:
+  web:
+    external: true
