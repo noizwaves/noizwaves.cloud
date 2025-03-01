@@ -52,15 +52,16 @@ restic --repo /media/bigbackup/restic/odroid --password-file /media/bigbackup/re
   --files-from ~/cloud-config/backups/restic_backup.txt \
   --exclude-file ~/cloud-config/backups/restic_exclude.txt
 
+# Start containers again
+start_containers
+
 # rsync to bigbackup
 rsync --archive --open-noatime --progress --itemize-changes --stats --delete --delete-excluded  \
   --exclude-from ~/cloud-config/backups/rsync_exclude.txt \
   /mnt/media2/ \
   /media/bigbackup/rsync/media2
 
-# Start containers again
-start_containers
-
+# Cleanup
 restic cache --cleanup
 
 # Healthy backup achieved
