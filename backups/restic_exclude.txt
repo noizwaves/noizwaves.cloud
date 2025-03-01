@@ -11,6 +11,7 @@
 /home/cloud/cloud-data/fotos-lauren/thumbnails/
 /home/cloud/cloud-data/fotos/normals/
 /home/cloud/cloud-data/fotos/thumbnails/
+/home/cloud/cloud-data/gitea/data/gitea/packages/
 /home/cloud/cloud-data/gitea/data/ssh/
 /home/cloud/cloud-data/immich/model-cache
 /home/cloud/cloud-data/immich/redis
