@@ -1,6 +1,6 @@
 services:
   hub:
-    image: henrygd/beszel:0.9.1
+    image: henrygd/beszel:0.10.1
     container_name: beszel_hub
     user: "1000:1000"
     restart: unless-stopped
@@ -26,7 +26,7 @@ services:
       - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
 
   agent:
-    image: henrygd/beszel-agent:0.9.1
+    image: henrygd/beszel-agent:0.10.1
     container_name: beszel_agent
     restart: unless-stopped
     network_mode: host
