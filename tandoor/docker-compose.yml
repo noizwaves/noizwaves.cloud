@@ -15,7 +15,7 @@ services:
   # has to be called `web_recipes`: https://github.com/vabene1111/recipes/blob/develop/nginx/conf.d/Recipes.conf#L14
   web_recipes:
     container_name: tandoor_web
-    image: vabene1111/recipes:1.5.33
+    image: vabene1111/recipes:1.5.34
     restart: unless-stopped
     env_file:
       - ./.env
