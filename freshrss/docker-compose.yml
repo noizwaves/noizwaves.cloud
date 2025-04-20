@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   freshrss:
-    image: linuxserver/freshrss:1.25.0-ls255
+    image: linuxserver/freshrss:1.26.1-ls267
     container_name: freshrss
     networks:
       - web
@@ -28,7 +28,7 @@ services:
       - traefik.http.routers.freshrss.service=freshrss
 
   mariadb:
-    image: linuxserver/mariadb:110.4.13mariabionic-ls73
+    image: linuxserver/mariadb:11.4.5-r0-ls181
     container_name: freshrss_mariadb
     restart: always
     networks:
