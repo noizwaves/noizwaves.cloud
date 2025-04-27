@@ -6,7 +6,6 @@
 /home/cloud/cloud-data/bitwarden/data/icon_cache/
 /home/cloud/cloud-data/cloudflare/
 /home/cloud/cloud-data/elastic/
-/home/cloud/cloud-data/enduronauts/
 /home/cloud/cloud-data/fotos-lauren/normals/
 /home/cloud/cloud-data/fotos-lauren/thumbnails/
 /home/cloud/cloud-data/fotos/normals/
