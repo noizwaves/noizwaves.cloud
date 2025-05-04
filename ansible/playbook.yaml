@@ -302,6 +302,13 @@
         proto: tcp
         src: '172.18.0.0/16'
         dest: '172.17.0.1'
+    - name: Beszel proxy
+      community.general.ufw:
+        rule: allow
+        port: '8091'
+        proto: tcp
+        src: '172.18.0.0/16'
+        dest: '172.17.0.1'
     - name: Netbootxyz
       community.general.ufw:
         rule: allow

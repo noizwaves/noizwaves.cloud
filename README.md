@@ -25,7 +25,7 @@ For each new machine:
     1.  Import SSH keys from GitHub
 1.  Bootstrap as root using `bash <(curl https://raw.githubusercontent.com/noizwaves/noizwaves.cloud/main/ansible/bootstrap.sh)`
 1.  Connect to Tailscale
-1.  Run anisble playbook
+1.  Run ansible playbook
 1.  Populate `.envrc`
 1.  Setup crontabs
 1.  [Setup Samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
