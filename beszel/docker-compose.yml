@@ -4,18 +4,31 @@ services:
     container_name: beszel_hub
     user: "1000:1000"
     restart: unless-stopped
-    networks:
-      - web
+    network_mode: host
     # Not sure why this needs to be specified manually when setting `user`
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
+    # run on port 8091 to avoid conflict with upsnap
+    entrypoint: ["/beszel"]
+    command: ["serve", "--http=0.0.0.0:8091"]
     volumes:
       - ../../cloud-data/beszel:/beszel_data
+
+  proxy:
+    container_name: beszel-proxy
+    image: alpine/socat
+    networks:
+      - web
+    restart: unless-stopped
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:8091"
+    depends_on:
+      - hub
+    ports: []
     labels:
       - traefik.enable=true
 
       ## Service settings
-      - traefik.http.services.beszel.loadbalancer.server.port=8090
+      - traefik.http.services.beszel.loadbalancer.server.port=8080
       - traefik.http.services.beszel.loadbalancer.passhostheader=true
 
       ## HTTPS
@@ -24,6 +37,9 @@ services:
       - traefik.http.routers.beszel.service=beszel
       - traefik.http.routers.beszel.tls=true
       - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
 
   agent:
     image: henrygd/beszel-agent:0.11.1
