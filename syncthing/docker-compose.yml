@@ -22,6 +22,7 @@ services:
       - ../../cloud-data/resilio-sync/data/baedrive-data:/data/baedrive
       - ../../cloud-data/resilio-sync/data/journal-data:/data/journal
       - ../../cloud-data/resilio-sync/data/lauren-notebook-data:/data/lauren-notebook
+      - ../../cloud-data/resilio-sync/data/yaak-data:/data/yaak
       - ../../cloud-data/enduronauts/backups:/data/enduronauts-backups
     restart: unless-stopped
     labels:
