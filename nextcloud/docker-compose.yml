@@ -4,7 +4,7 @@ version: '3.7'
 
 services:
   mariadb:
-    image: linuxserver/mariadb:110.4.13mariabionic-ls73
+    image: linuxserver/mariadb:11.4.5-r0-ls185
     container_name: nextcloud_mariadb
     restart: always
     networks:
