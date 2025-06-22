@@ -1,15 +1,15 @@
 version: "3.7"
 services:
   app:
-    image: filebrowser/filebrowser:latest
+    image: filebrowser/filebrowser:v2.33.2
     container_name: filebrowser
     restart: unless-stopped
     user: "1000:1000"
     networks:
       - web
     volumes:
-      - ../../cloud-data/filebrowser/database.db:/database.db
-      - ../../cloud-data/filebrowser/filebrowser.json:/.filebrowser.json
+      - ../../cloud-data/filebrowser/database:/database
+      - ../../cloud-data/filebrowser/config:/config
 
       # Files
       - ../../cloud-data/resilio-sync/data/encrypted-data:/srv/encrypted
