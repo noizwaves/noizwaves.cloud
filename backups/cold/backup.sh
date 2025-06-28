@@ -4,11 +4,6 @@ set -e
 source ~/cloud-config/backups/backup.env
 source ~/cloud-config/backups/cold/cold.env
 
-if [ ! -d "$BACKUP_DIR" ]; then
-	echo "Directory ${BACKUP_DIR} missing. Is bigbackup mounted?"
-	exit 1
-fi
-
 if [ ! -d /media/backup/restic ]; then
   echo "backup drive is not mounted!"
   exit 1

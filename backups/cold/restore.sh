@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
+set -e
 
-source ~/cloud-config/backups/backup.env
-source ~/cloud-config/backups/cold/cold.env
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+source $DIR/../backup.env
+source $DIR/cold.env
+
+if [ -z "$BACKUP_DIR" ]; then
+  echo "BACKUP_DIR is not set; set in cold.env"
+  exit 1
+fi
 
 if [ -z "$RESTORE_DIR" ]; then
 	echo "RESTORE_DIR is not set; set in cold.env"
@@ -25,5 +33,5 @@ mkdir -p "$RESTORE_DIR"
 #
 # To restore from big backup, change to:
 # --repo /media/bigbackup/restic/odroid --password-file /media/bigbackup/restic/odroid.password
-restic --repo /media/backup/restic/odroid --insecure-no-password \
+restic --repo "$BACKUP_DIR" --insecure-no-password \
 	restore latest --target "$RESTORE_DIR"
