@@ -14,6 +14,7 @@ services:
       - ../../cloud-data/homepage/config:/app/config
       # - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/data/.beszel:/mnt/data:ro
+      - /mnt/media1/.beszel:/mnt/media1:ro
       - /mnt/media2/.beszel:/mnt/media2:ro
     labels:
       - traefik.enable=true
