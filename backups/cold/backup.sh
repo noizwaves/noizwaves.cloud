@@ -56,6 +56,11 @@ rsync --archive --open-noatime --progress --itemize-changes --stats --delete --d
   /mnt/media2/ \
   /media/bigbackup/rsync/media2
 
+rsync --archive --open-noatime --progress --itemize-changes --stats --delete --delete-excluded  \
+  --exclude-from ~/cloud-config/backups/rsync_exclude.txt \
+  /mnt/media1/ \
+  /media/bigbackup/rsync/media1
+
 # Cleanup
 restic cache --cleanup
 
