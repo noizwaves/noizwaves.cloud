@@ -65,12 +65,12 @@ services:
   redis:
     container_name: immich_redis
     image: redis:6.2-alpine
-    command: redis-server /etc/redis.conf --save 60 1
+    # command: redis-server /etc/redis.conf --save 60 1
     user: 1000:1000
     restart: unless-stopped
     volumes:
       - ../../cloud-data/immich/redis:/data
-      - ./redis.conf:/etc/redis.conf
+      # - ./redis.conf:/etc/redis.conf
 
   database:
     container_name: immich_postgres
