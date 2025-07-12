@@ -13,7 +13,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ../../cloud-data/sabnzbd/config:/config
-      - /mnt/media2/Arr:/data
+      - /merged/media/Arr:/data
     ports: []
     labels:
       - traefik.enable=true
@@ -42,7 +42,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ../../cloud-data/sonarr/config:/config
-      - /mnt/media2/Arr:/data
+      - /merged/media/Arr:/data
     ports: []
     labels:
       - traefik.enable=true
@@ -71,7 +71,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ../../cloud-data/radarr/config:/config
-      - /mnt/media2/Arr:/data
+      - /merged/media/Arr:/data
     ports: []
     labels:
       - traefik.enable=true
@@ -100,7 +100,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ../../cloud-data/lidarr/config:/config
-      - /mnt/media2/Arr:/data
+      - /merged/media/Arr:/data
     ports: []
     labels:
       - traefik.enable=true

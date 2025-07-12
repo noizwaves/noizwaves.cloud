@@ -49,6 +49,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/cloud/cloud-data/.beszel:/extra-filesystems/data:ro
+      - /mnt/media1/.beszel:/extra-filesystems/media1:ro
       - /mnt/media2/.beszel:/extra-filesystems/media2:ro
     env_file:
       - .env
