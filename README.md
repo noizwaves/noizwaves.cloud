@@ -59,6 +59,7 @@ HOME=/home/cloud
 
 ## Applications
 
+- [Homepage](./homepage/)
 - [Homebox](./homebox/)
 - [Bitwarden](./bitwarden/)
 - [Speedtest](./speedtest/)
@@ -78,6 +79,7 @@ HOME=/home/cloud
 - [Scrutiny](./scrutiny/)
 - [Ubooquity](./ubooquity/)
 - [Beszel](./beszel/)
+- [Home Assistant](./homeassistant/)
 
 ## Inactive
 
@@ -100,7 +102,6 @@ HOME=/home/cloud
 - [Backblaze](./backblaze/)
 - [Elastic](./elastic/)
 - [Fasten](./fasten/)
-- [Home Assistant](./homeassistant/)
 - [k2d](./k2d/)
 - [netbootxyz](./netbootxyz/)
 

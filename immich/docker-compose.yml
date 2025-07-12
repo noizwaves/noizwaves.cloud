@@ -9,6 +9,7 @@ services:
       - web
       - tailscale
       - default
+      - homepage
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - ../../cloud-data/resilio-sync/data/pictures-data/iCloud_Photos:/external/adam:ro
@@ -117,4 +118,6 @@ networks:
   tailscale:
     external: false
   web:
+    external: true
+  homepage:
     external: true

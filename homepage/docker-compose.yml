@@ -1,0 +1,44 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: homepage.${CLOUD_DOMAIN}
+      PUID: 1000
+      PGID: 1000
+    networks:
+      - web
+      - homepage
+    volumes:
+      - ../../cloud-data/homepage/config:/app/config
+      # - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/data/.beszel:/mnt/data:ro
+      - /mnt/media2/.beszel:/mnt/media2:ro
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
+      - traefik.http.services.homepage.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.homepage.rule=Host(`homepage.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.homepage.entrypoints=web-secured
+      - traefik.http.routers.homepage.service=homepage
+      - traefik.http.routers.homepage.tls=true
+      - traefik.http.routers.homepage.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+
+      # protect with Authelia
+      - traefik.http.routers.homepage.middlewares=authelia@docker
+
+networks:
+  web:
+    external: true
+  homepage:
+    external: false
+    internal: true
+    name: homepage
