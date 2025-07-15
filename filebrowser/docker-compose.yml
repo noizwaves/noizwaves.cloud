@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   app:
-    image: filebrowser/filebrowser:v2.38.0
+    image: filebrowser/filebrowser:v2.40.1
     container_name: filebrowser
     restart: unless-stopped
     user: "1000:1000"
@@ -20,7 +20,7 @@ services:
 
       - /mnt/media2:/srv/media2
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      test: [ "CMD", "/healthcheck.sh" ]
       interval: 5s
       timeout: 3s
       start_period: 2s
