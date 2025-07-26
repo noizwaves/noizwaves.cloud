@@ -68,6 +68,7 @@ HOME=/home/cloud
 - [FreshRSS](./freshrss/)
 - [Fotos Adam](./fotos/) and [Fotos Lauren](./fotos-lauren/)
 - [Tandoor](./tandoor/)
+- [Mealie](./mealie/)
 - [Plex](./plex/)
 - [Filebrowser](./filebrowser/)
 - [Vikunja](./vikunja/)
