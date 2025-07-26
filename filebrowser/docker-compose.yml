@@ -18,6 +18,8 @@ services:
       - ../../cloud-data/resilio-sync/data/storage-data:/srv/storage
       - ../../cloud-data/resilio-sync/data/pictures-data:/srv/pictures
 
+      # Media
+      - /mnt/media1:/srv/media1
       - /mnt/media2:/srv/media2
     healthcheck:
       test: [ "CMD", "/healthcheck.sh" ]
