@@ -1,9 +1,9 @@
 version: '3.7'
 
 services:
-  api:
-    image: vikunja/api:0.20.4
-    container_name: vikunja_api
+  app:
+    image: vikunja/vikunja:0.24.6
+    container_name: vikunja
     environment:
       - PUID=1000
       - PGID=1000
@@ -21,38 +21,15 @@ services:
       - traefik.enable=true
 
       ## Service settings
-      - traefik.http.services.vikunja-api.loadbalancer.server.port=3456
-      - traefik.http.services.vikunja-api.loadbalancer.passhostheader=true
+      - traefik.http.services.vikunja.loadbalancer.server.port=3456
+      - traefik.http.services.vikunja.loadbalancer.passhostheader=true
 
       ## HTTPS
-      - traefik.http.routers.vikunja-api.rule=Host(`vikunja.${CLOUD_DOMAIN}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)
-      - traefik.http.routers.vikunja-api.entrypoints=web-secured
-      - traefik.http.routers.vikunja-api.service=vikunja-api
-      - traefik.http.routers.vikunja-api.tls=true
-      - traefik.http.routers.vikunja-api.tls.certresolver=mytlschallenge
-
-  frontend:
-    image: vikunja/frontend:0.20.5
-    container_name: vikunja_frontend
-    restart: unless-stopped
-    networks:
-      - web
-      - backend
-    depends_on:
-      - api
-    labels:
-      - traefik.enable=true
-
-      ## Service settings
-      - traefik.http.services.vikunja-backend.loadbalancer.server.port=80
-      - traefik.http.services.vikunja-backend.loadbalancer.passhostheader=true
-
-      ## HTTPS
-      - traefik.http.routers.vikunja-backend.rule=Host(`vikunja.${CLOUD_DOMAIN}`)
-      - traefik.http.routers.vikunja-backend.entrypoints=web-secured
-      - traefik.http.routers.vikunja-backend.service=vikunja-backend
-      - traefik.http.routers.vikunja-backend.tls=true
-      - traefik.http.routers.vikunja-backend.tls.certresolver=mytlschallenge
+      - traefik.http.routers.vikunja.rule=Host(`vikunja.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.vikunja.entrypoints=web-secured
+      - traefik.http.routers.vikunja.service=vikunja
+      - traefik.http.routers.vikunja.tls=true
+      - traefik.http.routers.vikunja.tls.certresolver=mytlschallenge
 
   db:
     image: linuxserver/mariadb:11.4.5-r0-ls185
