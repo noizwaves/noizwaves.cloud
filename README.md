@@ -49,7 +49,9 @@ HOME=/home/cloud
 */2 * * * * host www.google.com 127.0.0.1 && <healthchecks.io health check>
 ```
 
-## Foundation
+## Applications
+
+### Foundation
 
 - [Authelia](./authelia/)
 - [Traefik](./traefik/)
@@ -57,7 +59,7 @@ HOME=/home/cloud
 - [Adguard Home](./adguard/)
 - [ntfy](./ntfy/)
 
-## Applications
+### Stable
 
 - [Homepage](./homepage/)
 - [Homebox](./homebox/)
@@ -68,21 +70,22 @@ HOME=/home/cloud
 - [FreshRSS](./freshrss/)
 - [Fotos Adam](./fotos/) and [Fotos Lauren](./fotos-lauren/)
 - [Tandoor](./tandoor/)
-- [Mealie](./mealie/)
 - [Plex](./plex/)
 - [Filebrowser](./filebrowser/)
 - [Vikunja](./vikunja/)
 - [Syncthing](./syncthing/)
 - [Gitea](./gitea/)
 - [Atuin](./atuin/)
-- [Homebox](./homebox/)
 - [Immich](./immich/)
-- [Scrutiny](./scrutiny/)
 - [Ubooquity](./ubooquity/)
 - [Beszel](./beszel/)
 - [Home Assistant](./homeassistant/)
 
-## Inactive
+### Incubating
+
+- [Mealie](./mealie/)
+
+### Inactive
 
 - [k3s](./k3s/)
 - [Pi-hole](./pihole)
@@ -103,6 +106,7 @@ HOME=/home/cloud
 - [Backblaze](./backblaze/)
 - [Elastic](./elastic/)
 - [Fasten](./fasten/)
+- [Scrutiny](./scrutiny/)
 - [k2d](./k2d/)
 - [netbootxyz](./netbootxyz/)
 
