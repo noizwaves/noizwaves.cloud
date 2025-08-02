@@ -1,6 +1,6 @@
 services:
   hub:
-    image: henrygd/beszel:0.12.1
+    image: henrygd/beszel:0.12.2
     container_name: beszel_hub
     user: "1000:1000"
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   agent:
-    image: henrygd/beszel-agent:0.12.1
+    image: henrygd/beszel-agent:0.12.2
     container_name: beszel_agent
     restart: unless-stopped
     network_mode: host
