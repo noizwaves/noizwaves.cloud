@@ -1,4 +1,3 @@
-version: "3"
 services:
   postgres:
     container_name: tandoor_postgres
@@ -12,37 +11,20 @@ services:
     networks:
       - backend
 
-  # has to be called `web_recipes`: https://github.com/vabene1111/recipes/blob/develop/nginx/conf.d/Recipes.conf#L14
-  web_recipes:
-    container_name: tandoor_web
-    image: vabene1111/recipes:1.5.35
+  app:
+    # built-in Nginx config requires a specific hostname to function
+    # https://github.com/TandoorRecipes/recipes/blob/c25a1df480c3c0a1f5a282b4968c1efad07e69a6/nginx/conf.d/Recipes.conf#L22
+    hostname: web_recipes
+    container_name: tandoor_app
+    image: vabene1111/recipes:2.0.1
     restart: unless-stopped
     env_file:
       - ./.env
     volumes:
       - ../../cloud-data/tandoor/staticfiles:/opt/recipes/staticfiles
       - ../../cloud-data/tandoor/mediafiles:/opt/recipes/mediafiles
-      - nginx_config:/opt/recipes/nginx/conf.d
-    labels:
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
     depends_on:
       - postgres
-    networks:
-      - backend
-
-  nginx:
-    container_name: tandoor_nginx
-    image: nginx:mainline-alpine
-    restart: unless-stopped
-    env_file:
-      - ./.env
-    volumes:
-      - nginx_config:/etc/nginx/conf.d:ro
-      - ../../cloud-data/tandoor/staticfiles:/static
-      - ../../cloud-data/tandoor/mediafiles:/media
-    depends_on:
-      - web_recipes
     networks:
       - backend
       - web
@@ -71,5 +53,3 @@ networks:
   web:
     external: true
 
-volumes:
-  nginx_config:
