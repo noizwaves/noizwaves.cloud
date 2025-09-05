@@ -22,4 +22,7 @@ mkdir -p "$RESTORE_DIR"
 #
 # To restore just a specific folder to $RESTORE_DIR, change to:
 # restic restore latest:<PATH> --target "$RESTORE_DIR"
+#
+# To restore from a specific snapshot (./backups/hot/restic snapshots --compact), change to:
+# restic restore $SNAPSHOT_ID --target "$RESTORE_DIR"
 restic restore latest --target "$RESTORE_DIR"
