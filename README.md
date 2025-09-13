@@ -84,6 +84,7 @@ HOME=/home/cloud
 ### Incubating
 
 - [Mealie](./mealie/)
+- [Ghostfolio](./ghostfolio/)
 
 ### Inactive
 
