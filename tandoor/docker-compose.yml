@@ -16,7 +16,7 @@ services:
     # https://github.com/TandoorRecipes/recipes/blob/c25a1df480c3c0a1f5a282b4968c1efad07e69a6/nginx/conf.d/Recipes.conf#L22
     hostname: web_recipes
     container_name: tandoor_app
-    image: vabene1111/recipes:2.2.3
+    image: vabene1111/recipes:2.2.7
     restart: unless-stopped
     env_file:
       - ./.env
