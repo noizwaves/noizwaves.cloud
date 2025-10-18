@@ -48,6 +48,7 @@ services:
     network_mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /.beszel:/extra-filesystems/root:ro
       - /home/cloud/cloud-data/.beszel:/extra-filesystems/data:ro
       - /mnt/media1/.beszel:/extra-filesystems/media1:ro
       - /mnt/media2/.beszel:/extra-filesystems/media2:ro
