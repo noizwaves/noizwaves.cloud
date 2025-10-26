@@ -53,7 +53,6 @@ services:
       - /mnt/media1/.beszel:/extra-filesystems/media1:ro
       - /mnt/media2/.beszel:/extra-filesystems/media2:ro
     devices:
-      - /dev/mmcblk0:/dev/mmcblk0
       - /dev/nvme0:/dev/nvme0
       - /dev/sda:/dev/sda
       - /dev/sdb:/dev/sdb
