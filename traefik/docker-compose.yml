@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   traefik:
     image: traefik:v2.9
@@ -7,7 +5,10 @@ services:
     container_name: traefik
     ports:
       - '${BIND_ADDRESS}:80:80'
+      - '${BIND_ADDRESS}:25:25'
       - '${BIND_ADDRESS}:443:443'
+      - '${BIND_ADDRESS}:465:465'
+      - '${BIND_ADDRESS}:993:993'
       - '${BIND_ADDRESS}:2222:2222'
     command:
       #### These are the CLI commands that will configure Traefik and tell it how to work! ####
@@ -30,7 +31,15 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web-secured=true # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
+      ## Gitea SSH
       - --entrypoints.tcp-2222.address=:2222
+      ## Stalwart specific entrypoints
+      - --entrypoints.smtp.address=:25
+      - --entrypoints.smtp.proxyProtocol.trustedIPs=172.18.0.0/16
+      - --entrypoints.smtps.address=:465
+      - --entrypoints.smtps.proxyProtocol.trustedIPs=172.18.0.0/16
+      - --entrypoints.imaps.address=:993
+      - --entrypoints.imaps.proxyProtocol.trustedIPs=172.18.0.0/16
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
       - --certificatesresolvers.mytlschallenge.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.mytlschallenge.acme.email=letsencrypt@noizwaves.com # <== Setting email for certs
@@ -54,6 +63,17 @@ services:
       - traefik.http.routers.api.tls.certresolver=mytlschallenge
 
       - traefik.http.routers.api.middlewares=authelia@docker
+  certs-dumper:
+    image: ghcr.io/kereis/traefik-certs-dumper:latest
+    container_name: traefik-certs-dumper
+    restart: unless-stopped
+    network_mode: none
+    depends_on:
+      - traefik
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../../cloud-data/traefik/letsencrypt:/traefik:ro
+      - ../../cloud-data/traefik/certs:/output
 
 networks:
   web:
