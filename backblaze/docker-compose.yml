@@ -2,8 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: tessypowder/backblaze-personal-wine:latest
-    #image: tessypowder/backblaze-personal-wine:v1.5
+    image: tessypowder/backblaze-personal-wine:v1.13
     hostname: odroid
     container_name: backblaze
     restart: unless-stopped
@@ -15,7 +14,8 @@ services:
       DISABLE_VIRTUAL_DESKTOP: "true"
     volumes:
       - ../../cloud-data/backblaze/config:/config
-      - /mnt/media2:/mnt/media2
+      - /mnt/media1:/mnt/media1 # d:
+      - /mnt/media2:/mnt/media2 # e:
     labels:
       - traefik.enable=true
 

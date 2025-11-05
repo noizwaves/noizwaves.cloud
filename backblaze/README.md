@@ -20,3 +20,10 @@ To upgrade the installed Backblaze application:
 1. `wine64 "install_backblaze.exe" &` to launch the installer
 1. Complete the installation/upgrade in the web UI
 1. `rm install_backblaze.exe.original`
+
+## Misc
+
+### Open Task Manager
+```
+docker exec -it -u app:app backblaze wine64 taskmgr
+```
