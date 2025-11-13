@@ -35,20 +35,19 @@ trap handle_error ERR
 # Stop containers in preparation for backup
 stop_containers
 
-# restic to backup
+# restic backup to backup
 restic --repo /media/backup/restic/odroid --insecure-no-password \
   backup \
 	--files-from ~/cloud-config/backups/restic_backup.txt \
   --exclude-file ~/cloud-config/backups/restic_exclude.txt
 
-# restic to bigbackup
-restic --repo /media/bigbackup/restic/odroid --password-file /media/bigbackup/restic/odroid.password \
-  backup \
-  --files-from ~/cloud-config/backups/restic_backup.txt \
-  --exclude-file ~/cloud-config/backups/restic_exclude.txt
-
 # Start containers again
 start_containers
+
+# restic copy from backup to bigbackup
+restic --repo /media/bigbackup/restic/odroid --insecure-no-password \
+  copy \
+  --from-repo /media/backup/restic/odroid-copied --from-insecure-no-password
 
 # rsync to bigbackup
 rsync --archive --open-noatime --progress --itemize-changes --stats --delete --delete-excluded  \
