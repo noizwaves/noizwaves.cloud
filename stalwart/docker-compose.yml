@@ -34,6 +34,11 @@ services:
       # - traefik.tcp.routers.jmap.service=jmap
       # - traefik.tcp.services.jmap.loadbalancer.server.port=443
       # - traefik.tcp.services.jmap.loadbalancer.proxyProtocol.version=2
+      - traefik.http.routers.jmap.rule=Host(`stalwart-jmap.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.jmap.tls.certresolver=mytlschallenge
+      - traefik.http.routers.jmap.entrypoints=web-secured
+      - traefik.http.routers.jmap.service=jmap
+      - traefik.http.services.jmap.loadbalancer.server.port=443
 
       - traefik.tcp.routers.smtps.rule=HostSNI(`*`)
       - traefik.tcp.routers.smtps.tls.passthrough=true
