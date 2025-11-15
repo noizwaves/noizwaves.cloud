@@ -30,6 +30,7 @@
 /home/cloud/cloud-data/radarr/config/MediaCover/
 /home/cloud/cloud-data/registry/
 /home/cloud/cloud-data/resilio-sync/data/storage-data/
+/home/cloud/cloud-data/resilio-sync/data/sim2-data/.sync/
 /home/cloud/cloud-data/sonarr/config/MediaCover/
 /home/cloud/cloud-data/scrutiny/
 /home/cloud/cloud-data/stalwart/
