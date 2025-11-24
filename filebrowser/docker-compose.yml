@@ -20,6 +20,9 @@ services:
       # Media
       - /mnt/media1:/srv/media1
       - /mnt/media2:/srv/media2
+
+      # Merged media
+      - /merged/music:/srv/music:ro
     healthcheck:
       test: [ "CMD", "/healthcheck.sh" ]
       interval: 5s
