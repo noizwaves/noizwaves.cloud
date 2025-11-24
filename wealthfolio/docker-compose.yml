@@ -1,0 +1,32 @@
+services:
+  app:
+    image: afadil/wealthfolio:latest
+    container_name: wealthfolio
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - WF_DB_PATH=/data/wealthfolio.db
+    env_file:
+      - .env
+    volumes:
+      - ../../cloud-data/wealthfolio/data:/data
+    networks:
+      - web
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.wealthfolio.loadbalancer.server.port=8088
+      - traefik.http.services.wealthfolio.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.wealthfolio.rule=Host(`wealthfolio.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.wealthfolio.entrypoints=web-secured
+      - traefik.http.routers.wealthfolio.service=wealthfolio
+      - traefik.http.routers.wealthfolio.tls=true
+      - traefik.http.routers.wealthfolio.tls.certresolver=mytlschallenge
+
+networks:
+  web:
+    external: true

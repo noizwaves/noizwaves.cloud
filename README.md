@@ -86,6 +86,7 @@ HOME=/home/cloud
 - [Mealie](./mealie/)
 - [Ghostfolio](./ghostfolio/)
 - [Stalwart](./stalwart/)
+- [Wealthfolio](./wealthfolio/)
 
 ### Inactive
 
