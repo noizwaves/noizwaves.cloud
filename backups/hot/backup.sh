@@ -37,6 +37,12 @@ restic backup \
 # Start containers again
 start_containers
 
+# rclone of media to backblaze
+for MEDIA_DIR in ${MEDIA_DIRS[@]}; do
+  echo "Backing up $MEDIA_DIR"
+  rclone sync "$MEDIA_DIR" "crypto:${MEDIA_DIR}" --transfers 8 --progress
+done
+
 # Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_HOT_BACKUP_UUID
 
