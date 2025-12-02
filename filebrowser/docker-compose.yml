@@ -1,6 +1,6 @@
 services:
   app:
-    image: filebrowser/filebrowser:v2.49.0
+    image: filebrowser/filebrowser:v2.50.0
     container_name: filebrowser
     restart: unless-stopped
     user: "1000:1000"
