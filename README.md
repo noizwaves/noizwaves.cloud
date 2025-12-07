@@ -83,10 +83,7 @@ HOME=/home/cloud
 
 ### Incubating
 
-- [Mealie](./mealie/)
-- [Ghostfolio](./ghostfolio/)
 - [Stalwart](./stalwart/)
-- [Wealthfolio](./wealthfolio/)
 - [BookLore](./booklore/)
 
 ### Inactive
@@ -113,6 +110,9 @@ HOME=/home/cloud
 - [Scrutiny](./scrutiny/)
 - [k2d](./k2d/)
 - [netbootxyz](./netbootxyz/)
+- [Ghostfolio](./ghostfolio/)
+- [Mealie](./mealie/)
+- [Wealthfolio](./wealthfolio/)
 
 ## Maintenance
 
