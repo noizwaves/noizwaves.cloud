@@ -87,6 +87,7 @@ HOME=/home/cloud
 - [Ghostfolio](./ghostfolio/)
 - [Stalwart](./stalwart/)
 - [Wealthfolio](./wealthfolio/)
+- [BookLore](./booklore/)
 
 ### Inactive
 

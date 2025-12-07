@@ -1,0 +1,63 @@
+services:
+  app:
+    image: booklore/booklore:latest
+    container_name: booklore
+    restart: unless-stopped
+    networks:
+      - web
+      - default
+    environment:
+      - USER_ID=1000
+      - GROUP_ID=1000
+      - TZ=${TZ}
+      - DATABASE_URL=${DB_URL}
+      - DATABASE_USERNAME=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PASSWORD}
+      - BOOKLORE_PORT=8081
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ../../cloud-data/booklore/data:/app/data
+      - /mnt/media2/Books:/media2-books:ro
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.booklore.loadbalancer.server.port=8081
+      - traefik.http.services.booklore.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.booklore.rule=Host(`booklore.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.booklore.entrypoints=web-secured
+      - traefik.http.routers.booklore.service=booklore
+      - traefik.http.routers.booklore.tls=true
+      - traefik.http.routers.booklore.tls.certresolver=mytlschallenge
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:11.4.5
+    container_name: booklore_mariadb
+    restart: unless-stopped
+    networks:
+      - default
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ../../cloud-data/booklore/mariadb:/config
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  web:
+    external: true
+  default:
+    external: false
