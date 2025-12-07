@@ -45,6 +45,8 @@ services:
       # protect with Authelia
       - traefik.http.routers.filebrowser.middlewares=authelia@docker
 
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
 networks:
   web:
     external: true
