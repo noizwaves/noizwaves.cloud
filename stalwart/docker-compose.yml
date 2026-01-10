@@ -2,7 +2,7 @@
 
 services:
   stalwart:
-    image: stalwartlabs/stalwart:v0.15.2
+    image: stalwartlabs/stalwart:v0.15.3
     container_name: stalwart
     restart: unless-stopped
     hostname: stalwart.noizwaves.cloud
