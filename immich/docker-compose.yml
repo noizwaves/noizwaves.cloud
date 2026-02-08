@@ -1,7 +1,7 @@
 services:
   server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v2.5.2
+    image: ghcr.io/immich-app/immich-server:v2.5.5
     user: 1000:1000
     networks:
       - web
@@ -53,7 +53,7 @@ services:
     # Use software ML because of Ubuntu 24.04/kernel 6.8/OpenVINO/HD600 compatability issues
     # - https://github.com/immich-app/immich/issues/7487
     # - https://github.com/immich-app/immich/issues/13712
-    image: ghcr.io/immich-app/immich-machine-learning:v2.5.2
+    image: ghcr.io/immich-app/immich-machine-learning:v2.5.5
     volumes:
       - ../../cloud-data/immich/model-cache:/cache
     env_file:
