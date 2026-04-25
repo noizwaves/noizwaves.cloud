@@ -1,6 +1,6 @@
 services:
   app:
-    image: booklore/booklore:latest
+    image: ghcr.io/the-booklore/booklore:latest
     container_name: booklore
     restart: unless-stopped
     networks:
