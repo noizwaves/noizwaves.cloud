@@ -9,6 +9,7 @@ services:
       - .env
     environment:
       - WATCHTOWER_MONITOR_ONLY=false
+      - WATCHTOWER_LABEL_ENABLE=true
       - WATCHTOWER_SCHEDULE=0 0 2 ? * SAT
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_NOTIFICATIONS=email
