@@ -5,7 +5,6 @@ services:
     user: 1000:1000
     networks:
       - web
-      - tailscale
       - default
       - homepage
     volumes:
@@ -85,35 +84,8 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     restart: unless-stopped
 
-  tailscale:
-    image: tailscale/tailscale
-    container_name: immich_tailscale
-    hostname: immich
-    restart: unless-stopped
-    user: 1000:1000
-    cap_add:
-      - net_admin
-      - sys_module
-    networks:
-      - tailscale
-    volumes:
-      - ../../cloud-data/immich/tailscale:/var/lib/tailscale
-      - ./serve-config.json:/config/serve-config.json
-      - /dev/net/tun:/dev/net/tun
-    environment:
-      - TS_AUTHKEY=${TAILSCALE_OAUTH_KEY}?ephemeral=false
-      - TS_EXTRA_ARGS=--advertise-tags=tag:container --reset
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/config/serve-config.json
-      - TS_USERSPACE=true
-    labels:
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   default:
-    external: false
-  tailscale:
     external: false
   web:
     external: true
