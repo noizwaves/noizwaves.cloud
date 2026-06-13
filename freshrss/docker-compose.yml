@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   freshrss:
-    image: linuxserver/freshrss:1.26.1-ls267
+    image: linuxserver/freshrss:1.29.1-ls309
     container_name: freshrss
     networks:
       - web
