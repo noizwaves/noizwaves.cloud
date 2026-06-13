@@ -63,6 +63,10 @@ rsync --archive --open-noatime --progress --itemize-changes --stats --delete --d
 # Cleanup
 restic cache --cleanup
 
+# Unmount drives
+pumount backup
+pumount bigbackup
+
 # Healthy backup achieved
 curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_COLD_BACKUP_UUID
 
