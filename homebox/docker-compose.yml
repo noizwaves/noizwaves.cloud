@@ -1,9 +1,11 @@
 services:
   homebox:
-    image: ghcr.io/sysadminsmedia/homebox:0.25.0-rootless
+    image: ghcr.io/sysadminsmedia/homebox:0.26.2-rootless
     container_name: homebox
     restart: unless-stopped
     user: 1000:1000
+    env_file:
+      - .env
     environment:
       - TZ=${TZ}
       - PUID=1000
