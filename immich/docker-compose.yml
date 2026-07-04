@@ -71,7 +71,7 @@ services:
 
   database:
     container_name: immich_postgres
-    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
     user: 1000:1000
     env_file:
       - .env
@@ -82,6 +82,7 @@ services:
       PG_DATA: /var/lib/postgresql/data
     volumes:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    shm_size: 128mb
     restart: unless-stopped
 
 networks:
