@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   plex:
     image: plexinc/pms-docker:latest
@@ -14,10 +12,7 @@ services:
       - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
     networks:
-      web: {}
-      tailscale:
-        aliases:
-          - app
+      - web
     ports:
       # Because Wiim Home cannot connect using https://plex.noizwaves.cloud...
       - "${LAN_IP}:32400:32400/tcp"
@@ -43,33 +38,6 @@ services:
     devices:
       - /dev/dri:/dev/dri
 
-  tailscale:
-    image: tailscale/tailscale
-    container_name: plex_tailscale
-    hostname: plex
-    restart: unless-stopped
-    user: 1000:1000
-    cap_add:
-      - net_admin
-      - sys_module
-    networks:
-      - tailscale
-    volumes:
-      - ../../cloud-data/plex/tailscale:/var/lib/tailscale
-      - ./serve-config.json:/config/serve-config.json
-      - /dev/net/tun:/dev/net/tun
-    environment:
-      - TS_AUTHKEY=${TAILSCALE_OAUTH_KEY}?ephemeral=false
-      - TS_EXTRA_ARGS=--advertise-tags=tag:container --reset
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/config/serve-config.json
-      - TS_USERSPACE=true
-    labels:
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true
-  tailscale:
-    external: false
