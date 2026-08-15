@@ -1,0 +1,128 @@
+x-db-env: &db_env
+  POSTGRES_USER: ${POSTGRES_USER:-sure_user}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sure_password}
+  POSTGRES_DB: ${POSTGRES_DB:-sure_production}
+
+x-rails-env: &rails_env
+  <<: *db_env
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-a7523c3d0ae56415046ad8abae168d71074a79534a7062258f8d1d51ac2f76d3c3bc86d86b6b0b307df30d9a6a90a2066a3fa9e67c5e6f374dbd7dd4e0778e13}
+  SELF_HOSTED: "true"
+  RAILS_FORCE_SSL: "false"
+  RAILS_ASSUME_SSL: "false"
+  DB_HOST: db
+  DB_PORT: 5432
+  REDIS_URL: redis://redis:6379/1
+  # NOTE: enabling OpenAI will incur costs when you use AI-related features in the app (chat, rules).  Make sure you have set appropriate spend limits on your account before adding this.
+  OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
+  OPENAI_MODEL: ${OPENAI_MODEL:-}
+  OPENAI_URI_BASE: ${OPENAI_URI_BASE:-}
+  LLM_CONTEXT_WINDOW: ${LLM_CONTEXT_WINDOW:-}
+  OPENAI_REQUEST_TIMEOUT: ${OPENAI_REQUEST_TIMEOUT:-60}
+  # Seconds the chat waits for an assistant response before showing a "no response"
+  # error. This covers the whole turn, so its worst case is a sum:
+  #   (1 + ASSISTANT_MAX_TOOL_CALL_ITERATIONS) * OPENAI_REQUEST_TIMEOUT
+  #     + tool execution + queue wait
+  # 90 is sized for typical cloud latency, not that bound — raise it (or lower the
+  # tool-call cap) once per-call latency approaches OPENAI_REQUEST_TIMEOUT, which
+  # is what happens with a local model. See compose.example.ai.yml.
+  AI_RESPONSE_TIMEOUT: ${AI_RESPONSE_TIMEOUT:-90}
+  ASSISTANT_MAX_TOOL_CALL_ITERATIONS: ${ASSISTANT_MAX_TOOL_CALL_ITERATIONS:-}
+
+services:
+  web:
+    container_name: sure_web
+    image: ghcr.io/we-promise/sure:0.7.4-alpha.4
+    volumes:
+      - ../../cloud-data/sure/rails-storage:/rails/storage
+    user: "1000:1000"
+    networks:
+      - backend
+      - web
+    restart: unless-stopped
+    environment:
+      <<: *rails_env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.sure.loadbalancer.server.port=3000
+      - traefik.http.services.sure.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.sure.rule=Host(`sure.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.sure.entrypoints=web-secured
+      - traefik.http.routers.sure.service=sure
+      - traefik.http.routers.sure.tls=true
+      - traefik.http.routers.sure.tls.certresolver=mytlschallenge
+
+      # Automatically updated
+      - com.centurylinklabs.watchtower.enable=true
+#    dns:
+#      - 8.8.8.8
+#      - 1.1.1.1
+
+  worker:
+    container_name: sure_worker
+    image: ghcr.io/we-promise/sure:stable
+    command: bundle exec sidekiq
+    user: "1000:1000"
+    volumes:
+      - ../../cloud-data/sure/rails-storage:/rails/storage
+    networks:
+      - backend
+    restart: unless-stopped
+    environment:
+      <<: *rails_env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+#    dns:
+#      - 8.8.8.8
+#      - 1.1.1.1
+
+  db:
+    container_name: sure_db
+    image: postgres:16-alpine
+    user: "1000:1000"
+    restart: unless-stopped
+    volumes:
+      - ../../cloud-data/sure/postgres:/var/lib/postgresql/data
+    networks:
+      - backend
+    environment:
+      <<: *db_env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: sure_redis
+    image: redis:latest
+    restart: unless-stopped
+    user: "1000:1000"
+    volumes:
+      - ../../cloud-data/sure/redis:/data
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  backend:
+    name: sure
+    internal: true
+    external: false
+  web:
+    external: true
