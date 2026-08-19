@@ -61,7 +61,6 @@ HOME=/home/cloud
 
 ### Stable
 
-- [Homepage](./homepage/)
 - [Homebox](./homebox/)
 - [Bitwarden](./bitwarden/)
 - [Speedtest](./speedtest/)
@@ -77,42 +76,17 @@ HOME=/home/cloud
 - [Gitea](./gitea/)
 - [Atuin](./atuin/)
 - [Immich](./immich/)
-- [Ubooquity](./ubooquity/)
 - [Beszel](./beszel/)
 - [Home Assistant](./homeassistant/)
+- [BookLore](./booklore/)
 
 ### Incubating
 
-- [Stalwart](./stalwart/)
-- [BookLore](./booklore/)
+- [Sure](./sure/)
 
 ### Inactive
 
-- [k3s](./k3s/)
-- [Pi-hole](./pihole)
-- [minio](./minio/)
-- [InfluxDB](./influxdb/)
-- [Seafile](./seafile/)
-- [Nextcloud](./nextcloud/)
-- [Standard Notes](./standardnotes/)
-- [Firefly III](./firefly-iii/)
-- [Photostructure](./photostructure/)
-- [Photoprism](./photoprism/)
-- [Registry](./registry/)
-- [Focalboard](./focalboard/)
-- [Running](./running/)
-- [Drone](./drone/)
-- [Trilium](./trilium/)
-- [Matrix](./matrix/)
-- [Backblaze](./backblaze/)
-- [Elastic](./elastic/)
-- [Fasten](./fasten/)
-- [Scrutiny](./scrutiny/)
-- [k2d](./k2d/)
-- [netbootxyz](./netbootxyz/)
-- [Ghostfolio](./ghostfolio/)
-- [Mealie](./mealie/)
-- [Wealthfolio](./wealthfolio/)
+Retired services are kept in [_inactive](./_inactive/).
 
 ## Maintenance
 
