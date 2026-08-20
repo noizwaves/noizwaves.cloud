@@ -5,7 +5,7 @@ services:
     container_name: atuin
     image: ghcr.io/atuinsh/atuin:18.19.0@sha256:4d0ccca1d151f860b3f469c60df78bf1ab798f15e88dc1912d31d6741653eb99
     restart: unless-stopped
-    command: server start
+    command: start
     networks:
       - web
       - backend
@@ -16,7 +16,7 @@ services:
     ports: []
     environment:
       ATUIN_HOST: "0.0.0.0"
-      ATUIN_OPEN_REGISTRATION: "true"
+      #ATUIN_OPEN_REGISTRATION: "true"
       ATUIN_DB_URI: postgres://$ATUIN_DB_USERNAME:$ATUIN_DB_PASSWORD@db/$ATUIN_DB_NAME
       RUST_LOG: info,atuin_server=debug
     labels:
