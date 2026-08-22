@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: vikunja/vikunja:0.24.6
+    image: vikunja/vikunja:0.24.6@sha256:ed1f3ed467fecec0b57e9de7bc6607f8bbcbb23ffced6a81f5dfefc794cdbe3b
     container_name: vikunja
     environment:
       - PUID=1000
@@ -32,7 +32,7 @@ services:
       - traefik.http.routers.vikunja.tls.certresolver=mytlschallenge
 
   db:
-    image: linuxserver/mariadb:11.4.5-r0-ls185
+    image: linuxserver/mariadb:11.4.5-r0-ls185@sha256:65e4fb3328ba5b402dc98822b7727d0dc266a5e9a827aad3f0e47bf065d4afc1
     container_name: vikunja_db
     restart: unless-stopped
     networks:

@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   authelia:
-    image: authelia/authelia:latest
+    image: authelia/authelia:latest@sha256:1b363e9279e742397966333f364e0876ae02bf5c876de73e83af6d48c57ff51b
     container_name: authelia
     user: "1000:1000"
     volumes:
@@ -35,7 +35,7 @@ services:
       - mariadb
 
   redis:
-    image: redis:6.0.5
+    image: redis:6.0.5@sha256:800f2587bf3376cb01e6307afe599ddce9439deafbd4fb8562829da96085c9c5
     container_name: authelia_redis
     restart: unless-stopped
     networks:
@@ -44,7 +44,7 @@ services:
       - ../../cloud-data/authelia/redis:/data
 
   mariadb:
-    image: linuxserver/mariadb:11.4.5-r0-ls185
+    image: linuxserver/mariadb:11.4.5-r0-ls185@sha256:65e4fb3328ba5b402dc98822b7727d0dc266a5e9a827aad3f0e47bf065d4afc1
     container_name: authelia_mariadb
     restart: unless-stopped
     networks:
