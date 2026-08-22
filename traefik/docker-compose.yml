@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v2.9
+    image: traefik:v2.9@sha256:8d81a9df1435f9f3d36ac9398465ef2d5d61e671059974db753faaed14b627de
     restart: unless-stopped
     container_name: traefik
     ports:
@@ -64,7 +64,7 @@ services:
 
       - traefik.http.routers.api.middlewares=authelia@docker
   certs-dumper:
-    image: ghcr.io/kereis/traefik-certs-dumper:latest
+    image: ghcr.io/kereis/traefik-certs-dumper:latest@sha256:15538dcda42d614798dbbffee98c665dbb94a0fb768f7457040ac1751fb4e058
     container_name: traefik-certs-dumper
     restart: unless-stopped
     network_mode: none

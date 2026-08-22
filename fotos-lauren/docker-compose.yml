@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   fotos:
-    image: ghcr.io/noizwaves/fotos:latest
+    image: ghcr.io/noizwaves/fotos:latest@sha256:7c47f16160e1781c6d331b98f001aa4a566bd17f62730f97cb2541d4e3b27f33
     container_name: fotos-lauren
     hostname: fotos
     restart: unless-stopped
@@ -49,7 +49,7 @@ services:
       - traefik.http.routers.fotos-lauren-nginx.middlewares=authelia@docker
 
   webdav:
-    image: linuxserver/nginx:latest
+    image: linuxserver/nginx:latest@sha256:e0a10c7bed5836db97e2d70e53d80f268bfaa07b422822b9e41f04cd28e5f5ff
     container_name: fotos-lauren_webdav
     hostname: fotos_webdav
     restart: unless-stopped
