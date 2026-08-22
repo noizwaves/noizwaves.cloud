@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   app:
-    image: adguard/adguardhome:latest
+    image: adguard/adguardhome:latest@sha256:aba9e3bf0613be3ba3755e1fc311b126e2c24bec25e18b6483894a88283074f0
     hostname: adguard
     container_name: adguard
     restart: unless-stopped
@@ -12,7 +12,7 @@ services:
 
   proxy:
     container_name: adguard-proxy
-    image: alpine/socat
+    image: alpine/socat@sha256:3ed1cd38741bd445ebffa3aecb9d80c46a83db45f5b5ef03332976c7ca9814af
     networks:
       - web
     restart: unless-stopped

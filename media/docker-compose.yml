@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:latest
+    image: lscr.io/linuxserver/sabnzbd:latest@sha256:78253a5ed379d08c16deba4154a2468875aa25a729c54c59c1199f851f87c29e
     container_name: sabnzbd
     restart: unless-stopped
     networks:
@@ -30,7 +30,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:latest@sha256:c19aa4ecdf03d73e1d5c901da33744cb7eb4d921f89bafed1ca264601d7fa224
     container_name: sonarr
     restart: unless-stopped
     networks:
@@ -59,7 +59,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:latest@sha256:a45b5ab0f850f39edb4cc9c95bbd967b52ddc3d4574a4dfb45561177db6c88f4
     container_name: radarr
     restart: unless-stopped
     networks:
@@ -88,7 +88,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:latest@sha256:2e4cdc7c8d5fa36915f446a29976ee01d3f9cc9722b8530a09121c76fbabef55
     container_name: lidarr
     restart: unless-stopped
     networks:
@@ -117,7 +117,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:latest@sha256:1295cff29d10b486c0d8324d1559a552140a5932bf8b3d87e398654414f63f92
     container_name: prowlarr
     restart: unless-stopped
     networks:
