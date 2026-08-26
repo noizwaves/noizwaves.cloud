@@ -1,6 +1,6 @@
 services:
   watchtower:
-    image: nickfedor/watchtower:1.21.0
+    image: nickfedor/watchtower:1.21.2@sha256:3b8d2e3f0f6ff9295a5d634e4fdb7062e5e6602f71d89baa15cd4d39d22b5743
     restart: unless-stopped
     container_name: watchtower
     env_file:
