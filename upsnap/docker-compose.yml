@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   upsnap:
-    image: ghcr.io/seriousm4x/upsnap:4
+    image: ghcr.io/seriousm4x/upsnap:4@sha256:036f8be0712ed4cc607c1852ad4afa3bae4e4c9df83415bdfab8d981a8183044
     container_name: upsnap
     network_mode: host
     restart: unless-stopped
@@ -16,7 +16,7 @@ services:
 
   proxy:
     container_name: upsnap-proxy
-    image: alpine/socat
+    image: alpine/socat@sha256:3d9e7966201dd3a065df591020a09fd3c70845de7e7086e3531ea69db774406b
     networks:
       - web
     restart: unless-stopped

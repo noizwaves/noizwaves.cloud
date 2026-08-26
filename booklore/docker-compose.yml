@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/the-booklore/booklore:latest
+    image: ghcr.io/the-booklore/booklore:latest@sha256:f3ac3ef5125c48c3e0275e9c937d1e0a21867ab2088852c90e9b6d0439d2e8b9
     container_name: booklore
     restart: unless-stopped
     networks:
@@ -35,7 +35,7 @@ services:
       - traefik.http.routers.booklore.tls.certresolver=mytlschallenge
 
   mariadb:
-    image: lscr.io/linuxserver/mariadb:11.4.5
+    image: lscr.io/linuxserver/mariadb:11.4.5@sha256:eef506eab5c5e5aaa3ce6d1237dcfa5742a8dafd9054e668c838fad71b0d1547
     container_name: booklore_mariadb
     restart: unless-stopped
     networks:

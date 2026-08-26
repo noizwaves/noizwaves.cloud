@@ -1,6 +1,6 @@
 services:
   plex:
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker:latest@sha256:83a425ae9e133b1cb2cc3b809556e01c61cd8ff65c582e41b4374bc2210bac9e
     container_name: plex
     hostname: plex.${CLOUD_DOMAIN}
     restart: unless-stopped

@@ -2,7 +2,7 @@ services:
   postgres:
     container_name: tandoor_postgres
     restart: unless-stopped
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
     user: "1000:1000"
     volumes:
       - ../../cloud-data/tandoor/postgres:/var/lib/postgresql/data
@@ -16,7 +16,7 @@ services:
     # https://github.com/TandoorRecipes/recipes/blob/c25a1df480c3c0a1f5a282b4968c1efad07e69a6/nginx/conf.d/Recipes.conf#L22
     hostname: web_recipes
     container_name: tandoor_app
-    image: vabene1111/recipes:2.6.13
+    image: vabene1111/recipes:2.6.13@sha256:f6c58afdea7a721d079ebd6ee5483f2c9da77dd1e709e16d60a82c218e80a451
     restart: unless-stopped
     env_file:
       - ./.env

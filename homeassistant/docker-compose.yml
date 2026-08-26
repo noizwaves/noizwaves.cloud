@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app:
     container_name: homeassistant-app
-    image: lscr.io/linuxserver/homeassistant:latest
+    image: lscr.io/linuxserver/homeassistant:latest@sha256:e87d92ac0b818cdd7e57ea118b129cfcef2c795b3dcaff557d185404fec2af83
     network_mode: host
     environment:
       - PUID=1000
@@ -18,7 +18,7 @@ services:
 
   proxy:
     container_name: homeassistant-proxy
-    image: alpine/socat
+    image: alpine/socat@sha256:3d9e7966201dd3a065df591020a09fd3c70845de7e7086e3531ea69db774406b
     networks:
       - web
     restart: unless-stopped
