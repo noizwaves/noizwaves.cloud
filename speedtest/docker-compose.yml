@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   speedtest:
-    image: adolfintel/speedtest
+    image: adolfintel/speedtest@sha256:1f828fe8337470d2ed5841176bfa6633fd94bda97261a636c35d0bef60a35270
     hostname: speedtest.${CLOUD_DOMAIN}
     container_name: speedtest
     restart: unless-stopped

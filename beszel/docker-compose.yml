@@ -1,6 +1,6 @@
 services:
   hub:
-    image: henrygd/beszel:0.18.8
+    image: henrygd/beszel:0.18.8@sha256:4c51486968efa0b0a702c1b0967966a2e06fb250b7418f3072d2488faea27c51
     container_name: beszel_hub
     user: "1000:1000"
     restart: unless-stopped
@@ -16,7 +16,7 @@ services:
 
   proxy:
     container_name: beszel-proxy
-    image: alpine/socat
+    image: alpine/socat@sha256:3d9e7966201dd3a065df591020a09fd3c70845de7e7086e3531ea69db774406b
     networks:
       - web
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
 
   agent:
-    image: henrygd/beszel-agent:0.18.8-alpine
+    image: henrygd/beszel-agent:0.18.8-alpine@sha256:3781ce55ab65f605769f12aafaf9fb518f6c414ab9170e474ab14be32c264df1
     container_name: beszel_agent
     restart: unless-stopped
     network_mode: host

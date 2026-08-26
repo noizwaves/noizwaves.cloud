@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   resilio-sync:
-    image: linuxserver/resilio-sync:latest
+    image: linuxserver/resilio-sync:latest@sha256:c6f44de9488975cdd9dbd77800812016726d68fb4b190893eff16fc4618313c0
     container_name: resilio-sync
     networks:
       - web

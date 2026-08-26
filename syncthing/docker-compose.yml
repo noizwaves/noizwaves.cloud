@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   syncthing:
-    image: linuxserver/syncthing:latest
+    image: linuxserver/syncthing:latest@sha256:9e9b931bf48a8a08bffaaa7e2fc2b7d0126b02def2bf1d3395d9b531817f9af3
     container_name: syncthing
     network_mode: host
     environment:
@@ -32,7 +32,7 @@ services:
 
   proxy:
     container_name: syncthing-proxy
-    image: alpine/socat
+    image: alpine/socat@sha256:3d9e7966201dd3a065df591020a09fd3c70845de7e7086e3531ea69db774406b
     networks:
       - web
     restart: unless-stopped
