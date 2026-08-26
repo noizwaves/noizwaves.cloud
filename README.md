@@ -55,7 +55,6 @@ HOME=/home/cloud
 
 - [Authelia](./authelia/)
 - [Traefik](./traefik/)
-- [Watchtower](./watchtower/)
 - [Adguard Home](./adguard/)
 - [ntfy](./ntfy/)
 
