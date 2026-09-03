@@ -19,7 +19,7 @@ services:
       - ../../cloud-data/resilio-sync/data/pictures-data/Lauren Albums:/albums
 
   nginx:
-    image: nginx:1.31.4@sha256:25ee11a13a12120be02c56b9606fde6ffeeb3dff002a9e072c4a2611ab5fd995
+    image: nginx:1.31.5@sha256:db3099a8d62d2bd8f5f7875e6e3d2dfbd92c999cd35967fb05d41374386535e1
     container_name: fotos-lauren_nginx
     hostname: fotos_nginx
     restart: unless-stopped
