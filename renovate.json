@@ -12,6 +12,11 @@
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
       "enabled": false
+    },
+    {
+      "description": "Traefik is pinned at v2.11, so a v3 PR body pulls in release notes for hundreds of intervening releases, which wedges the whole Renovate run.",
+      "matchDepNames": ["traefik"],
+      "fetchChangeLogs": "off"
     }
   ]
 }
