@@ -27,9 +27,6 @@ services:
       - traefik.http.routers.netbootxyz.tls=true
       - traefik.http.routers.netbootxyz.service=netbootxyz
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true

@@ -33,9 +33,6 @@ services:
       - traefik.http.routers.ntfy.tls=true
       - traefik.http.routers.ntfy.tls.certresolver=mytlschallenge
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true

@@ -10,9 +10,6 @@ services:
       - ../../cloud-data/upsnap/data:/app/pb_data
     environment:
       - TZ=${TZ}
-    labels:
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
 
   proxy:
     container_name: upsnap-proxy
@@ -37,9 +34,6 @@ services:
       - traefik.http.routers.upsnap.service=upsnap
       - traefik.http.routers.upsnap.tls=true
       - traefik.http.routers.upsnap.tls.certresolver=mytlschallenge
-
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
 
 networks:
   web:

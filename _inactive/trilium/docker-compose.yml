@@ -24,9 +24,6 @@ services:
       - traefik.http.routers.trilium.tls=true
       - traefik.http.routers.trilium.tls.certresolver=mytlschallenge
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true

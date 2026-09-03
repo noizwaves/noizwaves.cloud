@@ -30,9 +30,6 @@ services:
       - traefik.http.routers.homepage.tls=true
       - traefik.http.routers.homepage.tls.certresolver=mytlschallenge
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
       # protect with Authelia
       - traefik.http.routers.homepage.middlewares=authelia@docker
 

@@ -22,9 +22,6 @@ services:
       - traefik.http.routers.fasten.tls=true
       - traefik.http.routers.fasten.service=fasten
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true

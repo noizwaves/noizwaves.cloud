@@ -34,9 +34,6 @@ services:
       - traefik.http.routers.adguard.tls=true
       - traefik.http.routers.adguard.tls.certresolver=mytlschallenge
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true

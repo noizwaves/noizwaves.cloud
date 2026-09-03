@@ -42,9 +42,6 @@ services:
       - traefik.http.routers.tandoor.tls=true
       - traefik.http.routers.tandoor.tls.certresolver=mytlschallenge
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   backend:
     external: false

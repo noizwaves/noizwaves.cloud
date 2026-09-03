@@ -12,9 +12,6 @@ services:
     volumes:
       - ../../cloud-data/homeassistant/config:/config
     restart: unless-stopped
-    labels:
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
 
   proxy:
     container_name: homeassistant-proxy
@@ -39,9 +36,6 @@ services:
       - traefik.http.routers.homeassistant.service=homeassistant
       - traefik.http.routers.homeassistant.tls=true
       - traefik.http.routers.homeassistant.tls.certresolver=mytlschallenge
-
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
 
 networks:
   web:

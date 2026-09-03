@@ -38,9 +38,6 @@ services:
       - traefik.http.routers.beszel.tls=true
       - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
   agent:
     image: henrygd/beszel-agent:0.18.8-alpine@sha256:3781ce55ab65f605769f12aafaf9fb518f6c414ab9170e474ab14be32c264df1
     container_name: beszel_agent

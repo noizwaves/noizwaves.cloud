@@ -26,9 +26,6 @@ services:
       - ../../cloud-data/resilio-sync/data/yaak-data:/data/yaak
       - ../../cloud-data/enduronauts/backups:/data/enduronauts-backups
     restart: unless-stopped
-    labels:
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
 
   proxy:
     container_name: syncthing-proxy
@@ -53,9 +50,6 @@ services:
       - traefik.http.routers.syncthing.service=syncthing
       - traefik.http.routers.syncthing.tls=true
       - traefik.http.routers.syncthing.tls.certresolver=mytlschallenge
-
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
 
 networks:
   web:

@@ -38,9 +38,6 @@ services:
       - traefik.tcp.routers.gitea-ssh.entrypoints=tcp-2222
       - traefik.tcp.routers.gitea-ssh.service=gitea-ssh
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true

@@ -34,9 +34,6 @@ services:
       - traefik.http.routers.minio-api.tls=true
       - traefik.http.routers.minio-api.service=minio-api
 
-      # Automatically updated
-      - com.centurylinklabs.watchtower.enable=true
-
 networks:
   web:
     external: true
