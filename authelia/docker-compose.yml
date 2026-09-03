@@ -35,7 +35,7 @@ services:
       - mariadb
 
   redis:
-    image: redis:6.0.5@sha256:800f2587bf3376cb01e6307afe599ddce9439deafbd4fb8562829da96085c9c5
+    image: redis:6.2.24@sha256:143f7bfc2358911d6b36138eabfbfffea46273c5d4b5696d90e5cbf23d633cf8
     container_name: authelia_redis
     restart: unless-stopped
     networks:
