@@ -37,6 +37,7 @@ services:
   redis:
     image: redis:6.2.24@sha256:143f7bfc2358911d6b36138eabfbfffea46273c5d4b5696d90e5cbf23d633cf8
     container_name: authelia_redis
+    user: "1000:1000"
     restart: unless-stopped
     networks:
       - backend
