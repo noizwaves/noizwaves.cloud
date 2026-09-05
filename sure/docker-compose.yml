@@ -93,7 +93,7 @@ services:
     user: "1000:1000"
     restart: unless-stopped
     volumes:
-      - ../../cloud-data/sure/postgres:/var/lib/postgresql/data
+      - ../../cloud-data/sure/postgres:/var/lib/postgresql
     networks:
       - backend
     environment:

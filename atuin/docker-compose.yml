@@ -38,7 +38,7 @@ services:
     networks:
       - backend
     volumes:
-      - "../../cloud-data/atuin/postgres:/var/lib/postgresql/data/"
+      - "../../cloud-data/atuin/postgres:/var/lib/postgresql"
     environment:
       POSTGRES_USER: ${ATUIN_DB_USERNAME}
       POSTGRES_PASSWORD: ${ATUIN_DB_PASSWORD}
