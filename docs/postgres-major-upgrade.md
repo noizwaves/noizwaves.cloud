@@ -81,10 +81,12 @@ docker run --rm --network <compose network> \
 ```
 
 Sanity check the dump before going any further — a truncated dump that is never read
-back is the main way this procedure loses data:
+back is the main way this procedure loses data. Note that PG18 wraps its dumps in
+`\restrict`/`\unrestrict` guards, so the completion marker is not the last line and
+the dump has to be replayed with a psql of 18 or newer:
 
 ```sh
-tail -1 ~/pg18-upgrade/<app>.sql   # expect: -- PostgreSQL database dump complete
+grep -c "PostgreSQL database dump complete" ~/pg18-upgrade/<app>.sql   # expect: 1
 grep -c '^COPY ' ~/pg18-upgrade/<app>.sql
 ```
 
