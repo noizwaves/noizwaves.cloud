@@ -2,11 +2,14 @@ version: '3.7'
 
 services:
   app:
-    image: vikunja/vikunja:0.24.6@sha256:ed1f3ed467fecec0b57e9de7bc6607f8bbcbb23ffced6a81f5dfefc794cdbe3b
+    image: vikunja/vikunja:2.6.0@sha256:417ada6f94e81f0267aa2f007d0a811fc82d38dd2aa58351e3ea520ca01c2ea5
     container_name: vikunja
     environment:
       - PUID=1000
       - PGID=1000
+      # Required since v1.0: Vikunja refuses to start without it, and it is the
+      # origin allowed by the now-on-by-default CORS check.
+      - VIKUNJA_SERVICE_PUBLICURL=https://vikunja.${CLOUD_DOMAIN}/
     env_file:
       - .env
     volumes:
@@ -15,7 +18,8 @@ services:
       - web
       - backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -44,6 +48,11 @@ services:
       - PGID=1000
     volumes:
       - ../../cloud-data/vikunja/mariadb:/config
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 networks:
   web:
