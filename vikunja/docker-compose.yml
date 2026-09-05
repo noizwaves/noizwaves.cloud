@@ -36,7 +36,7 @@ services:
       - traefik.http.routers.vikunja.tls.certresolver=mytlschallenge
 
   db:
-    image: linuxserver/mariadb:11.4.5-r0-ls185@sha256:65e4fb3328ba5b402dc98822b7727d0dc266a5e9a827aad3f0e47bf065d4afc1
+    image: lscr.io/linuxserver/mariadb:11.8.8@sha256:cb61ec331e80b2ad1c9c5837238eaec91a356bbd952d8a0f58f5054e0e79fdf5
     container_name: vikunja_db
     restart: unless-stopped
     networks:
