@@ -11,6 +11,18 @@ services:
     networks:
       - backend
 
+  # Cache only - Tandoor keeps sessions and everything durable in postgres, so
+  # there is nothing here worth persisting or backing up.
+  redis:
+    container_name: tandoor_redis
+    restart: unless-stopped
+    image: redis:8.10-alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
+    # Empty --save plus no AOF means purely in-memory; LRU eviction caps growth.
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    user: "1000:1000"
+    networks:
+      - backend
+
   app:
     # built-in Nginx config requires a specific hostname to function
     # https://github.com/TandoorRecipes/recipes/blob/c25a1df480c3c0a1f5a282b4968c1efad07e69a6/nginx/conf.d/Recipes.conf#L22
@@ -25,6 +37,7 @@ services:
       - ../../cloud-data/tandoor/mediafiles:/opt/recipes/mediafiles
     depends_on:
       - postgres
+      - redis
     networks:
       - backend
       - web
