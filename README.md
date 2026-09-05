@@ -94,6 +94,8 @@ Retired services are kept in [_inactive](./_inactive/).
 1.  Update tags to desired newer value
 1.  Recreate containers via `$ docker-compose up --force-recreate --build -d`
 
+Postgres major version bumps need more than a tag change; see [Postgres major upgrades](./docs/postgres-major-upgrade.md).
+
 ## Disaster Recovery and Backups
 
 See [backups](./backups/).
