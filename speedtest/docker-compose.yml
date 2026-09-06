@@ -8,6 +8,8 @@ services:
       - web
     ports:
       - "8080:8080"
+    environment:
+      - USE_NEW_DESIGN=true
     labels:
       - traefik.enable=true
       - traefik.http.services.speedtest.loadbalancer.server.port=8080
