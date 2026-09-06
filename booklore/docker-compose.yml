@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/the-booklore/booklore:latest@sha256:f3ac3ef5125c48c3e0275e9c937d1e0a21867ab2088852c90e9b6d0439d2e8b9
+    image: ghcr.io/the-booklore/booklore:v2.2.2@sha256:f3ac3ef5125c48c3e0275e9c937d1e0a21867ab2088852c90e9b6d0439d2e8b9
     container_name: booklore
     restart: unless-stopped
     networks:

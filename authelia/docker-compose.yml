@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   authelia:
-    image: docker.io/authelia/authelia:latest@sha256:1b363e9279e742397966333f364e0876ae02bf5c876de73e83af6d48c57ff51b
+    image: docker.io/authelia/authelia:4.39.20@sha256:1b363e9279e742397966333f364e0876ae02bf5c876de73e83af6d48c57ff51b
     container_name: authelia
     user: "1000:1000"
     volumes:

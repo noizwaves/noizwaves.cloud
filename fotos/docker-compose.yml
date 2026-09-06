@@ -49,7 +49,7 @@ services:
       - traefik.http.routers.fotos-nginx.middlewares=authelia@docker
 
   webdav:
-    image: lscr.io/linuxserver/nginx:latest@sha256:e0a10c7bed5836db97e2d70e53d80f268bfaa07b422822b9e41f04cd28e5f5ff
+    image: lscr.io/linuxserver/nginx:1.30.4-r1-ls372@sha256:e0a10c7bed5836db97e2d70e53d80f268bfaa07b422822b9e41f04cd28e5f5ff
     container_name: fotos_webdav
     hostname: fotos_webdav
     restart: unless-stopped
