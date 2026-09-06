@@ -31,7 +31,7 @@ x-rails-env: &rails_env
 services:
   web:
     container_name: sure_web
-    image: ghcr.io/we-promise/sure:0.7.4-alpha.4@sha256:4e43261e72ff962c44661944e7a608cb2b95218fd27b56b0e7d7527afc036a78
+    image: ghcr.io/we-promise/sure:0.7.4@sha256:391b2c52acfe538065a41cdd1c9755f90d95ba17a2c06e9b6438b12098df3f3a
     volumes:
       - ../../cloud-data/sure/rails-storage:/rails/storage
     user: "1000:1000"
@@ -66,7 +66,7 @@ services:
 
   worker:
     container_name: sure_worker
-    image: ghcr.io/we-promise/sure:stable@sha256:12361b7b309f867002b8a1f54200607ca1a321e1b57cf21890caaf83602c3cd0
+    image: ghcr.io/we-promise/sure:0.7.4@sha256:391b2c52acfe538065a41cdd1c9755f90d95ba17a2c06e9b6438b12098df3f3a
     command: bundle exec sidekiq
     user: "1000:1000"
     volumes:
@@ -104,7 +104,7 @@ services:
 
   redis:
     container_name: sure_redis
-    image: docker.io/redis:latest@sha256:9c5c616b6e72ea6e38125bb9b12eac2dcd92cd57f8f811ee2fb965ae4cb0f16e
+    image: docker.io/redis:8.10.1-alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
     restart: unless-stopped
     user: "1000:1000"
     volumes:
