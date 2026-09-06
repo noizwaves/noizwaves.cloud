@@ -1,16 +1,16 @@
 services:
   speedtest:
-    image: docker.io/adolfintel/speedtest:latest@sha256:1f828fe8337470d2ed5841176bfa6633fd94bda97261a636c35d0bef60a35270
+    image: ghcr.io/librespeed/speedtest:6.2.1@sha256:705744f487048f209b4e389312ea82d4d5c36a76db3e5123b97d4b1649b724b5
     container_name: speedtest
     hostname: speedtest.${CLOUD_DOMAIN}
     restart: unless-stopped
     networks:
       - web
     ports:
-      - "8000:80"
+      - "8000:8080"
     labels:
       - traefik.enable=true
-      - traefik.http.services.speedtest.loadbalancer.server.port=80
+      - traefik.http.services.speedtest.loadbalancer.server.port=8080
 
       # HTTPS
       - traefik.http.routers.speedtest.rule=Host(`speedtest.${CLOUD_DOMAIN}`)
