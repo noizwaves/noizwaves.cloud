@@ -7,7 +7,7 @@ services:
     networks:
       - web
     ports:
-      - "8000:8080"
+      - "8080:8080"
     labels:
       - traefik.enable=true
       - traefik.http.services.speedtest.loadbalancer.server.port=8080
@@ -21,7 +21,7 @@ services:
 
       # HTTP redirect
       - traefik.http.middlewares.speedtest-redirect.redirectregex.regex=^https://speedtest.${CLOUD_DOMAIN}/(.*)
-      - traefik.http.middlewares.speedtest-redirect.redirectregex.replacement=http://speedtest.${CLOUD_DOMAIN}:8000/$${1}
+      - traefik.http.middlewares.speedtest-redirect.redirectregex.replacement=http://speedtest.${CLOUD_DOMAIN}:8080/$${1}
       - traefik.http.routers.speedtest.middlewares=speedtest-redirect@docker
 
 networks:
