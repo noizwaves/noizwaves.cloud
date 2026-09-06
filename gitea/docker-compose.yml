@@ -2,6 +2,9 @@ services:
   server:
     image: docker.io/gitea/gitea:1.27.3@sha256:87a67ee09d3ae0d1df5fda5dcda3e2a1f9236a45b0a59025d6e00e46adc43bef
     container_name: gitea
+    restart: unless-stopped
+    networks:
+      - web
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -9,9 +12,6 @@ services:
       - GITEA__server__SSH_DOMAIN=gitea.${CLOUD_DOMAIN}
       - GITEA__server__ROOT_URL=https://gitea.${CLOUD_DOMAIN}
       - GITEA__server__DOMAIN=gitea.${CLOUD_DOMAIN}
-    restart: unless-stopped
-    networks:
-      - web
     volumes:
       - ../../cloud-data/gitea/data:/data
       - /etc/timezone:/etc/timezone:ro
@@ -41,4 +41,3 @@ services:
 networks:
   web:
     external: true
-

@@ -24,7 +24,7 @@ services:
       # Merged media
       - /merged/music:/srv/music:ro
     healthcheck:
-      test: [ "CMD", "/healthcheck.sh" ]
+      test: ["CMD", "/healthcheck.sh"]
       interval: 5s
       timeout: 3s
       start_period: 2s

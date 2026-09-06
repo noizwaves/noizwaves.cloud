@@ -1,21 +1,19 @@
-version: '3.7'
-
 services:
   freshrss:
     image: lscr.io/linuxserver/freshrss:1.29.1-ls309@sha256:b24ddde7d465f004847305b70d2479eb31c218e777bf2ab97d42dc75b54ed914
     container_name: freshrss
+    restart: unless-stopped
     networks:
       - web
       - backend
-    depends_on:
-      - mariadb
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
     volumes:
       - ../../cloud-data/freshrss/config:/config
-    restart: unless-stopped
+    depends_on:
+      - mariadb
     labels:
       - traefik.enable=true
       - traefik.http.services.freshrss.loadbalancer.server.port=80
@@ -33,12 +31,12 @@ services:
     restart: unless-stopped
     networks:
       - backend
+    env_file:
+      - .env
     environment:
       - MYSQL_DATABASE=freshrss
       - PUID=1000
       - PGID=1000
-    env_file:
-      - .env
     volumes:
       - ../../cloud-data/freshrss/mariadb:/config
 

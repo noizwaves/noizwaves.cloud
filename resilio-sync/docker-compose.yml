@@ -1,9 +1,8 @@
-version: '3.7'
-
 services:
   resilio-sync:
     image: lscr.io/linuxserver/resilio-sync:3.1.2.1076-1-ls256@sha256:c6f44de9488975cdd9dbd77800812016726d68fb4b190893eff16fc4618313c0
     container_name: resilio-sync
+    restart: unless-stopped
     networks:
       - web
     environment:
@@ -13,7 +12,6 @@ services:
     volumes:
       - ../../cloud-data/resilio-sync/config:/config
       - ../../cloud-data/resilio-sync/data:/sync
-    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.services.resilio.loadbalancer.server.port=8888

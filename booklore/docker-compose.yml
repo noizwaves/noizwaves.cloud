@@ -14,12 +14,12 @@ services:
       - DATABASE_USERNAME=${DB_USER}
       - DATABASE_PASSWORD=${DB_PASSWORD}
       - BOOKLORE_PORT=8081
-    depends_on:
-      mariadb:
-        condition: service_healthy
     volumes:
       - ../../cloud-data/booklore/data:/app/data
       - /mnt/media2/Books:/media2-books:ro
+    depends_on:
+      mariadb:
+        condition: service_healthy
     labels:
       - traefik.enable=true
 
@@ -51,7 +51,7 @@ services:
     volumes:
       - ../../cloud-data/booklore/mariadb:/config
     healthcheck:
-      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 10

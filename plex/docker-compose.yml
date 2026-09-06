@@ -4,12 +4,6 @@ services:
     container_name: plex
     hostname: plex.${CLOUD_DOMAIN}
     restart: unless-stopped
-    environment:
-      - VERSION=docker
-      - TZ=${TZ}
-      # - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
-      - PLEX_UID=${USER}
-      - PLEX_GID=${USER}
 #      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
     networks:
       - web
@@ -18,6 +12,14 @@ services:
       - "${LAN_IP}:32400:32400/tcp"
       # Bypass Traefik when on Tailscale
       - "${TAILSCALE_IP}:32400:32400/tcp"
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - VERSION=docker
+      - TZ=${TZ}
+      # - ADVERTISE_IP=https://plex.${CLOUD_DOMAIN}
+      - PLEX_UID=${USER}
+      - PLEX_GID=${USER}
     volumes:
       - ../../cloud-data/plex/config:/config
       - ../../cloud-data/plex/transcode:/transcode
@@ -35,8 +37,6 @@ services:
       - traefik.http.routers.plex.entrypoints=web-secured
       - traefik.http.routers.plex.tls=true
       - traefik.http.routers.plex.service=plex
-    devices:
-      - /dev/dri:/dev/dri
 
 networks:
   web:
