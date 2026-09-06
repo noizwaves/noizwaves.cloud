@@ -2,7 +2,7 @@ services:
   postgres:
     container_name: tandoor_postgres
     restart: unless-stopped
-    image: postgres:18-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    image: docker.io/postgres:18-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
     user: "1000:1000"
     volumes:
       - ../../cloud-data/tandoor/postgres:/var/lib/postgresql
@@ -16,7 +16,7 @@ services:
   redis:
     container_name: tandoor_redis
     restart: unless-stopped
-    image: redis:8.10-alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
+    image: docker.io/redis:8.10-alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
     # Empty --save plus no AOF means purely in-memory; LRU eviction caps growth.
     command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
     user: "1000:1000"
@@ -28,7 +28,7 @@ services:
     # https://github.com/TandoorRecipes/recipes/blob/c25a1df480c3c0a1f5a282b4968c1efad07e69a6/nginx/conf.d/Recipes.conf#L22
     hostname: web_recipes
     container_name: tandoor_app
-    image: vabene1111/recipes:2.6.13@sha256:f6c58afdea7a721d079ebd6ee5483f2c9da77dd1e709e16d60a82c218e80a451
+    image: docker.io/vabene1111/recipes:2.6.13@sha256:f6c58afdea7a721d079ebd6ee5483f2c9da77dd1e709e16d60a82c218e80a451
     restart: unless-stopped
     env_file:
       - ./.env
