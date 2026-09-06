@@ -291,7 +291,7 @@
     - name: Syncthing proxy
       community.general.ufw:
         rule: allow
-        port: '8343'
+        port: '8384'
         proto: tcp
         src: '172.18.0.0/16'
         dest: '172.17.0.1'
