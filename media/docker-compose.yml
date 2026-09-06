@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:5.1.2-ls269@sha256:d22bc8b3185f0e0c1050f6427df6b9ad072f70586b3b1edf916131b0c3101542
@@ -14,7 +12,6 @@ services:
     volumes:
       - ../../cloud-data/sabnzbd/config:/config
       - /merged/media/Arr:/data
-    ports: []
     labels:
       - traefik.enable=true
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
@@ -40,7 +37,6 @@ services:
     volumes:
       - ../../cloud-data/sonarr/config:/config
       - /merged/media/Arr:/data
-    ports: []
     labels:
       - traefik.enable=true
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
@@ -66,7 +62,6 @@ services:
     volumes:
       - ../../cloud-data/radarr/config:/config
       - /merged/media/Arr:/data
-    ports: []
     labels:
       - traefik.enable=true
       - traefik.http.services.radarr.loadbalancer.server.port=7878
@@ -92,7 +87,6 @@ services:
     volumes:
       - ../../cloud-data/lidarr/config:/config
       - /merged/media/Arr:/data
-    ports: []
     labels:
       - traefik.enable=true
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
@@ -116,7 +110,6 @@ services:
       - TZ=${TZ}
     volumes:
       - ../../cloud-data/prowlarr/config:/config
-    ports: []
     labels:
       - traefik.enable=true
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696

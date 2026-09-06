@@ -1,23 +1,21 @@
-version: '3.7'
-
 services:
   bitwarden:
-    image: vaultwarden/server:latest@sha256:094b5689ed81549bd293418395c7cf495ae9d960fc2d4928cef2083ef913d912
+    image: docker.io/vaultwarden/server:1.37.2@sha256:094b5689ed81549bd293418395c7cf495ae9d960fc2d4928cef2083ef913d912
     container_name: bitwarden
-    user: "1000:1000"
     restart: unless-stopped
+    user: "1000:1000"
     networks:
       - web
-    volumes:
-      - ../../cloud-data/bitwarden/data:/data
-    environment:
-      ROCKET_PORT: "10000"
-      DOMAIN: "https://bitwarden.${CLOUD_DOMAIN}"
-      LOG_FILE: '/data/bitwarden.log'
-      SIGNUPS_ALLOWED: 'true'
-      WEBSOCKET_ENABLED: 'true'
     env_file:
       - .env
+    environment:
+      - ROCKET_PORT=10000
+      - DOMAIN=https://bitwarden.${CLOUD_DOMAIN}
+      - LOG_FILE=/data/bitwarden.log
+      - SIGNUPS_ALLOWED=true
+      - WEBSOCKET_ENABLED=true
+    volumes:
+      - ../../cloud-data/bitwarden/data:/data
     labels:
       - traefik.enable=true
 

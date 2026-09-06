@@ -1,9 +1,9 @@
 services:
   hub:
-    image: henrygd/beszel:0.19.0@sha256:fefb27166f5e1611ebf67f8697ea928a23f44efdb00af922e2ac3b5faa2efd5c
+    image: docker.io/henrygd/beszel:0.19.0@sha256:fefb27166f5e1611ebf67f8697ea928a23f44efdb00af922e2ac3b5faa2efd5c
     container_name: beszel_hub
-    user: "1000:1000"
     restart: unless-stopped
+    user: "1000:1000"
     network_mode: host
     # Not sure why this needs to be specified manually when setting `user`
     extra_hosts:
@@ -15,15 +15,14 @@ services:
       - ../../cloud-data/beszel:/beszel_data
 
   proxy:
+    image: docker.io/alpine/socat:1.8.1.3@sha256:3d9e7966201dd3a065df591020a09fd3c70845de7e7086e3531ea69db774406b
     container_name: beszel-proxy
-    image: alpine/socat:1.8.1.3@sha256:3d9e7966201dd3a065df591020a09fd3c70845de7e7086e3531ea69db774406b
+    restart: unless-stopped
     networks:
       - web
-    restart: unless-stopped
     command: "TCP-LISTEN:8080,fork,reuseaddr TCP:172.17.0.1:8091"
     depends_on:
       - hub
-    ports: []
     labels:
       - traefik.enable=true
 
@@ -39,28 +38,28 @@ services:
       - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
 
   agent:
-    image: henrygd/beszel-agent:0.19.0-alpine@sha256:1447d89f55e9afa721fe9328c8e776c67e1f43dc8e40bc99da44cfc7f3435db8
+    image: docker.io/henrygd/beszel-agent:0.19.0-alpine@sha256:1447d89f55e9afa721fe9328c8e776c67e1f43dc8e40bc99da44cfc7f3435db8
     container_name: beszel_agent
     restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO # required for S.M.A.R.T. data
+      - SYS_ADMIN # required for NVMe S.M.A.R.T. data
     network_mode: host
+    devices:
+      - /dev/nvme0:/dev/nvme0
+      - /dev/sda:/dev/sda
+      - /dev/sdb:/dev/sdb
+    env_file:
+      - .env
+    environment:
+      - PORT=45876
+      - HUB_URL=https://beszel.noizwaves.cloud
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /.beszel:/extra-filesystems/root:ro
       - /home/cloud/cloud-data/.beszel:/extra-filesystems/data:ro
       - /mnt/media1/.beszel:/extra-filesystems/media1:ro
       - /mnt/media2/.beszel:/extra-filesystems/media2:ro
-    devices:
-      - /dev/nvme0:/dev/nvme0
-      - /dev/sda:/dev/sda
-      - /dev/sdb:/dev/sdb
-    cap_add:
-      - SYS_RAWIO # required for S.M.A.R.T. data
-      - SYS_ADMIN # required for NVMe S.M.A.R.T. data
-    env_file:
-      - .env
-    environment:
-      PORT: 45876
-      HUB_URL: https://beszel.noizwaves.cloud
 
 networks:
   web:
