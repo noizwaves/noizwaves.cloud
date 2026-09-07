@@ -5,10 +5,8 @@ A self hosted cloud
 ## Requirements
 
 1.  Install Ansible locally via:
-    - `brew install ansible ansible-lint`
-    - `pacman -S ansible`
-1.  Install Ansible packages via:
-    1.   `ansible-galaxy install willshersystems.sshd`
+    1.  `mise install`
+    1.  `ansible-galaxy install -r requirements.yml`
 
 ## Setup
 
