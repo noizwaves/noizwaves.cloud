@@ -1,0 +1,72 @@
+server:
+  port: 8080
+  baseURL: "/"
+  externalUrl: "https://filebrowser.noizwaves.cloud"
+  database: "/home/filebrowser/data/database.db"
+  cacheDir: "/home/filebrowser/data/cache"
+  logging:
+    - levels: "info|warning|error"
+
+  # Every source needs defaultEnabled, otherwise users created on first proxy
+  # login land in an empty file list. A non-zero indexingIntervalMinutes opts
+  # out of adaptive scheduling in favour of a fixed 12 hour scan.
+  sources:
+    - path: "/srv/baedrive"
+      name: "Baedrive"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/doc-sync"
+      name: "Doc Sync"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/encrypted"
+      name: "Encrypted"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/pictures"
+      name: "Pictures"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/storage"
+      name: "Storage"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/media1"
+      name: "Media 1"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/media2"
+      name: "Media 2"
+      config:
+        defaultEnabled: true
+        indexingIntervalMinutes: 720
+    - path: "/srv/music"
+      name: "Music"
+      config:
+        defaultEnabled: true
+        readOnly: true
+        indexingIntervalMinutes: 720
+
+http:
+  trustedHeaders:
+    - "X-Forwarded-For"
+    - "X-Forwarded-Proto"
+    - "X-Forwarded-Host"
+
+auth:
+  # Authelia is the only way in, so the proxy header is the entire login flow.
+  # The user matching adminUsername is granted admin on creation.
+  adminUsername: "adam"
+  methods:
+    password:
+      enabled: false
+    proxy:
+      enabled: true
+      header: "Remote-User"
+      logoutRedirectUrl: "https://authelia.noizwaves.cloud/logout"

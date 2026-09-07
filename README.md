@@ -67,7 +67,7 @@ HOME=/home/cloud
 - [Fotos Adam](./fotos/) and [Fotos Lauren](./fotos-lauren/)
 - [Tandoor](./tandoor/)
 - [Plex](./plex/)
-- [Filebrowser](./filebrowser/)
+- [FileBrowser Quantum](./filebrowser/)
 - [Vikunja](./vikunja/)
 - [Syncthing](./syncthing/)
 - [Gitea](./gitea/)
