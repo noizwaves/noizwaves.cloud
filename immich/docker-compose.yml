@@ -51,7 +51,7 @@ services:
     # Use software ML because of Ubuntu 24.04/kernel 6.8/OpenVINO/HD600 compatability issues
     # - https://github.com/immich-app/immich/issues/7487
     # - https://github.com/immich-app/immich/issues/13712
-    image: ghcr.io/immich-app/immich-machine-learning:v3.1.0@sha256:5a0839dc5303cd7215bcd2180a26aed3af41675aefb3e75e5157e9f10ad16e6e
+    image: ghcr.io/immich-app/immich-machine-learning:v3.2.0@sha256:f8b2869891c861a58dde969d86e7ea8a186e6059a55886632ee3249e51fb574a
     container_name: immich_machine_learning
     restart: unless-stopped
     env_file:
