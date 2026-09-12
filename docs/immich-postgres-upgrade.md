@@ -173,21 +173,49 @@ zgrep -c '^COPY ' ~/pg18-upgrade/immich.sql.gz
 `clip_index` and `face_index` were built by VectorChord 0.4.3; replaying that DDL against
 1.1.1 is the least predictable part of the restore, and rebuilding them is slow enough
 that you do not want it inside the restore transaction either. They are derived data —
-Immich recreates them on startup — so drop them from the dump and let it. This also
-leaves the 14 cluster completely untouched as a rollback.
+Immich's `reindexVectorsIfNeeded` recreates either index when it is missing on startup —
+so drop them from the dump and let it. This also leaves the 14 cluster completely
+untouched as a rollback.
+
+**These statements span multiple lines.** VectorChord stores its index parameters as a
+TOML string, so the DDL looks like this, and a line-oriented filter will strip the
+`CREATE INDEX` line while leaving the rest behind as orphaned SQL:
+
+```sql
+CREATE INDEX clip_index ON public.smart_search USING vchordrq (embedding public.vector_cosine_ops) WITH (options='residual_quantization = false
+[build.internal]
+lists = []
+');
+```
+
+Look at both statements before cutting, and confirm each ends on a line that is just
+`');`:
 
 ```sh
 zcat ~/pg18-upgrade/immich.sql.gz \
-  | grep -vE '^CREATE INDEX (clip_index|face_index) ' \
-  | gzip > ~/pg18-upgrade/immich-noidx.sql.gz
+  | awk '/^CREATE INDEX (clip_index|face_index) /{p=1} p{print} p&&/\);[[:space:]]*$/{p=0; print "--------"}'
+```
 
+Then filter whole statements rather than lines:
+
+```sh
+zcat ~/pg18-upgrade/immich.sql.gz \
+  | awk '/^CREATE INDEX (clip_index|face_index) /{skip=1} skip{if(/\);[[:space:]]*$/) skip=0; next} {print}' \
+  | gzip > ~/pg18-upgrade/immich-noidx.sql.gz
+```
+
+Verify against the leftovers, not just the `CREATE INDEX` lines — orphaned option lines
+are exactly the failure this guards against, and they surface as
+`ERROR: syntax error at or near "residual_quantization"` deep into the restore:
+
+```sh
 # Expect: 2 before, 0 after
 zgrep -cE '^CREATE INDEX (clip_index|face_index) ' ~/pg18-upgrade/immich.sql.gz
 zgrep -cE '^CREATE INDEX (clip_index|face_index) ' ~/pg18-upgrade/immich-noidx.sql.gz
-```
 
-If the first count is not 2, look at what the statements actually are before filtering
-blind — `zgrep 'vchordrq' ~/pg18-upgrade/immich.sql.gz`.
+# Expect: no output at all
+zgrep -nE 'residual_quantization|build\.internal|^lists = ' ~/pg18-upgrade/immich-noidx.sql.gz
+```
 
 ## 4. Swap the data directory and the image
 
@@ -240,6 +268,10 @@ gunzip --stdout ~/pg18-upgrade/immich-noidx.sql.gz \
   | docker exec -i immich_postgres psql --username="$DB_USERNAME" --dbname="$DB_DATABASE_NAME" \
       --single-transaction --set ON_ERROR_STOP=on
 ```
+
+If the restore fails, `--single-transaction` means it rolled back whole — fix the input and
+re-run it as-is. `select count(*) from pg_stat_user_tables` returning 0 confirms the
+cluster is back to what the entrypoint created.
 
 A freshly restored cluster has no planner statistics, which makes the first minutes of
 Immich far slower than the old install:
