@@ -1,0 +1,9 @@
+collections:
+  - name: community.docker
+  - name: community.general
+  - name: kewlfft.aur
+
+roles:
+  - name: willshersystems.sshd
+    src: git+https://github.com/willshersystems/ansible-sshd.git
+    version: v0.34.0

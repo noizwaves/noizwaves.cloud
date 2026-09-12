@@ -1,0 +1,5 @@
+[tools]
+pipx = "latest"
+python = "3.14.7"
+"pipx:ansible" = "14.4.0"
+"pipx:ansible-lint" = "26.8.0"

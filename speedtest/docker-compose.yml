@@ -1,16 +1,18 @@
 services:
   speedtest:
-    image: docker.io/adolfintel/speedtest:latest@sha256:1f828fe8337470d2ed5841176bfa6633fd94bda97261a636c35d0bef60a35270
+    image: ghcr.io/librespeed/speedtest:6.3.0@sha256:af011d4fb5709c6e2b2f381925a6c290d53ce2ed35fa8860e7d33e20690d5065
     container_name: speedtest
     hostname: speedtest.${CLOUD_DOMAIN}
     restart: unless-stopped
     networks:
       - web
     ports:
-      - "8000:80"
+      - "8080:8080"
+    environment:
+      - USE_NEW_DESIGN=true
     labels:
       - traefik.enable=true
-      - traefik.http.services.speedtest.loadbalancer.server.port=80
+      - traefik.http.services.speedtest.loadbalancer.server.port=8080
 
       # HTTPS
       - traefik.http.routers.speedtest.rule=Host(`speedtest.${CLOUD_DOMAIN}`)
@@ -21,7 +23,7 @@ services:
 
       # HTTP redirect
       - traefik.http.middlewares.speedtest-redirect.redirectregex.regex=^https://speedtest.${CLOUD_DOMAIN}/(.*)
-      - traefik.http.middlewares.speedtest-redirect.redirectregex.replacement=http://speedtest.${CLOUD_DOMAIN}:8000/$${1}
+      - traefik.http.middlewares.speedtest-redirect.redirectregex.replacement=http://speedtest.${CLOUD_DOMAIN}:8080/$${1}
       - traefik.http.routers.speedtest.middlewares=speedtest-redirect@docker
 
 networks:
