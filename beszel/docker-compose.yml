@@ -38,7 +38,7 @@ services:
       - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
 
   agent:
-    image: docker.io/henrygd/beszel-agent:0.19.0-alpine@sha256:1447d89f55e9afa721fe9328c8e776c67e1f43dc8e40bc99da44cfc7f3435db8
+    image: docker.io/henrygd/beszel-agent:0.20.0-alpine@sha256:2a01a5600f780d264682b5f71108d72fa67f50c57e27b52b4184d3d0d01d115c
     container_name: beszel_agent
     restart: unless-stopped
     cap_add:
