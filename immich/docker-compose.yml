@@ -7,7 +7,6 @@ services:
     networks:
       - web
       - default
-      - homepage
     devices:
       # for quicksync transcoding: https://github.com/immich-app/immich/blob/main/docker/hwaccel.transcoding.yml#L24
       - /dev/dri:/dev/dri
@@ -90,6 +89,4 @@ networks:
   default:
     external: false
   web:
-    external: true
-  homepage:
     external: true
