@@ -74,7 +74,7 @@ services:
       - traefik.http.routers.radarr.service=radarr
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls40@sha256:c74c32408fdf6e7926ad62641fc1a5544206ee65c33f2188bb179edb30e28f5a
+    image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls42@sha256:044d616beb43c5e7810991242c6a9c42b93ff238c8c0850684939634ea751208
     container_name: lidarr
     restart: unless-stopped
     networks:
