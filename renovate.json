@@ -12,6 +12,44 @@
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
       "enabled": false
+    },
+    {
+      "description": "Track LinuxServer build numbers as versions so image updates are not blocked by changing suffixes",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/sabnzbd",
+        "lscr.io/linuxserver/homeassistant",
+        "lscr.io/linuxserver/freshrss",
+        "lscr.io/linuxserver/syncthing"
+      ],
+      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-ls(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/sonarr",
+        "lscr.io/linuxserver/radarr",
+        "lscr.io/linuxserver/lidarr",
+        "lscr.io/linuxserver/prowlarr"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-ls(?<revision>\\d+)$"
+    },
+    {
+      "description": "Keep plain MariaDB tags on their existing versioning while tracking Alpine and LinuxServer revisions on full tags",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/mariadb",
+        "lscr.io/linuxserver/nginx"
+      ],
+      "matchCurrentValue": "/-ls\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<build>\\d+)-ls(?<revision>\\d+)$"
+    },
+    {
+      "description": "Resilio has six numeric components, exceeding regex versioning's five; restrict loose versioning to stable full tags",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["lscr.io/linuxserver/resilio-sync"],
+      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+\\.\\d+-\\d+-ls\\d+$/",
+      "versioning": "loose"
     }
   ]
 }
