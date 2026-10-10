@@ -4,10 +4,21 @@
     "config:best-practices"
   ],
   "prHourlyLimit": 0,
+  "prConcurrentLimit": 25,
   "ignorePaths": [
     "_inactive/**"
   ],
   "packageRules": [
+    {
+      "description": "Keep Immich application images together when a registry lookup fails",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
+      ],
+      "groupName": "immich monorepo",
+      "minimumGroupSize": 2
+    },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
