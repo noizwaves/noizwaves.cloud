@@ -65,7 +65,7 @@ services:
       - traefik.http.routers.api.middlewares=authelia@docker
 
   certs-dumper:
-    image: ghcr.io/kereis/traefik-certs-dumper:1.8.28@sha256:21fd1c380bfe6a659593410d8fd5f845a7600b80386a7c1edb2218c377aff366
+    image: ghcr.io/kereis/traefik-certs-dumper:1.8.29@sha256:194251a75237d33fb2d2061a7f8f040e41bcaa70229614ddfe2a725a54d6a42a
     container_name: traefik-certs-dumper
     restart: unless-stopped
     network_mode: none
