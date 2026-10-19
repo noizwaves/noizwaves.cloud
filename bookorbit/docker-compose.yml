@@ -1,0 +1,87 @@
+services:
+  app:
+    image: ghcr.io/bookorbit/bookorbit:3.4.0@sha256:99539be044c94f10fa5fba616cb08e1b128deb4996c975d181a950818a8632e4
+    container_name: bookorbit
+    restart: unless-stopped
+    init: true
+    networks:
+      - web
+      - backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - APP_URL=https://bookorbit.${CLOUD_DOMAIN}
+      - CLIENT_URL=https://bookorbit.${CLOUD_DOMAIN}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - JWT_SECRET=${JWT_SECRET:?Set JWT_SECRET in .env}
+      - PODCAST_ENCRYPTION_KEY=${PODCAST_ENCRYPTION_KEY:?Set PODCAST_ENCRYPTION_KEY in .env}
+      - SETUP_BOOTSTRAP_TOKEN=${SETUP_BOOTSTRAP_TOKEN:?Set SETUP_BOOTSTRAP_TOKEN in .env}
+      - NODE_MAX_OLD_SPACE_SIZE=auto
+      - LIBRARY_BROWSE_ROOT=/books
+    volumes:
+      - ../../cloud-data/bookorbit/data:/data
+      - /mnt/media2/Books:/books:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+    labels:
+      - traefik.enable=true
+
+      ## Service settings
+      - traefik.http.services.bookorbit.loadbalancer.server.port=3000
+      - traefik.http.services.bookorbit.loadbalancer.passhostheader=true
+
+      ## HTTPS
+      - traefik.http.routers.bookorbit.rule=Host(`bookorbit.${CLOUD_DOMAIN}`)
+      - traefik.http.routers.bookorbit.entrypoints=web-secured
+      - traefik.http.routers.bookorbit.service=bookorbit
+      - traefik.http.routers.bookorbit.tls=true
+      - traefik.http.routers.bookorbit.tls.certresolver=mytlschallenge
+
+  postgres:
+    image: docker.io/pgvector/pgvector:0.8.2-pg18@sha256:42e7f6b4e1eceb02ff14e3e6bc6108bbe259abbe83879dc1845d0da1ddeb555d
+    container_name: bookorbit_postgres
+    restart: unless-stopped
+    user: "1000:1000"
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ../../cloud-data/bookorbit/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+networks:
+  backend:
+    external: false
+    internal: true
+  web:
+    external: true
