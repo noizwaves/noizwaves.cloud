@@ -31,7 +31,7 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-[a-f0-9]+$"
     },
     {
-      "description": "Track LinuxServer build numbers as versions so image updates are not blocked by changing suffixes",
+      "description": "Track application versions while ignoring LinuxServer build numbers",
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "lscr.io/linuxserver/sabnzbd",
@@ -39,9 +39,10 @@
         "lscr.io/linuxserver/freshrss",
         "lscr.io/linuxserver/syncthing"
       ],
-      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-ls(?<build>\\d+)$"
+      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-ls\\d+$"
     },
     {
+      "description": "Track four-part application versions while ignoring LinuxServer build numbers",
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "lscr.io/linuxserver/sonarr",
@@ -49,24 +50,23 @@
         "lscr.io/linuxserver/lidarr",
         "lscr.io/linuxserver/prowlarr"
       ],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-ls(?<revision>\\d+)$"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-ls\\d+$"
     },
     {
-      "description": "Keep plain MariaDB tags on their existing versioning while tracking Alpine and LinuxServer revisions on full tags",
+      "description": "Keep plain MariaDB tags on their existing versioning while tracking Alpine revisions and ignoring LinuxServer build numbers on full tags",
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "lscr.io/linuxserver/mariadb",
         "lscr.io/linuxserver/nginx"
       ],
       "matchCurrentValue": "/-ls\\d+$/",
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<build>\\d+)-ls(?<revision>\\d+)$"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<build>\\d+)-ls\\d+$"
     },
     {
-      "description": "Resilio has six numeric components, exceeding regex versioning's five; restrict loose versioning to stable full tags",
+      "description": "Track Resilio application and package revisions while ignoring LinuxServer build numbers",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["lscr.io/linuxserver/resilio-sync"],
-      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+\\.\\d+-\\d+-ls\\d+$/",
-      "versioning": "loose"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-(?<revision>\\d+)-ls\\d+$"
     }
   ]
 }
