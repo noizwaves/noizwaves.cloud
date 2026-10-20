@@ -75,7 +75,6 @@ HOME=/home/cloud
 - [Immich](./immich/)
 - [Beszel](./beszel/)
 - [Home Assistant](./homeassistant/)
-- [BookLore](./booklore/)
 
 ### Incubating
 

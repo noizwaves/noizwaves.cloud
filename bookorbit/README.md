@@ -7,7 +7,7 @@
 1. Visit [BookOrbit](https://bookorbit.noizwaves.cloud) and create the administrator account using `SETUP_BOOTSTRAP_TOKEN` from `.env`.
 1. Create a library with the folder `/books`.
 
-The existing `/mnt/media2/Books` library is mounted read-only, matching BookLore. Reading and scanning are available; uploads, Book Dock finalization into this library, and metadata writes to book files require a writable mount.
+The existing `/mnt/media2/Books` library is mounted read-only. Reading and scanning are available; uploads, Book Dock finalization into this library, and metadata writes to book files require a writable mount.
 
 App data and PostgreSQL are stored under `~/cloud-data/bookorbit`. Include `bookorbit` and `bookorbit_postgres` in the host's backup container stop/start list before backing up these directories.
 
