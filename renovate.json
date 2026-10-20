@@ -25,6 +25,12 @@
       "enabled": false
     },
     {
+      "description": "Allow Plex upgrades when the release hash changes",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["docker.io/plexinc/pms-docker"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-[a-f0-9]+$"
+    },
+    {
       "description": "Track LinuxServer build numbers as versions so image updates are not blocked by changing suffixes",
       "matchDatasources": ["docker"],
       "matchPackageNames": [
