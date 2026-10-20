@@ -87,6 +87,21 @@ Retired services are kept in [_inactive](./_inactive/).
 
 ## Maintenance
 
+### Pulling updates
+
+Run `./pull-updates.sh` on the server with your usual environment variables loaded
+(for example, via direnv). It works from any directory.
+
+The script requires a clean tracked working tree and runs `git pull --ff-only`.
+For each top-level app with a running Compose container, it runs `docker compose up -d`
+if any tracked file in that app's directory changed during the pull. Stopped apps,
+projects outside this checkout, and `_inactive/` are skipped. Existing Compose project
+names are preserved.
+
+Updates run sequentially. Failures are summarized without stopping other updates,
+and the script exits nonzero if any fail. Retry failed apps manually: rerunning the
+script will not retry changes that were already pulled.
+
 ### Upgrading to newer images
 
 1.  Update tags to desired newer value
@@ -115,4 +130,3 @@ See [backups](./backups/).
 ### inxi
 1.  `sudo apt install inxi`
 1.  `inxi -Dxxx`
-
