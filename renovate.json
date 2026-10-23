@@ -20,6 +20,16 @@
       "minimumGroupSize": 2
     },
     {
+      "description": "Keep Beszel hub and agent updates together",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "docker.io/henrygd/beszel",
+        "docker.io/henrygd/beszel-agent"
+      ],
+      "groupName": "beszel monorepo",
+      "minimumGroupSize": 2
+    },
+    {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
       "enabled": false
