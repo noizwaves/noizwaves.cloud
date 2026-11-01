@@ -24,7 +24,7 @@ services:
     command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
 
   app:
-    image: docker.io/vabene1111/recipes:2.7.1@sha256:10e3d2cef6b4eaa24a9c548a25dc892ce70266fc888bd85d4b349eb5a7143945
+    image: docker.io/vabene1111/recipes:2.7.2@sha256:1b6d43c3c0f5d2888aa564d9daf29883212b79ad496f59f3c684c099eb1a57b9
     container_name: tandoor_app
     # built-in Nginx config requires a specific hostname to function
     # https://github.com/TandoorRecipes/recipes/blob/c25a1df480c3c0a1f5a282b4968c1efad07e69a6/nginx/conf.d/Recipes.conf#L22
