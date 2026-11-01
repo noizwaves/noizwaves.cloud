@@ -1,6 +1,6 @@
 services:
   ntfy:
-    image: docker.io/binwiederhier/ntfy:v2.33.1@sha256:29bc952294d58957f6ca6638eca9a653a33555989224edbdf4bb9433ee606497
+    image: docker.io/binwiederhier/ntfy:v2.36.0@sha256:fb48c413eb11d50339962b5d62cddce0f800e7f77c626d638a7c20cb7e9c4465
     container_name: ntfy
     restart: unless-stopped
     user: "1000:1000"
