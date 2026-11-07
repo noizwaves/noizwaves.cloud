@@ -336,13 +336,14 @@
         proto: udp
         src: any
     - name: Allow bare metal Syncthing
+      tags: syncthing
       community.general.ufw:
         rule: allow
         port: '{{ item[1] }}'
         proto: '{{ item[2] }}'
         src: '{{ item[0] }}'
       with_nested:
-        - [192.168.68.0/24, 100.64.0.0/10]
+        - [192.168.68.0/24, 'fd70:c25e:6039:4686::/64', 100.64.0.0/10, 'fd7a:115c:a1e0::/48']
         - [['8384', tcp], ['22000', tcp], ['22000', udp], ['21027', udp]]
     - name: Enable UFW
       community.general.ufw:
