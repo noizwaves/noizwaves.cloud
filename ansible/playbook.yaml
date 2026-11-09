@@ -275,6 +275,7 @@
         src: '{{ item }}'
       loop:
         - 192.168.68.0/24 # local network
+        - 'fd70:c25e:6039:4686::/64' # local IPv6 network
         - 100.64.0.0/10 # tailscale
         # - any # for accepting upnp remote connections via internet
     - name: Home Assistant proxy
