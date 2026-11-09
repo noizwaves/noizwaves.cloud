@@ -4,12 +4,12 @@ services:
     container_name: plex
     hostname: plex.${CLOUD_DOMAIN}
     restart: unless-stopped
-#      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
     networks:
       - web
     ports:
       # Because Wiim Home cannot connect using https://plex.noizwaves.cloud...
       - "${LAN_IP}:32400:32400/tcp"
+      - "[${LAN_IPV6:?Set LAN_IPV6 to odroid's stable LAN IPv6 address}]:32400:32400/tcp"
       # Bypass Traefik when on Tailscale
       - "${TAILSCALE_IP}:32400:32400/tcp"
     devices:
