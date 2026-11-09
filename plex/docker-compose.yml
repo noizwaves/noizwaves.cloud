@@ -4,7 +4,6 @@ services:
     container_name: plex
     hostname: plex.${CLOUD_DOMAIN}
     restart: unless-stopped
-#      - PLEX_CLAIM=claim-xxxxxxxxxxxxxx
     networks:
       - web
     ports:
