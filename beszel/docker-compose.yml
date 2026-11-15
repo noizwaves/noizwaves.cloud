@@ -38,14 +38,16 @@ services:
       - traefik.http.routers.beszel.tls.certresolver=mytlschallenge
 
   agent:
-    image: docker.io/henrygd/beszel-agent:0.21.2-alpine@sha256:2ea69d4c9a6690d07368d50762cf606281d96b447cdd411855c87ff4027465d9
+    image: docker.io/henrygd/beszel-agent-intel:0.21.2@sha256:4a08d383f2a61cde577f5769e258bb729a6fdd6e5e777bc866f1d3037443c85c
     container_name: beszel_agent
     restart: unless-stopped
     cap_add:
       - SYS_RAWIO # required for S.M.A.R.T. data
       - SYS_ADMIN # required for NVMe S.M.A.R.T. data
+      - PERFMON # required for Intel GPU engine utilization
     network_mode: host
     devices:
+      - /dev/dri:/dev/dri
       - /dev/nvme0:/dev/nvme0
       - /dev/sda:/dev/sda
       - /dev/sdb:/dev/sdb
@@ -54,6 +56,7 @@ services:
     environment:
       - PORT=45876
       - HUB_URL=https://beszel.noizwaves.cloud
+      - GPU_COLLECTOR=intel_gpu_top
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /.beszel:/extra-filesystems/root:ro

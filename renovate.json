@@ -24,7 +24,7 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "docker.io/henrygd/beszel",
-        "docker.io/henrygd/beszel-agent"
+        "docker.io/henrygd/beszel-agent-intel"
       ],
       "groupName": "beszel monorepo",
       "minimumGroupSize": 2
