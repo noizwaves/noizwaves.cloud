@@ -89,7 +89,7 @@ Retired services are kept in [_inactive](./_inactive/).
 
 ### Pulling updates
 
-Run `./pull-updates.sh` on the server with your usual environment variables loaded
+Run `./bin/pull-updates` on the server with your usual environment variables loaded
 (for example, via direnv). It works from any directory.
 
 The script requires a clean tracked working tree and runs `git pull --ff-only`.
