@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+	cat <<'EOF'
+Usage: merge-renovate-prs [--major] [--minor] [--patch]
+
+List and squash-merge this repo's Renovate PRs after confirmation [Y/n].
+With no flags, select minor and patch updates. Otherwise, select only the
+specified types. Flags may be combined.
+
+  --major   Select major updates
+  --minor   Select minor updates
+  --patch   Select patch updates
+  -h, --help  Show this help
+
+Requires gh (authenticated with GitHub) and jq. Drafts and PRs without a
+recognized update type are skipped. GitHub's merge requirements still apply.
+EOF
+}
+
+main() {
+	local types='' repo prs candidates number sha url title update_type answer arg dependency
+	local merged=0 failed=0 count merge_output
+
+	for arg in "$@"; do
+		case "$arg" in
+			--major|--minor|--patch) types+="${arg#--} " ;;
+			-h|--help) usage; return 0 ;;
+			*) printf 'Unknown option: %s\n' "$arg" >&2; usage >&2; return 2 ;;
+		esac
+	done
+	types=${types:-minor patch}
+
+	for dependency in gh jq; do
+		if ! command -v "$dependency" >/dev/null 2>&1; then
+			printf 'Required command not found: %s\n' "$dependency" >&2
+			return 1
+		fi
+	done
+
+	cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+	repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
+	prs=$(gh api --paginate "repos/$repo/pulls?state=open&per_page=100")
+	# This repo's Renovate titles include the update type, including grouped updates.
+	candidates=$(jq -sr --arg types "$types" '
+		[.[][]
+		| select(.user.login == "noizwaves-renovator[bot]")
+		| select(.head.ref | startswith("renovate/"))
+		| select(.draft == false)
+		| . + {update_type: (.title | capture("\\((?<type>major|minor|patch)\\)$").type)}
+		| select(.update_type as $type | $types | split(" ") | index($type))]
+		| sort_by(.number)[]
+		| [.number, .head.sha, .html_url, .title, .update_type] | @tsv
+	' <<< "$prs")
+
+	if [[ -z "$candidates" ]]; then
+		echo 'No matching Renovate PRs to merge.'
+		return 0
+	fi
+
+	count=0
+	printf 'Renovate PRs to merge in %s:\n\n' "$repo"
+	while IFS=$'\t' read -r number sha url title update_type; do
+		if [[ -t 1 ]]; then
+			printf '  \033]8;;%s\033\\#%s %s\033]8;;\033\\\n' "$url" "$number" "$title"
+		else
+			printf '  #%s %s\n' "$number" "$title"
+		fi
+		count=$((count + 1))
+	done <<< "$candidates"
+
+	while true; do
+		printf '\nMerge these %s PRs? [Y/n] ' "$count"
+		if ! IFS= read -r answer; then
+			printf '\nNo confirmation received; cancelled.\n' >&2
+			return 1
+		fi
+		case "$answer" in
+			''|[yY]|[yY][eE][sS]) break ;;
+			[nN]|[nN][oO]) echo 'Cancelled.'; return 0 ;;
+			*) echo 'Please answer yes or no.' ;;
+		esac
+	done
+
+	while IFS=$'\t' read -r number sha url title update_type; do
+		printf '\nMerging #%s...\n' "$number"
+		if merge_output=$(gh pr merge "$number" --repo "$repo" --squash --match-head-commit "$sha" 2>&1); then
+			printf 'Merged #%s.\n' "$number"
+			merged=$((merged + 1))
+		else
+			printf 'Failed to merge %s\n' "$url" >&2
+			printf '%s\n' "$merge_output" >&2
+			failed=$((failed + 1))
+		fi
+	done <<< "$candidates"
+
+	printf '\nMerged: %s; failed: %s\n' "$merged" "$failed"
+	(( failed == 0 ))
+}
+
+main "$@"

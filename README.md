@@ -87,6 +87,19 @@ Retired services are kept in [_inactive](./_inactive/).
 
 ## Maintenance
 
+### Merging Renovate PRs
+
+Run `./bin/merge-renovate-prs` with authenticated `gh` and `jq` installed. It lists
+minor and patch PRs with clickable links and asks for confirmation; Enter accepts.
+Use `--major`, `--minor`, and `--patch` to select exactly those types, for example
+`./bin/merge-renovate-prs --patch` or
+`./bin/merge-renovate-prs --major --minor --patch`.
+
+PRs are squash-merged sequentially. Drafts and unrecognized update types are
+skipped. Changed commits or unmet GitHub merge requirements cause a merge to fail.
+Failures are reported without stopping other merges, and the script exits nonzero
+if any fail. It works from any directory.
+
 ### Pulling updates
 
 Run `./bin/pull-updates` on the server with your usual environment variables loaded
