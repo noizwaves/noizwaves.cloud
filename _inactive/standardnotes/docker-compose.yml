@@ -91,7 +91,7 @@ services:
       - traefik.enable=true
 
       ## Service settings
-      - traefik.http.services.notes-extensions.loadbalancer.server.port=80
+      - traefik.http.services.notes-extensions.loadbalancer.server.port=8080
       - traefik.http.services.notes-extensions.loadbalancer.passhostheader=true
 
       ## HTTPS
