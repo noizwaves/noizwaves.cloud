@@ -1,4 +1,6 @@
-FROM nginx:1.19.1 as base
+FROM docker.io/nginx/nginx-unprivileged:1.31.9-alpine@sha256:60214a103e6f38e953ff957f34b1f2e97a9db801ab2df3821da955d0fe6cadd6 as base
+
+USER root
 
 RUN mkdir /usr/share/nginx/html/extensions
 ADD *-extension.json /tmp/
@@ -38,3 +40,5 @@ FROM base as output
 COPY --from=folders /usr/share/nginx/html/extensions/folders /usr/share/nginx/html/extensions/folders
 COPY --from=markdown-pro /usr/share/nginx/html/extensions/markdown-pro /usr/share/nginx/html/extensions/markdown-pro
 COPY --from=simple-task-editor /usr/share/nginx/html/extensions/simple-task-editor /usr/share/nginx/html/extensions/simple-task-editor
+
+USER 101
