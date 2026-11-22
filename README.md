@@ -122,6 +122,24 @@ script will not retry changes that were already pulled.
 
 Postgres major version bumps need more than a tag change; see [Postgres major upgrades](./docs/postgres-major-upgrade.md).
 
+### Upgrading PostgreSQL
+
+After pulling a major image update, run `./bin/update-postgres <service>` before
+`docker compose up`, while the previous database container is still running.
+Load the application's usual environment variables first. Requires Docker Compose,
+`jq`, and `realpath`.
+
+The script stops the project's other containers, dumps the application database,
+stops PostgreSQL, renames its data directory to
+`<directory>-previous-pg<major>-<timestamp>-<pid>`, creates an empty directory, and
+starts and restores only the new database. Run `docker compose up -d` from the
+application directory afterward. Dumps are deleted on exit; previous directories
+remain for manual cleanup or rollback.
+
+Unchanged major versions are skipped. Downgrades, changed data paths, extra user
+roles, and extra databases are refused. A failed dump leaves the old database
+running; a failed restore stops the new database. See the runbook for rollback.
+
 ## Disaster Recovery and Backups
 
 See [backups](./backups/).
