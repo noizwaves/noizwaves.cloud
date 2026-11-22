@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+	cat <<'EOF'
+Usage: update-postgres <service>
+
+Upgrade a running application's PostgreSQL database after pulling Compose changes.
+Stops the project's other containers and leaves only the restored database running.
+Requires Docker Compose, jq, and the application's usual environment variables.
+Supports a single application database and its POSTGRES_USER role.
+EOF
+}
+
+die() { echo "$*" >&2; exit 1; }
+
+tmp_dir=''
+previous_dir=''
+new_started=false
+complete=false
+cleanup() {
+	local status=$?
+	trap - EXIT
+	if [[ "$new_started" == true && "$complete" == false ]]; then
+		"${compose[@]}" stop "$db_service" >&2 || true
+	fi
+	if [[ -n "$tmp_dir" ]]; then rm -rf -- "$tmp_dir"; fi
+	if (( status != 0 )) && [[ -n "$previous_dir" && -d "$previous_dir" ]]; then
+		printf 'Upgrade failed. Previous data remains at %s. Restore it with the old image before restarting the project.\n' "$previous_dir" >&2
+	fi
+	exit "$status"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+db_sql() {
+	docker exec -i "$db_container" sh -eu -c '
+		export PGPASSWORD="${POSTGRES_PASSWORD:-}"
+		exec psql -X --no-password -v ON_ERROR_STOP=1 -U "${POSTGRES_USER:-postgres}" \
+			-d "${POSTGRES_DB:-${POSTGRES_USER:-postgres}}" -At "$@"
+	' sh "$@"
+}
+
+main() {
+	if [[ $# == 1 && ( "$1" == --help || "$1" == -h ) ]]; then usage; return; fi
+	[[ $# == 1 && "$1" =~ ^[a-zA-Z0-9][a-zA-Z0-9_-]*$ ]] || { usage >&2; return 2; }
+	local app=$1 dependency app_dir config candidates containers inspected db_info project
+	local target_image old_version new_version old_major new_major data_dir old_data old_mount
+	local target_mount target_pgdata image_info data_root
+	local db_user db_name target_user target_db extra port others new_id attempt ready=false
+	local -a other_ids=()
+	for dependency in docker jq realpath; do
+		command -v "$dependency" >/dev/null || die "Required command not found: $dependency"
+	done
+	cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+	[[ -f "$app/docker-compose.yml" ]] || die "Unknown application: $app"
+	cd -- "$app"
+	app_dir=$(pwd -P)
+	docker compose version >/dev/null
+	config=$(docker compose config --format json)
+	candidates=$(jq -c '[.services | to_entries[] | select(any(.value.volumes[]?;
+		.target == "/var/lib/postgresql" or .target == "/var/lib/postgresql/data")) | .key]' <<< "$config")
+	[[ $(jq length <<< "$candidates") == 1 ]] || die 'Expected exactly one PostgreSQL service with a standard data mount.'
+	db_service=$(jq -r '.[0]' <<< "$candidates")
+	containers=$(docker ps -q --filter "label=com.docker.compose.project.working_dir=$app_dir" \
+		--filter "label=com.docker.compose.service=$db_service" --filter label=com.docker.compose.oneoff=False)
+	[[ -n "$containers" && "$containers" != *$'\n'* ]] || die 'Expected exactly one running database container for this application.'
+	db_container=$containers
+	inspected=$(docker inspect "$db_container")
+	project=$(jq -r '.[0].Config.Labels["com.docker.compose.project"]' <<< "$inspected")
+	compose=(docker compose --project-name "$project")
+	# Resolve again with the running project's name for project-dependent settings.
+	config=$("${compose[@]}" config --format json)
+	db_info=$(jq -c --arg service "$db_service" '.services[$service]' <<< "$config")
+	target_image=$(jq -er '.image' <<< "$db_info")
+	db_user=$(jq -r '.[0].Config.Env | map(select(startswith("POSTGRES_USER=")) | ltrimstr("POSTGRES_USER=")) | .[0] // "postgres"' <<< "$inspected")
+	db_name=$(jq -r --arg user "$db_user" '.[0].Config.Env | map(select(startswith("POSTGRES_DB=")) | ltrimstr("POSTGRES_DB=")) | .[0] // $user' <<< "$inspected")
+	target_user=$(jq -r '.environment.POSTGRES_USER // "postgres"' <<< "$db_info")
+	target_db=$(jq -r --arg user "$target_user" '.environment.POSTGRES_DB // $user' <<< "$db_info")
+	[[ "$db_user" == "$target_user" && "$db_name" == "$target_db" ]] || die 'Upgrade database versions separately from changing POSTGRES_USER or POSTGRES_DB.'
+	old_version=$(db_sql -c 'SHOW server_version_num')
+	[[ "$old_version" =~ ^[0-9]+$ ]] || die 'Could not determine the running PostgreSQL version.'
+	old_major=$((old_version / 10000))
+	(( old_major >= 10 )) || die 'PostgreSQL versions before 10 are unsupported.'
+	echo "Pulling $target_image..."
+	docker pull "$target_image"
+	new_version=$(docker run --rm --network none --entrypoint postgres "$target_image" --version)
+	[[ "$new_version" =~ PostgreSQL\)\ ([0-9]+) ]] || die "Unrecognized target version: $new_version"
+	new_major=${BASH_REMATCH[1]}
+	if (( new_major == old_major )); then
+		echo "PostgreSQL $old_major is already running; no major upgrade needed."
+		return
+	fi
+	(( new_major > old_major )) || die "Refusing PostgreSQL downgrade from $old_major to $new_major."
+
+	data_dir=$(jq -er '[.volumes[] | select(.target == "/var/lib/postgresql" or .target == "/var/lib/postgresql/data")]
+		| if length == 1 and .[0].type == "bind" and (.[0].read_only != true) then .[0].source else error("Expected one writable PostgreSQL bind mount") end' <<< "$db_info")
+	[[ ! -L "$data_dir" ]] || die 'Database directory must not be a symlink.'
+	data_dir=$(realpath -e -- "$data_dir")
+	data_root=$(realpath -e -- "$HOME/cloud-data/$app")
+	[[ "$data_dir" == "$data_root/"* ]] || die 'Database directory must be below ~/cloud-data/<service>/.'
+	[[ -w "$(dirname -- "$data_dir")" ]] || die "Cannot rename or create directories in $(dirname -- "$data_dir")."
+	target_mount=$(jq -r '.volumes[] | select(.source != null and (.target == "/var/lib/postgresql" or .target == "/var/lib/postgresql/data")) | .target' <<< "$db_info")
+	image_info=$(docker image inspect "$target_image")
+	target_pgdata=$(jq -r '.[0].Config.Env | map(select(startswith("PGDATA=")) | ltrimstr("PGDATA=")) | .[0] // empty' <<< "$image_info")
+	target_pgdata=$(jq -r --arg default "$target_pgdata" '.environment.PGDATA // $default' <<< "$db_info")
+	[[ "$target_pgdata" == "$target_mount" || "$target_pgdata" == "$target_mount/"* ]] || die "Target PGDATA ($target_pgdata) is outside its bind mount ($target_mount). Update the Compose mount before upgrading."
+	old_data=$(db_sql -c 'SHOW data_directory')
+	old_mount=$(jq -er --arg data "$old_data" '[.[0].Mounts[] | .Destination as $dest
+		| select($data == $dest or ($data | startswith($dest + "/")))] | sort_by(.Destination | length) | last
+		| select(.Type == "bind" and .RW == true) | .Source' <<< "$inspected")
+	[[ "$(realpath -e -- "$old_mount")" == "$data_dir" ]] || die 'Running and configured PostgreSQL data mounts differ.'
+	# A database-only dump must not silently omit another database or user role.
+	extra=$(db_sql -v "app_db=$db_name" -v "app_user=$db_user" <<'SQL'
+SELECT 'database: ' || datname FROM pg_database
+ WHERE NOT datistemplate AND datname NOT IN ('postgres', :'app_db');
+SELECT 'role: ' || rolname FROM pg_roles
+ WHERE rolname !~ '^pg_' AND rolname <> :'app_user';
+SELECT 'tablespace: ' || spcname FROM pg_tablespace WHERE spcname NOT IN ('pg_default', 'pg_global');
+SQL
+	)
+	[[ -z "$extra" ]] || die "Unsupported cluster contents; use a full cluster upgrade instead: $extra"
+	[[ $(db_sql -c 'SELECT rolsuper FROM pg_roles WHERE rolname = current_user') == t ]] || die 'POSTGRES_USER must be a superuser for the upgrade.'
+	if [[ "$db_name" != postgres ]]; then
+		extra=$(docker exec "$db_container" sh -eu -c 'exec psql -X --no-password -U "${POSTGRES_USER:-postgres}" -d postgres -Atc "SELECT count(*) FROM pg_class WHERE relnamespace NOT IN (SELECT oid FROM pg_namespace WHERE nspname LIKE '\''pg_%'\'' OR nspname = '\''information_schema'\'')"')
+		[[ "$extra" == 0 ]] || die 'The postgres maintenance database contains objects; use a full cluster upgrade instead.'
+	fi
+	port=$(db_sql -c 'SHOW port')
+	umask 077
+	tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/update-postgres.XXXXXXXX")
+	jq -r '.[0].Config.Env[] | select(startswith("POSTGRES_PASSWORD=")) | sub("^POSTGRES_PASSWORD="; "PGPASSWORD=")' <<< "$inspected" > "$tmp_dir/client.env"
+	others=$(docker ps -q --filter "label=com.docker.compose.project=$project")
+	while IFS= read -r new_id; do
+		[[ -z "$new_id" || "$new_id" == "$db_container" ]] || other_ids+=("$new_id")
+	done <<< "$others"
+	echo "Stopping other containers in $project..."
+	if (( ${#other_ids[@]} > 0 )); then docker stop "${other_ids[@]}"; fi
+	echo "Dumping $app (PostgreSQL $old_major -> $new_major)..."
+	docker run --rm --network "container:$db_container" --env-file "$tmp_dir/client.env" \
+		--entrypoint pg_dump "$target_image" --no-password -h 127.0.0.1 -p "$port" -U "$db_user" \
+		-d "$db_name" --clean --if-exists --create > "$tmp_dir/database.sql"
+	[[ -s "$tmp_dir/database.sql" ]] && grep -q '^-- PostgreSQL database dump complete' "$tmp_dir/database.sql" || die 'Dump is incomplete; the old database is still running.'
+	docker stop "$db_container"
+	previous_dir="${data_dir}-previous-pg${old_major}-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+	[[ ! -e "$previous_dir" ]] || die "Previous directory already exists: $previous_dir"
+	mv -- "$data_dir" "$previous_dir"
+	mkdir -- "$data_dir"
+	printf 'Previous data: %s\n' "$previous_dir"
+	new_started=true
+	"${compose[@]}" up -d --no-deps --pull never "$db_service"
+	db_container=$("${compose[@]}" ps -q "$db_service")
+	[[ -n "$db_container" && "$db_container" != *$'\n'* ]] || die 'Could not find the new database container.'
+	# TCP stays unavailable during the entrypoint's temporary initialization server.
+	for ((attempt = 0; attempt < 120; attempt++)); do
+		if docker exec "$db_container" sh -eu -c 'export PGPASSWORD="${POSTGRES_PASSWORD:-}"; exec psql -X --no-password -h 127.0.0.1 -U "${POSTGRES_USER:-postgres}" -d template1 -Atc "SELECT 1"' >/dev/null 2>&1; then
+			ready=true; break
+		fi
+		sleep 1
+	done
+	[[ "$ready" == true ]] || die 'New PostgreSQL server did not become ready within 120 seconds.'
+	echo 'Restoring database...'
+	docker exec -i "$db_container" sh -eu -c '
+		export PGPASSWORD="${POSTGRES_PASSWORD:-}"
+		exec psql -X --no-password -v ON_ERROR_STOP=1 -U "${POSTGRES_USER:-postgres}" -d template1
+	' < "$tmp_dir/database.sql"
+	[[ $(db_sql -c 'SHOW server_version_num') == "$new_major"???? ]] || die 'Restored server version differs from the target.'
+	complete=true
+	printf 'Upgraded %s to PostgreSQL %s. Only the database is running.\nRun docker compose up -d from %s to start the application.\n' "$app" "$new_major" "$app_dir"
+}
+
+main "$@"
