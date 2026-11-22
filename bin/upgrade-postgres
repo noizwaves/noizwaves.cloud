@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
 	cat <<'EOF'
-Usage: update-postgres <service>
+Usage: upgrade-postgres <service>
 
 Upgrade a running application's PostgreSQL database after pulling Compose changes.
 Stops the project's other containers and leaves only the restored database running.
@@ -128,7 +128,7 @@ SQL
 	fi
 	port=$(db_sql -c 'SHOW port')
 	umask 077
-	tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/update-postgres.XXXXXXXX")
+	tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/upgrade-postgres.XXXXXXXX")
 	jq -r '.[0].Config.Env[] | select(startswith("POSTGRES_PASSWORD=")) | sub("^POSTGRES_PASSWORD="; "PGPASSWORD=")' <<< "$inspected" > "$tmp_dir/client.env"
 	others=$(docker ps -q --filter "label=com.docker.compose.project=$project")
 	while IFS= read -r new_id; do

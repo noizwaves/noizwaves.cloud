@@ -124,7 +124,7 @@ Postgres major version bumps need more than a tag change; see [Postgres major up
 
 ### Upgrading PostgreSQL
 
-After pulling a major image update, run `./bin/update-postgres <service>` before
+After pulling a major image update, run `./bin/upgrade-postgres <service>` before
 `docker compose up`, while the previous database container is still running.
 Load the application's usual environment variables first. Requires Docker Compose,
 `jq`, and `realpath`.
