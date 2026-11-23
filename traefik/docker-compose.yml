@@ -33,6 +33,7 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web-secured=true # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
+      - --entrypoints.web-secured.transport.respondingtimeouts.readtimeout=10m # <== allow large slow gitea package uploads
       ## Gitea SSH
       - --entrypoints.tcp-2222.address=:2222
       ## Stalwart specific entrypoints
