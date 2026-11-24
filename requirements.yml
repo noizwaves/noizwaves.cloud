@@ -6,4 +6,4 @@ collections:
 roles:
   - name: willshersystems.sshd
     src: git+https://github.com/willshersystems/ansible-sshd.git
-    version: v0.34.0
+    version: v0.35.0
