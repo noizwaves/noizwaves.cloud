@@ -59,7 +59,7 @@ services:
       - ../../cloud-data/immich/model-cache:/cache
 
   redis:
-    image: docker.io/redis:8.10.3-alpine@sha256:21090af93f8324db2f0f0f4f38a7c60369d47d917e000c3423d89d2ae2883537
+    image: docker.io/redis:8.12.0-alpine@sha256:5af80107c1eeecb484a2269b80a26d12bfa6521787da4663bd9f19f60a163483
     container_name: immich_redis
     restart: unless-stopped
     # command: redis-server /etc/redis.conf --save 60 1
